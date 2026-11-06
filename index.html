@@ -89,7 +89,7 @@ function pokerScore(hand){
 function compareScores(a,b){for(let i=0;i<Math.max(a.length,b.length);i++){const d=(a[i]||0)-(b[i]||0);if(d)return Math.sign(d);}return 0;}
 function outcome(choice){
  if(selectedGame==="sicbo"){const ds=[1,2,3].map(()=>1+Math.floor(Math.random()*6)),sum=ds.reduce((a,b)=>a+b,0),triple=ds.every(d=>d===ds[0]),side=sum>=11?"big":"small";return{win:!triple&&choice===side,text:"骰寶開盅："+ds.join("、")+" 點，總和 "+sum+"（"+(triple?"圍骰":side==="big"?"大":"小")+"）"};}
- if(selectedGame==="higher"){const a=1+Math.floor(Math.random()*13),b=1+Math.floor(Math.random()*13),names=["","A","2","3","4","5","6","7","8","9","10","J","Q","K"];return{win:a===b?null:choice==="high"?b>a:b<a,refund:a===b,text:"基準牌 "+names[a]+"，翻牌 "+names[b]+(a===b?"（同點）":"（"+(b>a?"更高":"更低")+"）")};}
+ if(selectedGame==="higher"){const a=2+Math.floor(Math.random()*13),b=2+Math.floor(Math.random()*13),names=["","","2","3","4","5","6","7","8","9","10","J","Q","K","A"];return{win:a===b?null:choice==="high"?b>a:b<a,refund:a===b,text:"基準牌 "+names[a]+"，翻牌 "+names[b]+(a===b?"（同點）":"（"+(b>a?"更高":"更低")+"）")};}
  const suits=["♠","♥","♦","♣"],deck=[];for(let rank=2;rank<=14;rank++)for(const suit of suits)deck.push({r:rank,s:suit});for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}
  const player=deck.slice(0,5),dealer=deck.slice(5,10),ps=pokerScore(player),ds=pokerScore(dealer),cmp=compareScores(ps,ds),names=["高牌","一對","兩對","三條","順子","同花","葫蘆","四條","同花順"];
  return{win:cmp>0,refund:cmp===0,text:"你："+player.map(cardText).join(" ")+"（"+names[ps[0]]+"）｜對手："+dealer.map(cardText).join(" ")+"（"+names[ds[0]]+"）｜"+(cmp>0?"你勝":cmp<0?"對手勝":"平手")};
