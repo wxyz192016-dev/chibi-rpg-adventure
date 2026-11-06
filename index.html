@@ -89,7 +89,8 @@ function load(){
  catch(e){console.warn("Save load failed",e);}return fresh();
 }
 
-let g=load(),selectedGame=CHAPTERS[g.chapter]?.kind||"poker",lastOutcome="等待下注";let toastTimer;\nlet entState={game:"poker",bet:25,choice:null,number:6,hand:[],aiHand:[],deck:[],discard:[],phase:"ready",result:"選擇一種娛樂玩法，開始你的自由牌局。"};
+let g=load(),selectedGame=CHAPTERS[g.chapter]?.kind||"poker",lastOutcome="等待下注";let toastTimer;
+let entState={game:"poker",bet:25,choice:null,number:6,hand:[],aiHand:[],deck:[],discard:[],phase:"ready",result:"選擇一種娛樂玩法，開始你的自由牌局。"};
 const $=id=>document.getElementById(id);
 function save(){try{localStorage.setItem(SAVE_KEY,JSON.stringify(g));}catch(e){notify("瀏覽器無法儲存，請匯出存檔。");}}
 function notify(t){$("toast").textContent=t;$("toast").classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>$("toast").classList.remove("show"),2200);}
@@ -344,9 +345,13 @@ function entPlay(){
  if(won){g.chips+=stake*(1+mult);entState.result+=" 猜中，淨贏 "+(stake*mult)+" 枚。";}else entState.result+=" 未中，扣除 "+stake+" 枚。";
  entState.phase="result";renderHeader();renderEntertainment();save();
 }
-\nfunction renderAll(){renderHeader();renderStory();renderWorld();renderJournal();renderTable();renderEntertainment();$("playerNameInput").value=g.playerName;save();}
+
+function renderAll(){renderHeader();renderStory();renderWorld();renderJournal();renderTable();renderEntertainment();$("playerNameInput").value=g.playerName;save();}
 document.querySelectorAll("[data-bet]").forEach(b=>b.onclick=()=>{g.bet=Number(b.dataset.bet);renderTable();save();});
-document.querySelectorAll(".game-choice").forEach(b=>b.onclick=()=>{selectedGame=chapter().kind;renderTable();});\ndocument.querySelectorAll("[data-ent-game]").forEach(b=>b.onclick=()=>entSetGame(b.dataset.entGame));\ndocument.querySelectorAll("[data-ent-bet]").forEach(b=>b.onclick=()=>{entState.bet=Number(b.dataset.entBet);renderEntertainment();});\n$("entPlay").onclick=entPlay;
+document.querySelectorAll(".game-choice").forEach(b=>b.onclick=()=>{selectedGame=chapter().kind;renderTable();});
+document.querySelectorAll("[data-ent-game]").forEach(b=>b.onclick=()=>entSetGame(b.dataset.entGame));
+document.querySelectorAll("[data-ent-bet]").forEach(b=>b.onclick=()=>{entState.bet=Number(b.dataset.entBet);renderEntertainment();});
+$("entPlay").onclick=entPlay;
 $("placeBet").onclick=handleMainAction;
 $("rescueChips").onclick=()=>{if(g.rescueUsed||g.chips>=10)return;g.chips+=100;g.rescueUsed=true;addJournal("王牌籌碼見底時，沈行舟獲得一次旅途援助：100 枚王牌籌碼。");renderAll();notify("獲得 100 枚免費旅途援助王牌籌碼！");};
 $("storyPlay").onclick=()=>{if(matchState.phase==="matchOver"&&matchState.opponentWins>=3)restartChallenge();selectedGame=chapter().kind;tab("table");renderTable();$("tableLog").textContent="對手："+chapter().opponent+"。本章採五局三勝，先取得三個有效回合勝利者獲勝。";};
