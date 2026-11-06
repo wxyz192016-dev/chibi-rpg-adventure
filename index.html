@@ -57,7 +57,7 @@ body{background:radial-gradient(ellipse at 8% 0%,#1e3c60 0,transparent 38%),radi
 <section class="view" id="entertainment"><div class="panel"><div class="section-head"><h2>🎪 娛樂中心</h2><span class="tag">自由娛樂・不影響主線</span></div><p class="muted">娛樂中心獨立於五城市關主挑戰。使用共通王牌籌碼自由遊玩，不增加主線勝場、章節進度、獎勵或存檔欄位。</p><div class="entertainment-grid" id="entertainmentGames"><button data-ent-game="poker" class="active"><span class="big">🂡</span><b>自由撲克</b><span class="tiny">五張牌換牌比牌</span></button><button data-ent-game="bigsmall"><span class="big">🎲</span><b>骰寶大／小</b><span class="tiny">三骰總和 4–10／11–17</span></button><button data-ent-game="sum"><span class="big">🔢</span><b>猜總點數</b><span class="tiny">預測三顆骰子總和</span></button><button data-ent-game="parity"><span class="big">⚖️</span><b>猜單／雙</b><span class="tiny">預測總和奇偶</span></button><button data-ent-game="triple"><span class="big">🎯</span><b>猜圍骰</b><span class="tiny">預測三顆骰子相同</span></button><button data-ent-game="number"><span class="big">🔍</span><b>指定點數</b><span class="tiny">預測至少出現一顆指定數字</span></button></div><div class="entertainment-layout"><div class="card"><b>娛樂下注</b><p class="tiny">獨立設定，不會改變主線下注額。</p><div class="bet-row" id="entBetButtons"><button data-ent-bet="10">10</button><button data-ent-bet="25" class="active">25</button><button data-ent-bet="50">50</button><button data-ent-bet="100">100</button></div><div class="split tiny"><span>目前娛樂下注</span><b id="entBetAmount">25</b></div><div id="entChoices" class="entertainment-actions" style="margin-top:12px"></div><div id="entExtra" class="entertainment-actions" style="margin-top:8px"></div><button class="gold-btn" id="entPlay" style="margin-top:14px">開始娛樂</button></div><div class="card"><b>娛樂桌結果</b><div id="entVisual" class="table-center" style="min-height:120px"><div class="table-symbol">🎪</div></div><div id="entResult" class="entertainment-result">選擇一種娛樂玩法，開始你的自由牌局。</div><div id="entCards" class="table-cards"></div><p class="tiny" id="entRules">娛樂中心的結果不會計入關主挑戰比分。</p></div></div></div></section>
 <section class="view" id="world"><div class="panel"><div class="section-head"><h2>🏙️ 世界賭城巡迴</h2><span class="muted">完成本章對局，解鎖下一座城市與賽事</span></div><div id="worldList"></div></div></section>
 <section class="view" id="journal"><div class="panel"><div class="section-head"><h2>📰 賭徒手札</h2><span class="muted">城市賽事、對手與牌桌紀錄</span></div><div class="journal" id="journalList"></div></div></section>
-<section class="view" id="settings"><div class="panel"><div class="section-head"><h2>💾 存檔管理</h2><span class="muted">本機瀏覽器保存</span></div><section class="card" style="margin:14px 0"><div class="section-head"><h3 style="margin:0">主角姓名設定</h3><span class="tag">可隨時修改</span></div><label for="playerNameInput" class="muted">角色顯示姓名</label><div class="name-editor"><input id="playerNameInput" type="text" maxlength="16" value="沈行舟" autocomplete="off" aria-describedby="playerNameHelp"><button id="savePlayerName" class="gold-btn" type="button">儲存姓名</button></div><p id="playerNameHelp" class="tiny">儲存後會同步更新首頁、牌桌、故事劇情與旅程紀錄，並寫入目前遊戲存檔。</p></section><p class="muted">遊戲進度保存在目前瀏覽器。更換裝置或清除瀏覽器資料前，請先匯出存檔備份。</p><div class="card-actions"><button id="exportSave">匯出遊戲存檔</button><button id="importSave">匯入遊戲存檔</button><button class="danger" id="resetSave">重新開始故事</button></div><input type="file" id="saveFile" accept="application/json" hidden><div class="notice">王牌籌碼僅供遊戲情節與玩法使用，沒有實際金錢價值，也不能轉讓、儲值或兌現。</div></div></section>
+<section class="view" id="settings"><div class="panel"><div class="section-head"><h2>💾 存檔管理</h2><span class="muted">本機瀏覽器保存</span></div><section class="card" style="margin:14px 0"><div class="section-head"><h3 style="margin:0">主角姓名設定</h3><span class="tag">可隨時修改</span></div><label for="playerNameInput" class="muted">角色顯示姓名</label><div class="name-editor"><input id="playerNameInput" type="text" maxlength="16" value="沈行舟" autocomplete="off" aria-describedby="playerNameHelp"><button id="savePlayerName" class="gold-btn" type="button">儲存姓名</button></div><p id="playerNameHelp" class="tiny">儲存後會同步更新首頁、牌桌、故事劇情與旅程紀錄，並寫入目前遊戲存檔。</p></section><p class="muted">遊戲進度保存在目前瀏覽器。更換裝置或清除瀏覽器資料前，請先匯出存檔備份。</p><div class="card" style="margin:14px 0"><div class="section-head"><h3 style="margin:0">存檔列表</h3><span class="tag">最新在最上方</span></div><div class="name-editor"><input id="manualSaveName" type="text" maxlength="32" placeholder="輸入手動存檔名稱（可留空）"><button id="createManualSave" class="gold-btn" type="button">建立手動存檔</button></div><div id="saveList" class="journal" style="margin-top:12px"></div></div><div class="card-actions"><button id="exportSave">匯出目前存檔</button><button id="importSave">匯入遊戲存檔</button><button class="danger" id="resetSave">重新開始故事</button></div><input type="file" id="saveFile" accept="application/json" hidden><div class="notice">王牌籌碼僅供遊戲情節與玩法使用，沒有實際金錢價值，也不能轉讓、儲值或兌現。</div></div></section>
 </main><footer>一擲闖天下｜王牌賭途 · 原創都市牌桌故事 · 僅限王牌籌碼</footer><div class="toast" id="toast"></div>
 <script>
 "use strict";
@@ -92,7 +92,87 @@ function load(){
 let g=load(),selectedGame=CHAPTERS[g.chapter]?.kind||"poker",lastOutcome="等待下注";let toastTimer;
 let entState={game:"poker",bet:25,choice:null,number:6,hand:[],aiHand:[],deck:[],discard:[],phase:"ready",result:"選擇一種娛樂玩法，開始你的自由牌局。"};
 const $=id=>document.getElementById(id);
-function save(){try{localStorage.setItem(SAVE_KEY,JSON.stringify(g));}catch(e){notify("瀏覽器無法儲存，請匯出存檔。");}}
+const SAVE_INDEX_KEY="one-wager-save-manager-v1";
+const AUTO_SAVE_ID="__autosave__";
+let saveRecords=[];
+function taipeiDateTime(value){
+ if(!value)return "舊存檔／時間未知";
+ const d=new Date(value);if(Number.isNaN(d.getTime()))return "舊存檔／時間未知";
+ return new Intl.DateTimeFormat("zh-TW",{timeZone:"Asia/Taipei",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}).format(d);
+}
+function timestampForFile(value){
+ const d=value?new Date(value):new Date();
+ const parts=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Taipei",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}).formatToParts(d);
+ const p=Object.fromEntries(parts.map(x=>[x.type,x.value]));
+ return p.year+p.month+p.day+"-"+p.hour+p.minute+p.second;
+}
+function readSaveRecords(){
+ try{const value=JSON.parse(localStorage.getItem(SAVE_INDEX_KEY)||"[]");return Array.isArray(value)?value.filter(x=>x&&typeof x==="object"&&x.data&&typeof x.data==="object"):[];}catch(e){return[];}
+}
+function writeSaveRecords(){
+ try{localStorage.setItem(SAVE_INDEX_KEY,JSON.stringify(saveRecords));return true;}
+ catch(e){notify("存檔管理空間不足，請先匯出並刪除不需要的手動存檔。");return false;}
+}
+function initSaveManager(){
+ saveRecords=readSaveRecords();
+ if(!saveRecords.length){
+  try{const legacy=JSON.parse(localStorage.getItem(SAVE_KEY)||"null");if(legacy&&typeof legacy==="object")saveRecords.push({id:"legacy-"+Date.now(),name:"舊版既有存檔",type:"legacy",savedAt:null,data:legacy});}catch(e){}
+  if(saveRecords.length)writeSaveRecords();
+ }
+}
+function save(){
+ try{
+  const data=JSON.stringify(g);
+  localStorage.setItem(SAVE_KEY,data);
+  const record={id:AUTO_SAVE_ID,name:"自動存檔",type:"auto",savedAt:new Date().toISOString(),data:JSON.parse(data)};
+  const index=saveRecords.findIndex(x=>x.id===AUTO_SAVE_ID);
+  if(index>=0)saveRecords[index]=record;else saveRecords.push(record);
+  writeSaveRecords();
+ }catch(e){notify("瀏覽器無法儲存，請匯出存檔或清理空間。");}
+}
+function renderSaveList(){
+ const host=$("saveList");if(!host)return;
+ const sorted=[...saveRecords].sort((a,b)=>(b.savedAt?new Date(b.savedAt).getTime():0)-(a.savedAt?new Date(a.savedAt).getTime():0));
+ host.innerHTML=sorted.map(r=>{
+  const kind=r.type==="auto"?"自動存檔":r.type==="manual"?"手動存檔":"舊版存檔";
+  const data=r.data||{},chapterNo=Math.max(0,Math.min(4,Number(data.chapter)||0));
+  const progress=data.finished?"故事完結":CHAPTERS[chapterNo].place+"・第 "+(chapterNo+1)+"/5 站";
+  const name=escapeHtml(String(r.name||kind));
+  return '<div class="entry"><div class="section-head"><b>'+name+'</b><span class="tag">'+kind+'</span></div><small>'+taipeiDateTime(r.savedAt)+'｜'+progress+'｜王牌籌碼 '+(Number(data.chips)||0)+'</small><div class="story-actions"><button type="button" data-save-load="'+escapeHtml(r.id)+'">讀取</button><button type="button" data-save-export="'+escapeHtml(r.id)+'">匯出</button>'+(r.type==="manual"?'<button type="button" data-save-delete="'+escapeHtml(r.id)+'">刪除</button>':'')+'</div></div>';
+ }).join("")||'<div class="muted">目前沒有存檔。</div>';
+ host.querySelectorAll("[data-save-load]").forEach(b=>b.onclick=()=>loadSaveRecord(b.dataset.saveLoad));
+ host.querySelectorAll("[data-save-export]").forEach(b=>b.onclick=()=>exportSaveRecord(b.dataset.saveExport));
+ host.querySelectorAll("[data-save-delete]").forEach(b=>b.onclick=()=>deleteSaveRecord(b.dataset.saveDelete));
+}
+function createManualSave(){
+ const raw=String($("manualSaveName").value||"").trim();
+ const name=raw.slice(0,32)||"手動存檔 "+taipeiDateTime(new Date().toISOString());
+ const record={id:"manual-"+Date.now()+"-"+Math.random().toString(36).slice(2,8),name,type:"manual",savedAt:new Date().toISOString(),data:JSON.parse(JSON.stringify(g))};
+ saveRecords.push(record);
+ if(writeSaveRecords()){ $("manualSaveName").value="";renderSaveList();notify("手動存檔已建立。");}
+}
+function loadSaveRecord(id){
+ const r=saveRecords.find(x=>x.id===id);if(!r)return;
+ if(!confirm("確定讀取「"+String(r.name||"存檔")+"」？目前遊戲進度會切換為此存檔。"))return;
+ try{g=normalizeStoredState(r.data);renderAll();tab("story");renderSaveList();notify("已讀取指定存檔。");}
+ catch(e){notify("存檔資料無法讀取。");}
+}
+function deleteSaveRecord(id){
+ const r=saveRecords.find(x=>x.id===id);if(!r||r.type!=="manual")return;
+ if(!confirm("確定永久刪除手動存檔「"+String(r.name)+"」？"))return;
+ saveRecords=saveRecords.filter(x=>x.id!==id);if(writeSaveRecords()){renderSaveList();notify("手動存檔已刪除。");}
+}
+function exportSaveRecord(id){
+ const r=saveRecords.find(x=>x.id===id);if(!r)return;
+ const blob=new Blob([JSON.stringify({format:"one-wager-save-package-v1",metadata:{name:r.name,type:r.type,savedAt:r.savedAt},data:r.data},null,2)],{type:"application/json"});
+ const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="one-wager-"+timestampForFile(r.savedAt)+".json";a.click();URL.revokeObjectURL(url);notify("存檔已匯出。");
+}
+function importSavePackage(parsed){
+ if(parsed&&parsed.format==="one-wager-save-package-v1"&&parsed.data&&typeof parsed.data.chips==="number"&&Array.isArray(parsed.data.journal))return{data:parsed.data,name:String(parsed.metadata?.name||"匯入存檔")};
+ if(parsed&&typeof parsed.chips==="number"&&Array.isArray(parsed.journal))return{data:parsed,name:"匯入舊版存檔"};
+ throw new Error("bad save");
+}
+function renderSaveListIfReady(){if($("saveList"))renderSaveList();}
 function notify(t){$("toast").textContent=t;$("toast").classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>$("toast").classList.remove("show"),2200);}
 function tab(id){document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===id));}
 document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>tab(b.dataset.tab));
@@ -346,7 +426,7 @@ function entPlay(){
  entState.phase="result";renderHeader();renderEntertainment();save();
 }
 
-function renderAll(){renderHeader();renderStory();renderWorld();renderJournal();renderTable();renderEntertainment();$("playerNameInput").value=g.playerName;save();}
+function renderAll(){renderHeader();renderStory();renderWorld();renderJournal();renderTable();renderEntertainment();$("playerNameInput").value=g.playerName;save();renderSaveListIfReady();}
 document.querySelectorAll("[data-bet]").forEach(b=>b.onclick=()=>{g.bet=Number(b.dataset.bet);renderTable();save();});
 document.querySelectorAll(".game-choice").forEach(b=>b.onclick=()=>{selectedGame=chapter().kind;renderTable();});
 document.querySelectorAll("[data-ent-game]").forEach(b=>b.onclick=()=>entSetGame(b.dataset.entGame));
@@ -363,9 +443,12 @@ $("storyAdvance").onclick=()=>{
  renderAll();tab("story");notify("章節完成！獲得 "+c.reward+" 枚王牌籌碼。");
 };
 $("savePlayerName").onclick=()=>{const raw=String($("playerNameInput").value??"").trim();if(!raw){notify("主角姓名不可空白。");$("playerNameInput").value=g.playerName;return;}g.playerName=normalizePlayerName(raw);renderAll();notify("主角姓名已儲存。");};
-$("exportSave").onclick=()=>{const blob=new Blob([JSON.stringify(g,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="one-wager-modern-save.json";a.click();URL.revokeObjectURL(url);notify("存檔已匯出。");};
+$("exportSave").onclick=()=>{const blob=new Blob([JSON.stringify({format:"one-wager-save-package-v1",metadata:{name:"目前遊戲存檔",type:"export",savedAt:new Date().toISOString()},data:g},null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="one-wager-"+timestampForFile(new Date().toISOString())+".json";a.click();URL.revokeObjectURL(url);notify("目前存檔已匯出。");};
 $("importSave").onclick=()=>$("saveFile").click();
-$("saveFile").onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{const s=JSON.parse(await f.text());if(typeof s.chips!=="number"||!Array.isArray(s.journal))throw new Error("bad save");g=normalizeStoredState(s);renderAll();notify("存檔匯入成功。");}catch(err){notify("無法匯入，檔案格式不正確。");}e.target.value="";};
+$("saveFile").onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{const pack=importSavePackage(JSON.parse(await f.text()));if(!confirm("準備匯入「"+pack.name+"」。匯入前會自動保留目前進度為一份手動備份，是否繼續？"))return;saveRecords.push({id:"manual-"+Date.now()+"-"+Math.random().toString(36).slice(2,8),name:"匯入前自動備份",type:"manual",savedAt:new Date().toISOString(),data:JSON.parse(JSON.stringify(g))});writeSaveRecords();g=normalizeStoredState(pack.data);renderAll();renderSaveList();notify("存檔匯入成功。");}catch(err){notify("無法匯入，檔案格式不正確。");}finally{e.target.value="";}};
 $("resetSave").onclick=()=>{if(!confirm("確定重新開始《一擲闖天下：王牌賭途》故事？請先匯出存檔備份。"))return;const savedName=g.playerName;g=fresh();g.playerName=savedName;matchState=createMatch(0);selectedGame="poker";lastOutcome="等待下注";$("gameResult").textContent="等待下注";$("tableLog").textContent="新的旅程開始了。";renderAll();tab("story");notify("新的旅程開始！");};
+$("createManualSave").onclick=createManualSave;
+initSaveManager();
 renderAll();
+renderSaveListIfReady();
 </script></body></html>
