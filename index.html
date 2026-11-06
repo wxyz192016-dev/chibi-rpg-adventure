@@ -295,7 +295,7 @@ function renderTable(){
   m.playerDiscard=[...set].sort((a,b)=>a-b);renderTable();save();
  });
  const action=$("placeBet");
- if(m.phase==="ready"){action.textContent=kind==="poker"?"發牌・開始本回合":"下注・確認預測並開局";action.disabled=g.chips<g.bet||(kind!=="poker"&&!m.playerChoice);}
+ if(m.phase==="ready"){action.textContent=kind==="poker"?"發牌・開始本回合":kind==="texas"?"發牌・開始德州撲克":"下注・確認預測並開局";action.disabled=g.chips<g.bet||(!["poker","texas"].includes(kind)&&!m.playerChoice);}
  else if(m.phase==="pokerDraw"){action.textContent="確認換牌並攤牌";action.disabled=false;}
  else if(m.phase==="result"){action.textContent="進入下一回合";action.disabled=false;}
  else if(m.phase==="matchOver"&&m.opponentWins>=3){action.textContent="重新挑戰關主";action.disabled=false;}
@@ -414,7 +414,7 @@ function resolveRound(winner,text,betOutcome){
 }
 function continueMatch(){
  const m=ensureMatch();if(m.phase!=="result")return;
- m.phase="ready";m.round=m.playerWins+m.opponentWins+1;m.stake=0;m.playerHand=[];m.opponentHand=[];m.deck=[];m.playerDiscard=[];m.aiDiscard=[];
+ m.phase="ready";m.round=m.playerWins+m.opponentWins+1;m.stake=0;m.playerHand=[];m.opponentHand=[];m.communityCards=[];m.deck=[];m.playerDiscard=[];m.aiDiscard=[];
  m.playerChoice=null;m.opponentChoice=null;m.baseCard=null;m.revealCard=null;m.dice=null;m.roundOutcome=null;m.resultText="準備進入下一個有效回合。";renderAll();
 }
 function restartChallenge(){
