@@ -18,7 +18,7 @@ main{width:min(1150px,100%);margin:auto;padding:22px 16px 55px}.panel{background
 .story-box{border:1px solid #9b6d6d;border-radius:17px;padding:17px;background:linear-gradient(135deg,#573b41,#33263a)}.story-box h3{margin:5px 0}.story-box p{color:#f2e1dd}.story-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.progress{height:9px;border-radius:99px;background:#ffffff18;overflow:hidden;margin:8px 0}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#d88675);border-radius:99px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}.card{border:1px solid var(--line);border-radius:16px;background:#ffffff08;padding:14px}.card h3{margin:5px 0}.card-emoji{font-size:3rem;text-align:center;padding:13px;background:radial-gradient(circle,#644a56,#302437);border-radius:13px;margin:10px 0}.chap{display:flex;justify-content:space-between;gap:10px;align-items:center}.locked{opacity:.4;filter:grayscale(.7)}
 .game-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.game-choice{min-height:140px;text-align:left;background:#ffffff09}.game-choice.selected{border-color:var(--gold);background:#a8783a25;box-shadow:0 0 0 1px #f2c66d55}.game-choice .big{display:block;font-size:2.7rem}.game-choice b{display:block;margin-top:5px}
-.table-layout{display:grid;grid-template-columns:1fr .95fr;gap:14px}.felt{background:radial-gradient(ellipse,#315348,#1e3534 78%);border:8px solid #64453b;border-radius:22px;padding:18px;min-height:310px;box-shadow:inset 0 0 25px #0005}.felt-top{display:flex;justify-content:space-between;color:#e5d4b3}.table-center{display:grid;place-items:center;text-align:center;min-height:185px}.table-symbol{font-size:4.2rem;filter:drop-shadow(0 8px 12px #0006)}.play-result{font-weight:850;font-size:1.2rem;margin-top:8px}.control-panel{display:flex;flex-direction:column;gap:12px}.bet-row{display:flex;gap:7px;flex-wrap:wrap}.bet-row button.active{border-color:var(--gold);background:#a8783a45;color:#ffe4a5}.choice-row{display:flex;gap:8px;flex-wrap:wrap}.choice-row button{flex:1;min-width:85px}.history{background:#120f17;border:1px solid var(--line);border-radius:13px;padding:11px;min-height:85px;color:#e8dce1;white-space:pre-line}
+.table-layout{display:grid;grid-template-columns:1fr .95fr;gap:14px}.felt{background:radial-gradient(ellipse,#315348,#1e3534 78%);border:8px solid #64453b;border-radius:22px;padding:18px;min-height:310px;box-shadow:inset 0 0 25px #0005}.felt-top{display:flex;justify-content:space-between;color:#e5d4b3}.table-center{display:grid;place-items:center;text-align:center;min-height:185px}.table-symbol{font-size:4.2rem;filter:drop-shadow(0 8px 12px #0006)}.play-result{font-weight:850;font-size:1.2rem;margin-top:8px}.control-panel{display:flex;flex-direction:column;gap:12px}.bet-row{display:flex;gap:7px;flex-wrap:wrap}.bet-row button.active{border-color:var(--gold);background:#a8783a45;color:#ffe4a5}.choice-row{display:flex;gap:8px;flex-wrap:wrap}.choice-row button{flex:1;min-width:85px}.history{background:#120f17;border:1px solid var(--line);border-radius:13px;padding:11px;min-height:85px;color:#e8dce1;white-space:pre-line}.match-scoreboard{margin:12px 0;padding:12px 15px}.score-line{display:flex;gap:18px;flex-wrap:wrap;margin-top:7px;color:var(--muted)}.score-line strong{color:var(--gold);font-size:1.2rem}.hand-cards{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-top:12px}.playing-card{min-width:48px;padding:8px 6px;background:#f7f3eb;color:#182337;border:2px solid #fff;border-radius:9px;font-weight:900}.playing-card.red{color:#bd3151}.playing-card.discarded{background:#b85a61;color:#fff;border-color:#ffb7b7;transform:translateY(-5px)}.hand-caption{width:100%;font-size:.75rem;color:#e9e0d5;margin-top:6px}.stage-hint{color:var(--gold);font-size:.84rem;margin-top:8px}.rolling{animation:float .18s ease-in-out infinite alternate}
 .map-row{display:grid;grid-template-columns:72px 1fr auto;align-items:center;gap:12px;padding:12px;border:1px solid var(--line);border-radius:14px;background:#ffffff07}.map-row+.map-row{margin-top:9px}.map-icon{font-size:2.4rem;text-align:center}.map-row h3{margin:0}.map-row p{margin:3px 0;color:var(--muted);font-size:.84rem}
 .journal{display:grid;gap:10px}.entry{border-left:3px solid var(--gold);background:#ffffff07;padding:12px 14px;border-radius:0 12px 12px 0}.entry small{color:var(--muted)}
 .notice{border-left:3px solid var(--teal);padding:11px 14px;background:#84c9ba12;border-radius:0 12px 12px 0;color:#d8f1eb;margin-top:12px}
@@ -39,8 +39,8 @@ body{background:radial-gradient(ellipse at 8% 0%,#1e3c60 0,transparent 38%),radi
 <section class="hero"><div class="panel hero-copy"><div class="kicker">MODERN CITY · POKER & SIC BO</div><h1>一擲闖天下<br><span style="color:var(--gold)">王牌賭途</span></h1><p id="heroIntro">現代都市裡，沈行舟靠著撲克牌與骰寶牌技維生。從台北的私人牌局出發，他一路挑戰各大城市的高手、俱樂部與國際賽事，目標是站上世界牌王之巔。這個世界沒有命運的預言，只有每一次判斷、膽識與選擇。</p><div class="stat-row"><div class="stat"><b id="wins">0</b><small>勝場</small></div><div class="stat"><b id="losses">0</b><small>敗場</small></div><div class="stat"><b id="chapter">序章</b><small>故事進度</small></div></div></div><div class="panel hero-art"><div class="casino-scene"><div class="city-label">THE CITY NEVER SLEEPS</div><div class="neon-sign">ROYAL TABLE</div><div class="floating-cards"><span>A♠</span><span>K♥</span><span>Q♣</span></div><div class="dice-cubes">🎲 🎲 🎲</div><b>撲克・骰寶・世界賭城</b><div class="tiny">純虛擬籌碼 · 原創故事</div></div></div></section></section>
 <nav class="nav"><button class="active" data-tab="story">📖 故事模式</button><button data-tab="table">🂡 牌桌對決</button><button data-tab="world">🏙️ 都市巡迴</button><button data-tab="journal">📰 賭徒手札</button><button data-tab="settings">💾 存檔管理</button></nav>
 <section class="view active" id="story"><div class="panel"><div class="section-head"><h2>📖 主線故事</h2><span class="tag" id="chapterTag">序章・台北</span></div><div class="story-box"><div class="kicker" id="storyKicker">PROLOGUE · TAIPEI</div><h3 id="storyTitle">第一枚籌碼</h3><p id="storyText">台北信義區的霓虹燈映在玻璃帷幕上。沈行舟拿出父親留下的黑桃 A，那是他踏入職業牌桌的起點。今晚，他要在私人牌局中挑戰退役牌手老周，贏得城市巡迴賽的第一個積分。</p><div class="chap"><span class="tiny" id="storyGoal">目標：在本章牌局贏得 1 場勝利</span><b id="chapterProgress">0 / 1</b></div><div class="progress"><i id="storyBar" style="width:0%"></i></div><div class="story-actions"><button class="primary" id="storyPlay">前往本章牌桌</button><button class="gold-btn" id="storyAdvance" disabled>完成章節・前往下一站</button></div></div><div class="notice">這是現代都市背景的原創牌桌故事。玩法限定撲克牌與骰寶，下注只使用遊戲內虛擬籌碼，沒有現金價值，不支援儲值、提款或兌換。</div></div><div class="panel"><div class="section-head"><h2>🎭 本章人物</h2><span class="muted">旅途相逢</span></div><div class="grid" id="chapterCast"></div></div></section>
-<section class="view" id="table"><div class="panel"><div class="section-head"><h2>🂡 王牌牌桌</h2><span class="tag" id="tableOpponent">台北・老周</span></div><div class="game-grid"><button class="game-choice selected" data-game="poker"><span class="big">🂡</span><b>五張牌型對決</b><span class="tiny">比牌型、比高牌，與對手正面交鋒</span></button><button class="game-choice" data-game="higher"><span class="big">♠️</span><b>翻牌比大小</b><span class="tiny">猜下一張撲克牌更高或更低</span></button><button class="game-choice" data-game="sicbo"><span class="big">🎲</span><b>骰寶大小局</b><span class="tiny">三顆骰子，押大或押小</span></button></div></div>
-<div class="panel table-layout"><div class="felt"><div class="felt-top"><span>CITY CASINO TABLE</span><span id="tableLocation">台北私人牌局</span></div><div class="table-center"><div><div class="table-symbol" id="gameSymbol">🂡</div><b id="gamePrompt">與老周進行五張牌型對決。</b><div class="play-result" id="gameResult">等待下注</div><div class="tiny" id="lastRoll">牌桌尚未開始。</div></div></div><div class="felt-top"><span id="tablePlayerName">沈行舟</span><span>虛擬籌碼桌</span></div></div>
+<section class="view" id="table"><div class="panel"><div class="section-head"><h2>🂡 王牌牌桌</h2><span class="tag" id="tableOpponent">台北・老周</span></div><div class="card match-scoreboard"><b>五局三勝・挑戰賽比分</b><div class="score-line"><span>玩家 <strong id="playerMatchWins">0</strong> 勝</span><span>關主 <strong id="dealerMatchWins">0</strong> 勝</span><span>有效回合 <strong id="effectiveRounds">0</strong> / 5</span><span id="matchStatus">尚未開始</span></div></div><div class="game-grid"><button class="game-choice selected" data-game="poker"><span class="big">🂡</span><b>五張牌型對決</b><span class="tiny">比牌型、比高牌，與對手正面交鋒</span></button><button class="game-choice" data-game="higher"><span class="big">♠️</span><b>翻牌比大小</b><span class="tiny">猜下一張撲克牌更高或更低</span></button><button class="game-choice" data-game="sicbo"><span class="big">🎲</span><b>骰寶大小局</b><span class="tiny">三顆骰子，押大或押小</span></button></div></div>
+<div class="panel table-layout"><div class="felt"><div class="felt-top"><span>CITY CASINO TABLE</span><span id="tableLocation">台北私人牌局</span></div><div class="table-center"><div><div class="table-symbol" id="gameSymbol">🂡</div><b id="gamePrompt">與老周進行五張牌型對決。</b><div class="play-result" id="gameResult">等待下注</div><div class="tiny" id="roundInfo">挑戰賽第 1 回合</div><div id="handCards" class="hand-cards"></div><div class="tiny" id="lastRoll">牌桌尚未開始。</div></div></div><div class="felt-top"><span id="tablePlayerName">沈行舟</span><span>虛擬籌碼桌</span></div></div>
 <div class="control-panel"><div class="card"><b>選擇下注籌碼</b><p class="tiny">每局下注不會超過目前持有籌碼。</p><div class="bet-row"><button data-bet="10">10</button><button data-bet="25" class="active">25</button><button data-bet="50">50</button><button data-bet="100">100</button></div><div class="split tiny"><span>本局下注</span><b id="betAmount">25</b></div></div><div class="card"><b>選擇你的判斷</b><div class="choice-row" id="choiceButtons"><button class="primary" data-choice="high">高（8–12）</button><button data-choice="low">低（2–7）</button></div><p class="tiny" id="gameRules">雙骰總和 8–12 為高，2–7 為低。猜中獲得等額淨利。</p></div><button class="gold-btn" id="placeBet">下注・開始牌局</button><button class="subtle" id="rescueChips" hidden>領取一次旅途援助・100 籌碼</button><div class="history" id="tableLog">老周把牌洗勻：「牌桌上，運氣只決定開局，判斷才決定你能走多遠。」</div></div></div>
 </section>
 <section class="view" id="world"><div class="panel"><div class="section-head"><h2>🏙️ 世界賭城巡迴</h2><span class="muted">完成本章對局，解鎖下一座城市與賽事</span></div><div id="worldList"></div></div></section>
@@ -144,5 +144,122 @@ $("exportSave").onclick=()=>{const blob=new Blob([JSON.stringify(g,null,2)],{typ
 $("importSave").onclick=()=>$("saveFile").click();
 $("saveFile").onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{const s=JSON.parse(await f.text());if(typeof s.chips!=="number"||!Array.isArray(s.journal))throw new Error("bad save");g={...fresh(),...s,playerName:normalizePlayerName(s.playerName),journal:s.journal.map(x=>String(x).replaceAll("沈行舟","{{player}}"))};renderAll();notify("存檔匯入成功。");}catch(err){notify("無法匯入，檔案格式不正確。");}e.target.value="";};
 $("resetSave").onclick=()=>{if(!confirm("確定重新開始《一擲闖天下：王牌賭途》故事？請先匯出存檔備份。"))return;const savedName=g.playerName;g=fresh();g.playerName=savedName;selectedGame="poker";lastOutcome="等待下注";$("gameResult").textContent="等待下注";$("tableLog").textContent="新的旅程開始了。";renderAll();tab("story");notify("新的旅程開始！");};
+
+/* Approved battle-system V1.0 integration. Existing story, chapter data, rewards and save key remain unchanged. */
+let roundState={stage:"idle",playerChoice:null,discardIndices:[],stake:0};
+function freshMatch(){return{playerWins:0,dealerWins:0,effectiveRounds:0,completed:false,result:null};}
+g.match=g.match&&typeof g.match==="object"?{...freshMatch(),...g.match}:freshMatch();
+function makeDeckV1(){const suits=["♠","♥","♦","♣"],deck=[];for(let r=2;r<=14;r++)for(const s of suits)deck.push({r,s});for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}return deck;}
+function cardNameV1(c){return (c.r===14?"A":c.r===13?"K":c.r===12?"Q":c.r===11?"J":String(c.r))+c.s;}
+function scorePokerV1(hand){
+ const vals=hand.map(c=>c.r).sort((a,b)=>b-a),counts={};vals.forEach(v=>counts[v]=(counts[v]||0)+1);
+ const groups=Object.entries(counts).map(([v,n])=>({v:Number(v),n})).sort((a,b)=>b.n-a.n||b.v-a.v),flush=hand.every(c=>c.s===hand[0].s);
+ let straight=false,high=vals[0];if(new Set(vals).size===5){if(vals[0]-vals[4]===4)straight=true;else if(vals.join(",")==="14,5,4,3,2"){straight=true;high=5;}}
+ if(straight&&flush)return[8,high];if(groups[0].n===4)return[7,groups[0].v,groups[1].v];if(groups[0].n===3&&groups[1].n===2)return[6,groups[0].v,groups[1].v];if(flush)return[5,...vals];if(straight)return[4,high];if(groups[0].n===3)return[3,groups[0].v,...groups.slice(1).map(x=>x.v)];if(groups[0].n===2&&groups[1].n===2)return[2,Math.max(groups[0].v,groups[1].v),Math.min(groups[0].v,groups[1].v),groups[2].v];if(groups[0].n===2)return[1,groups[0].v,...groups.slice(1).map(x=>x.v).sort((a,b)=>b-a)];return[0,...vals];
+}
+function comparePokerV1(a,b){for(let i=0;i<Math.max(a.length,b.length);i++){const d=(a[i]||0)-(b[i]||0);if(d)return Math.sign(d);}return 0;}
+const pokerNamesV1=["高牌","一對","兩對","三條","順子","同花","葫蘆","四條","同花順"];
+function chooseAiDiscardsV1(hand){
+ const counts={};hand.forEach(c=>counts[c.r]=(counts[c.r]||0)+1);const keep=new Set();
+ hand.forEach((c,i)=>{if(counts[c.r]>=2)keep.add(i);});
+ if(keep.size>=2)return hand.map((_,i)=>i).filter(i=>!keep.has(i));
+ const suits={};hand.forEach(c=>suits[c.s]=(suits[c.s]||0)+1);const flush=Object.keys(suits).find(s=>suits[s]>=4);
+ if(flush)hand.forEach((c,i)=>{if(c.s===flush)keep.add(i);});
+ if(keep.size<4)for(let low=2;low<=10;low++){const run=hand.map((c,i)=>({c,i})).filter(x=>x.c.r>=low&&x.c.r<=low+4);if(run.length>=4){run.forEach(x=>keep.add(x.i));break;}}
+ if(keep.size<2)hand.map((c,i)=>({c,i})).sort((a,b)=>b.c.r-a.c.r).slice(0,2).forEach(x=>keep.add(x.i));
+ return hand.map((_,i)=>i).filter(i=>!keep.has(i));
+}
+function aiHighLowV1(base){let high=0,low=0;for(let r=2;r<=14;r++){if(r>base.r)high+=4;else if(r<base.r)low+=4;}return high>=low?"high":"low";}
+function renderTable(){
+ const c=chapter(),m=g.match,active=roundState.stage==="discard"||roundState.stage==="choose"||roundState.stage==="revealing";
+ $("tableOpponent").textContent=c.place+"・"+c.opponent;$("tableLocation").textContent=c.place+"牌桌";
+ const poker=c.kind==="poker",higher=c.kind==="higher",sicbo=c.kind==="sicbo";
+ $("gameSymbol").textContent=poker?"🂡":higher?"♠️":"🎲";
+ $("gamePrompt").textContent=poker?"五張換牌撲克：選擇保留或更換手牌。":higher?"同一張翻牌：玩家與關主各自預測更高或更低。":"三顆骰子：玩家與關主各自預測大或小。";
+ $("playerMatchWins").textContent=m.playerWins;$("dealerMatchWins").textContent=m.dealerWins;$("effectiveRounds").textContent=m.effectiveRounds;
+ $("matchStatus").textContent=m.completed?(m.result==="player"?"挑戰賽勝利":"挑戰賽落敗"):(m.effectiveRounds?"進行中":"尚未開始");
+ $("roundInfo").textContent=m.completed?"本場挑戰賽已結束":"挑戰賽第 "+(m.effectiveRounds+1)+" 個有效回合";
+ $("betAmount").textContent=g.bet;$("rescueChips").hidden=g.chips>=10||g.rescueUsed;$("rescueChips").disabled=g.chips>=10||g.rescueUsed;
+ document.querySelectorAll("[data-bet]").forEach(b=>{b.classList.toggle("active",Number(b.dataset.bet)===g.bet);b.disabled=active||m.completed;});
+ document.querySelectorAll(".game-choice").forEach(b=>{b.hidden=b.dataset.game!==c.kind;b.classList.toggle("selected",b.dataset.game===c.kind);b.disabled=active||m.completed;});
+ const box=$("choiceButtons");box.innerHTML="";
+ if(roundState.stage==="choose"){
+  if(higher)box.innerHTML='<button data-choice="high">猜更高</button><button data-choice="low">猜更低</button>';
+  if(sicbo)box.innerHTML='<button data-choice="big">押大（11–17）</button><button data-choice="small">押小（4–10）</button>';
+  box.querySelectorAll("[data-choice]").forEach(b=>{b.classList.toggle("primary",roundState.playerChoice===b.dataset.choice);b.onclick=()=>{roundState.playerChoice=b.dataset.choice;renderTable();};});
+ }else if(roundState.stage==="discard")box.innerHTML='<span class="stage-hint">點選要更換的手牌；未選取的牌會保留，最多更換五張。</span>';
+ const cards=$("handCards");cards.innerHTML="";
+ if(poker&&roundState.stage==="discard"){
+  cards.innerHTML=roundState.playerHand.map((x,i)=>'<button class="playing-card '+(["♥","♦"].includes(x.s)?"red ":"")+(roundState.discardIndices.includes(i)?"discarded":"")+'" data-discard="'+i+'">'+cardNameV1(x)+'</button>').join("")+'<div class="hand-caption">你的初始手牌｜點選標記要更換的牌</div>';
+  cards.querySelectorAll("[data-discard]").forEach(b=>b.onclick=()=>{const i=Number(b.dataset.discard),a=roundState.discardIndices;if(a.includes(i))roundState.discardIndices=a.filter(v=>v!==i);else if(a.length<5)a.push(i);renderTable();});
+ }else if(poker&&(roundState.stage==="resolved"||roundState.stage==="complete")){
+  cards.innerHTML='<div class="hand-caption">玩家手牌：'+roundState.playerFinal.map(cardNameV1).join(" ")+'</div><div class="hand-caption">關主手牌：'+roundState.dealerFinal.map(cardNameV1).join(" ")+'</div>';
+ }else if(higher&&roundState.stage==="choose")cards.innerHTML='<div class="hand-caption">公開基準牌：'+cardNameV1(roundState.base)+'</div>';
+ else if(higher&&(roundState.stage==="resolved"||roundState.stage==="complete"))cards.innerHTML='<div class="hand-caption">基準牌：'+cardNameV1(roundState.base)+'｜揭曉牌：'+cardNameV1(roundState.next)+'</div>';
+ else if(sicbo&&roundState.stage==="revealing")cards.innerHTML='<div class="hand-caption">骰盅正在揭曉已確定的結果……</div>';
+ else if(sicbo&&(roundState.stage==="resolved"||roundState.stage==="complete"))cards.innerHTML='<div class="hand-caption">骰子結果：'+roundState.dice.join("、")+'</div>';
+ $("lastRoll").textContent=roundState.stage==="discard"?"關主只根據自己的五張手牌決定換牌，尚未亮牌。":roundState.stage==="choose"?"關主已根據公開資訊鎖定預測，尚未揭曉。":lastOutcome;
+ $("gameRules").textContent=sicbo?"三顆骰子總和 11–17 為大、4–10 為小；三顆相同為圍骰。圍骰時大小投注失去籌碼，但挑戰賽不計勝場。":higher?"A 固定為最大牌；雙方對同一張揭曉牌預測。相同點數或雙方正確率相同則平局，退還下注。":"標準 52 張牌、不含鬼牌；雙方各五張，可更換零至五張。牌型由高牌至同花順；皇家同花順以最高同花順呈現。";
+ const btn=$("placeBet");
+ if(m.completed){btn.textContent="挑戰賽已結束";btn.disabled=true;}
+ else if(roundState.stage==="discard"){btn.textContent="確認換牌・亮牌";btn.disabled=false;}
+ else if(roundState.stage==="choose"){btn.textContent="鎖定預測・揭曉結果";btn.disabled=!roundState.playerChoice;}
+ else if(roundState.stage==="revealing"){btn.textContent="結果揭曉中";btn.disabled=true;}
+ else if(roundState.stage==="resolved"){btn.textContent="開始下一回合";btn.disabled=g.chips<g.bet;}
+ else{btn.textContent="開始本回合";btn.disabled=g.chips<g.bet||g.chips<=0;}
+}
+function startRoundV1(){
+ if(g.match.completed)return;if(g.chips<g.bet||g.bet<=0){notify("籌碼不足，請降低下注。");return;}
+ roundState={stage:"idle",playerChoice:null,discardIndices:[],stake:g.bet};g.chips-=g.bet;
+ if(chapter().kind==="poker"){const d=makeDeckV1();roundState.playerHand=d.slice(0,5);roundState.dealerHand=d.slice(5,10);roundState.remaining=d.slice(10);roundState.aiDiscard=chooseAiDiscardsV1(roundState.dealerHand);roundState.stage="discard";}
+ else if(chapter().kind==="higher"){const d=makeDeckV1();roundState.base=d[0];roundState.next=d[1];roundState.aiChoice=aiHighLowV1(roundState.base);roundState.stage="choose";}
+ else{roundState.dice=[1+Math.floor(Math.random()*6),1+Math.floor(Math.random()*6),1+Math.floor(Math.random()*6)];roundState.aiChoice=Math.random()<.5?"big":"small";roundState.stage="choose";}
+ lastOutcome="回合已開始，請完成你的決策。";$("gameResult").textContent="回合進行中";renderAll();
+}
+function finishMatchV1(){
+ if(g.match.playerWins>=3){g.match.completed=true;g.match.result="player";g.chapterWins=1;addJournal("在"+chapter().place+"的五局三勝挑戰賽中擊敗"+chapter().opponent+"，取得三個有效回合勝利。");}
+ else if(g.match.dealerWins>=3){g.match.completed=true;g.match.result="dealer";addJournal("在"+chapter().place+"的五局三勝挑戰賽中敗給"+chapter().opponent+"，關主取得三個有效回合勝利。");}
+}
+function settleV1(winner,detail,kind){
+ const stake=roundState.stake;
+ if(kind==="refund"){g.chips+=stake;lastOutcome=detail+"｜平局，退還下注；挑戰賽比分不變，重開本回合。";$("gameResult").textContent="平局・重新進行本回合";}
+ else if(kind==="triple"){g.losses++;lastOutcome=detail+"｜圍骰；大／小投注失去 "+stake+" 枚籌碼，挑戰賽比分不變，重開本回合。";$("gameResult").textContent="圍骰・本回合不計勝場";}
+ else{g.match.effectiveRounds++;if(winner==="player"){g.match.playerWins++;g.chips+=stake*2;g.wins++;g.fame+=5;$("gameResult").textContent="玩家回合勝利";}else{g.match.dealerWins++;g.losses++;$("gameResult").textContent="關主回合勝利";}lastOutcome=detail+"｜"+(winner==="player"?"玩家取得本回合勝利，返還本金並獲得等額淨利。":"關主取得本回合勝利，本回合下注結算。");finishMatchV1();}
+ roundState.stage=g.match.completed?"complete":"resolved";$("tableLog").textContent=lastOutcome;renderAll();
+ if(g.match.completed)notify(g.match.result==="player"?"挑戰賽勝利！已完成本章關主挑戰。":"挑戰賽結束，關主取得三勝。");else if(kind==="refund"||kind==="triple")notify("本回合不計入挑戰賽勝場，重新進行。");else notify(winner==="player"?"玩家取得一個有效回合勝利。":"關主取得一個有效回合勝利。");
+}
+function resolvePokerV1(){
+ const pd=new Set(roundState.discardIndices),dd=new Set(roundState.aiDiscard),p=roundState.playerHand.filter((_,i)=>!pd.has(i)),d=roundState.dealerHand.filter((_,i)=>!dd.has(i));
+ roundState.playerFinal=p.concat(roundState.remaining.slice(0,pd.size));roundState.dealerFinal=d.concat(roundState.remaining.slice(pd.size,pd.size+dd.size));
+ const ps=scorePokerV1(roundState.playerFinal),ds=scorePokerV1(roundState.dealerFinal),cmp=comparePokerV1(ps,ds);
+ const pname=ps[0]===8&&ps[1]===14?"皇家同花順":pokerNamesV1[ps[0]],dname=ds[0]===8&&ds[1]===14?"皇家同花順":pokerNamesV1[ds[0]];
+ settleV1(cmp>0?"player":cmp<0?"dealer":"tie","玩家："+roundState.playerFinal.map(cardNameV1).join(" ")+"（"+pname+"）｜關主："+roundState.dealerFinal.map(cardNameV1).join(" ")+"（"+dname+"）｜"+(cmp>0?"玩家牌型較大":cmp<0?"關主牌型較大":"完全相同"),cmp===0?"refund":"decisive");
+}
+function resolvePredictionV1(){
+ if(chapter().kind==="higher"){
+  const a=roundState.base.r,b=roundState.next.r,actual=b>a?"high":b<a?"low":"tie",pc=actual!=="tie"&&roundState.playerChoice===actual,ac=actual!=="tie"&&roundState.aiChoice===actual;
+  const name=r=>r===14?"A":r===13?"K":r===12?"Q":r===11?"J":String(r),detail="基準牌 "+name(a)+"，揭曉牌 "+name(b)+"；玩家預測 "+(roundState.playerChoice==="high"?"更高":"更低")+"，關主預測 "+(roundState.aiChoice==="high"?"更高":"更低")+"。";
+  if(actual==="tie"){settleV1("tie",detail+"同點數。","refund");return;}
+  if(pc!==ac){settleV1(pc?"player":"dealer",detail+(pc?"玩家預測正確":"關主預測正確"),"decisive");return;}
+  settleV1("tie",detail+(pc?"雙方皆正確":"雙方皆錯誤")+"，本回合平局。","refund");return;
+ }
+ const d=roundState.dice,sum=d.reduce((a,b)=>a+b,0),triple=d.every(x=>x===d[0]),actual=sum>=11?"big":"small",pc=roundState.playerChoice===actual,ac=roundState.aiChoice===actual;
+ const detail="骰寶開盅："+d.join("、")+" 點，總和 "+sum+"；玩家押"+(roundState.playerChoice==="big"?"大":"小")+"，關主押"+(roundState.aiChoice==="big"?"大":"小")+"。";
+ if(triple){settleV1("tie",detail+"三顆相同點數，判定圍骰。","triple");return;}
+ if(pc!==ac){settleV1(pc?"player":"dealer",detail+(pc?"玩家預測正確":"關主預測正確"),"decisive");return;}
+ settleV1("tie",detail+(pc?"雙方皆正確":"雙方皆錯誤")+"，本回合平局。","refund");
+}
+function handleRoundActionV1(){
+ if(g.match.completed)return;
+ if(roundState.stage==="idle"||roundState.stage==="resolved"){startRoundV1();return;}
+ if(roundState.stage==="discard"){resolvePokerV1();return;}
+ if(roundState.stage==="choose"){if(!roundState.playerChoice){notify("請先選擇你的預測。");return;}roundState.stage="revealing";renderTable();setTimeout(resolvePredictionV1,650);}
+}
+const oldAdvanceV1=$("storyAdvance").onclick;
+$("storyAdvance").onclick=()=>{const before=g.chapter;if(oldAdvanceV1)oldAdvanceV1();if(g.chapter!==before){g.match=freshMatch();roundState={stage:"idle",playerChoice:null,discardIndices:[],stake:0};lastOutcome="等待下注";renderAll();}};
+const oldResetV1=$("resetSave").onclick;
+$("resetSave").onclick=()=>{if(oldResetV1)oldResetV1();g.match=freshMatch();roundState={stage:"idle",playerChoice:null,discardIndices:[],stake:0};lastOutcome="等待下注";renderAll();};
+$("placeBet").onclick=handleRoundActionV1;
+
 renderAll();
 </script></body></html>
