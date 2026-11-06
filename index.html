@@ -59,9 +59,9 @@ const CHAPTERS=[
 {place:"新加坡",name:"獅城王牌賽",opponent:"艾登・陳",emoji:"🌇",symbol:"🂡",kind:"poker",skillName:"五張牌型對決",goal:"在本章牌桌贏得 1 場勝利",kicker:"CHAPTER 03 · SINGAPORE",story:"新加坡濱海灣迎來亞洲王牌邀請賽。艾登・陳是連續兩屆決賽桌選手，他不急著出手，而是等待對手露出破綻。沈行舟必須打好每一手牌，才能取得世界賽的入場資格。",bio:"以穩健打法與牌型計算著稱的國際賽常客。",reward:250},
 {place:"拉斯維加斯",name:"世界牌王總決賽",opponent:"夜皇",emoji:"🎰",symbol:"🎲",kind:"sicbo",skillName:"骰寶押大／小",goal:"在本章牌桌贏得 1 場勝利",kicker:"FINAL CHAPTER · LAS VEGAS",story:"拉斯維加斯大道的巨型燈幕點亮夜空，世界牌王總決賽正式開幕。最後的對手夜皇以骰寶押大／小聞名，沈行舟終於站上父親曾經夢想抵達的舞台。這一局，將決定他能否成為新一代的世界牌王。",bio:"傳奇級骰寶高手，專精三顆骰子的大小判斷。",reward:500}
 ];
-const MATCH_VERSION=1;
 function createMatch(chapterIndex){return{chapter:chapterIndex,playerWins:0,opponentWins:0,round:1,phase:"ready",stake:0,playerHand:[],opponentHand:[],deck:[],playerDiscard:[],aiDiscard:[],playerChoice:null,opponentChoice:null,baseCard:null,revealCard:null,dice:null,resultText:"等待下注",roundOutcome:null};}
-const fresh=()=>({playerName:"沈行舟",chips:500,fame:0,wins:0,losses:0,chapter:0,chapterWins:0,bet:25,rescueUsed:false,journal:["{{player}}帶著父親留下的黑桃 A 抵達台北，準備參加城市牌局巡迴賽。"],finished:false,battleVersion:MATCH_VERSION,match:createMatch(0)});
+let matchState=createMatch(0);
+const fresh=()=>({playerName:"沈行舟",chips:500,fame:0,wins:0,losses:0,chapter:0,chapterWins:0,bet:25,rescueUsed:false,journal:["{{player}}帶著父親留下的黑桃 A 抵達台北，準備參加城市牌局巡迴賽。"],finished:false});
 
 function normalizePlayerName(value){
  const cleaned=Array.from(String(value??"").trim()).slice(0,16).join("");
@@ -72,17 +72,7 @@ function normalizeStoredState(stored){
  state.chapter=Math.max(0,Math.min(4,Number(stored.chapter)||0));state.chips=Math.max(0,Number(stored.chips)||0);
  state.bet=[10,25,50,100].includes(Number(stored.bet))?Number(stored.bet):25;
  state.journal=Array.isArray(stored.journal)?stored.journal.map(x=>String(x).replaceAll("沈行舟","{{player}}")):fresh().journal;
- if(Number(stored.battleVersion)!==MATCH_VERSION){state.chapterWins=0;state.match=createMatch(state.chapter);}
- else{
-  state.chapterWins=Math.max(0,Math.min(3,Number(stored.chapterWins)||0));const saved=stored.match;
-  if(saved&&Number(saved.chapter)===state.chapter){state.match={...createMatch(state.chapter),...saved};
-   if(!["ready","pokerDraw","result","matchOver"].includes(state.match.phase)||!Array.isArray(state.match.playerHand)||!Array.isArray(state.match.opponentHand)||!Array.isArray(state.match.deck)||!Array.isArray(state.match.playerDiscard)||!Array.isArray(state.match.aiDiscard))state.match=createMatch(state.chapter);
-   else{state.match.playerWins=Math.max(0,Math.min(3,Number(state.match.playerWins)||0));state.match.opponentWins=Math.max(0,Math.min(3,Number(state.match.opponentWins)||0));state.match.round=state.match.playerWins+state.match.opponentWins+1;}
-  }else state.match=createMatch(state.chapter);
-  if(state.match.playerWins>=3){state.match.phase="matchOver";state.chapterWins=3;}
-  else if(state.match.opponentWins>=3){state.match.phase="matchOver";state.chapterWins=0;}
- }
- state.battleVersion=MATCH_VERSION;return state;
+ matchState=createMatch(state.chapter);return state;
 }
 function load(){
  try{const stored=JSON.parse(localStorage.getItem(SAVE_KEY)||"null");if(stored&&typeof stored==="object")return normalizeStoredState(stored);}
@@ -116,7 +106,7 @@ function renderWorld(){$("worldList").innerHTML=CHAPTERS.map((c,i)=>'<div class=
 function renderJournal(){$("journalList").innerHTML=g.journal.map((x,i)=>'<div class="entry"><small>旅程紀錄 '+(g.journal.length-i)+'</small><div>'+escapeHtml(personalize(x))+'</div></div>').join("")||'<div class="muted">尚無旅程紀錄。</div>';}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 
-function ensureMatch(){if(!g.match||Number(g.match.chapter)!==g.chapter)g.match=createMatch(g.chapter);return g.match;}
+function ensureMatch(){if(!matchState||Number(matchState.chapter)!==g.chapter)matchState=createMatch(g.chapter);return matchState;}
 function createDeck(){const suits=["♠","♥","♦","♣"],deck=[];for(let rank=2;rank<=14;rank++)for(const suit of suits)deck.push({r:rank,s:suit});return deck;}
 function shuffleDeck(deck){for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}return deck;}
 function cardText(card){const r=card.r===14?"A":card.r===13?"K":card.r===12?"Q":card.r===11?"J":String(card.r);return r+card.s;}
@@ -201,18 +191,18 @@ function pokerScore(hand){
  return[0,...vals];
 }
 function compareScores(a,b){for(let i=0;i<Math.max(a.length,b.length);i++){const d=(a[i]||0)-(b[i]||0);if(d)return Math.sign(d);}return 0;}
-function chooseAiDiscards(hand,level){
+function chooseAiDiscards(hand,chapterIndex){
  const rankCounts={};hand.forEach((c,i)=>{if(!rankCounts[c.r])rankCounts[c.r]=[];rankCounts[c.r].push(i);});
  const groups=Object.entries(rankCounts).map(([r,idx])=>({r:Number(r),idx})).sort((a,b)=>b.idx.length-a.idx.length||b.r-a.r),score=pokerScore(hand);
  if(score[0]>=4)return[];
  if(groups[0].idx.length===4||groups[0].idx.length===3)return hand.map((_,i)=>i).filter(i=>!groups[0].idx.includes(i));
  if(groups[0].idx.length===2&&groups[1]?.idx.length===2){const keep=new Set([...groups[0].idx,...groups[1].idx]);return hand.map((_,i)=>i).filter(i=>!keep.has(i));}
  if(groups[0].idx.length===2)return hand.map((_,i)=>i).filter(i=>!groups[0].idx.includes(i));
- if(level>=3){
+ if(chapterIndex>=2){
   const suits={};hand.forEach((c,i)=>{if(!suits[c.s])suits[c.s]=[];suits[c.s].push(i);});
   const flushDraw=Object.values(suits).find(x=>x.length===4);if(flushDraw)return hand.map((_,i)=>i).filter(i=>!flushDraw.includes(i));
  }
- if(level>=4){
+ if(chapterIndex>=3){
   const ranks=[...new Set(hand.map(c=>c.r))].sort((a,b)=>a-b),candidates=[];
   for(const aceLow of [false,true]){
    const values=aceLow?ranks.map(r=>r===14?1:r):ranks;
@@ -223,17 +213,18 @@ function chooseAiDiscards(hand,level){
   }
   if(candidates.length)return hand.map((_,i)=>i).filter(i=>!candidates[0].includes(i));
  }
- const threshold=level>=5?10:level>=3?11:12;
+ const threshold=chapterIndex===0?13:chapterIndex===1?12:chapterIndex===2?11:chapterIndex===3?12:10;
  const high=hand.map((c,i)=>({c,i})).filter(x=>x.c.r>=threshold).sort((a,b)=>b.c.r-a.c.r).slice(0,3).map(x=>x.i);
  const keep=new Set(high.length?high:[hand.reduce((best,c,i)=>c.r>hand[best].r?i:best,0)]);
  return hand.map((_,i)=>i).filter(i=>!keep.has(i));
 }
-function aiHigherChoice(base,level){
+function aiHigherChoice(base,chapterIndex){
  const highCount=14-base.r,lowCount=base.r-2,preferred=highCount>=lowCount?"high":"low";
- const accuracy=[0.55,0.68,0.76,0.86,0.93][Math.max(0,Math.min(4,level-1))];
- return Math.random()<accuracy?preferred:(preferred==="high"?"low":"high");
+ const style=["steady","adaptive","analytic","calculated","aggressive"][chapterIndex];
+ if(highCount===lowCount)return ["adaptive","aggressive"].includes(style)?"high":"low";
+ return style==="aggressive"&&highCount>=lowCount-1?"high":preferred;
 }
-function aiSicboChoice(){return Math.random()<0.5?"big":"small";}
+function aiSicboChoice(chapterIndex){const p=[0.52,0.54,0.5,0.48,0.56][chapterIndex]??0.5;return Math.random()<p?"big":"small";}
 function startRound(){
  const m=ensureMatch(),kind=chapter().kind,level=g.chapter+1;
  if(kind!=="poker"&&!m.playerChoice){notify("請先選擇本回合預測。");return;}
@@ -241,11 +232,11 @@ function startRound(){
  g.chips-=g.bet;m.stake=g.bet;
  if(kind==="poker"){
   const deck=shuffleDeck(createDeck());m.playerHand=deck.slice(0,5);m.opponentHand=deck.slice(5,10);m.deck=deck.slice(10);
-  m.playerDiscard=[];m.aiDiscard=chooseAiDiscards(m.opponentHand,level);m.playerChoice=null;m.opponentChoice=null;m.baseCard=null;m.revealCard=null;m.dice=null;
+  m.playerDiscard=[];m.aiDiscard=chooseAiDiscards(m.opponentHand,g.chapter);m.playerChoice=null;m.opponentChoice=null;m.baseCard=null;m.revealCard=null;m.dice=null;
   m.phase="pokerDraw";m.resultText="已發出雙方五張手牌。選擇你要更換的牌，關主也已完成自己的換牌判斷。";$("tableLog").textContent=m.resultText;renderAll();return;
  }
  if(kind==="higher"){
-  const deck=shuffleDeck(createDeck()),base=deck[0],reveal=deck[1],ai=aiHigherChoice(base,level);
+  const deck=shuffleDeck(createDeck()),base=deck[0],reveal=deck[1],ai=aiHigherChoice(base,g.chapter);
   const side=reveal.r>base.r?"high":reveal.r<base.r?"low":"tie";
   const playerCorrect=side!=="tie"&&m.playerChoice===side,aiCorrect=side!=="tie"&&ai===side;
   m.baseCard=base;m.revealCard=reveal;m.opponentChoice=ai;m.dice=null;
@@ -254,12 +245,13 @@ function startRound(){
   const text="基準牌 "+cardText(base)+"，翻牌 "+cardText(reveal)+"；你預測「"+(m.playerChoice==="high"?"更高":"更低")+"」，"+chapter().opponent+" 預測「"+(ai==="high"?"更高":"更低")+"」。"+(side==="tie"?"同點平局。":winner===null?(playerCorrect?"雙方預測皆正確，挑戰賽比分平局。":"雙方預測皆未命中，挑戰賽比分平局。"):winner==="player"?"你的預測正確，本回合勝出。":"關主預測正確，本回合失利。");
   resolveRound(winner,text,betOutcome);return;
  }
- const ai=aiSicboChoice(),dice=[1,2,3].map(()=>1+Math.floor(Math.random()*6)),sum=dice.reduce((a,b)=>a+b,0),triple=dice.every(n=>n===dice[0]),side=sum>=11?"big":"small";
+ const ai=aiSicboChoice(g.chapter),dice=[1,2,3].map(()=>1+Math.floor(Math.random()*6)),sum=dice.reduce((a,b)=>a+b,0),triple=dice.every(n=>n===dice[0]),side=sum>=11?"big":"small";
  const playerCorrect=!triple&&m.playerChoice===side,aiCorrect=!triple&&ai===side;
  m.opponentChoice=ai;m.dice=dice;m.baseCard=null;m.revealCard=null;
  const winner=triple||playerCorrect===aiCorrect?null:playerCorrect?"player":"opponent";
- const betOutcome=triple?"push":playerCorrect?"win":"lose";
+ const betOutcome=triple?"lose":playerCorrect?"win":"lose";
  const text="三顆骰子："+dice.join("、")+"，總和 "+sum+"（"+(triple?"圍骰":side==="big"?"大":"小")+"）；你押「"+(m.playerChoice==="big"?"大":"小")+"」，"+chapter().opponent+" 押「"+(ai==="big"?"大":"小")+"」。"+(triple?"圍骰，本回合平局。":winner===null?(playerCorrect?"雙方預測皆正確，挑戰賽比分平局。":"雙方預測皆未命中，挑戰賽比分平局。"):winner==="player"?"你的預測正確，本回合勝出。":"關主預測正確，本回合失利。");
+ if(triple){resolveRound(null,text,betOutcome);return;}
  resolveRound(winner,text,betOutcome);
 }
 function confirmPoker(){
@@ -296,7 +288,7 @@ function continueMatch(){
 }
 function restartChallenge(){
  const m=ensureMatch();if(m.phase!=="matchOver"||m.opponentWins<3)return;
- g.chapterWins=0;g.match=createMatch(g.chapter);lastOutcome="等待下注";$("tableLog").textContent="新的關主挑戰開始。";renderAll();notify("已重新開始本章關主挑戰。");
+ g.chapterWins=0;matchState=createMatch(g.chapter);lastOutcome="等待下注";$("tableLog").textContent="新的關主挑戰開始。";renderAll();notify("已重新開始本章關主挑戰。");
 }
 function handleMainAction(){
  const m=ensureMatch();if(m.phase==="ready")startRound();else if(m.phase==="pokerDraw")confirmPoker();else if(m.phase==="result")continueMatch();else if(m.phase==="matchOver"&&m.opponentWins>=3)restartChallenge();
@@ -308,18 +300,18 @@ document.querySelectorAll("[data-bet]").forEach(b=>b.onclick=()=>{g.bet=Number(b
 document.querySelectorAll(".game-choice").forEach(b=>b.onclick=()=>{selectedGame=chapter().kind;renderTable();});
 $("placeBet").onclick=handleMainAction;
 $("rescueChips").onclick=()=>{if(g.rescueUsed||g.chips>=10)return;g.chips+=100;g.rescueUsed=true;addJournal("王牌籌碼見底時，沈行舟獲得一次旅途援助：100 枚王牌籌碼。");renderAll();notify("獲得 100 枚免費旅途援助王牌籌碼！");};
-$("storyPlay").onclick=()=>{if(g.match.phase==="matchOver"&&g.match.opponentWins>=3)restartChallenge();selectedGame=chapter().kind;tab("table");renderTable();$("tableLog").textContent="對手："+chapter().opponent+"。本章採五局三勝，先取得三個有效回合勝利者獲勝。";};
+$("storyPlay").onclick=()=>{if(matchState.phase==="matchOver"&&matchState.opponentWins>=3)restartChallenge();selectedGame=chapter().kind;tab("table");renderTable();$("tableLog").textContent="對手："+chapter().opponent+"。本章採五局三勝，先取得三個有效回合勝利者獲勝。";};
 $("storyAdvance").onclick=()=>{
  if(g.chapterWins<3||g.finished)return;
  const c=chapter();g.chips+=c.reward;g.fame+=20;addJournal("完成「"+c.name+"」，獲得 "+c.reward+" 枚王牌籌碼與 20 點名聲。");
  if(g.chapter===4){g.finished=true;addJournal("沈行舟贏得世界牌王總決賽。第一季故事完結，新的城市巡迴仍有可能。");$("storyText").textContent="沈行舟完成世界巡迴賽，從台北一路走到拉斯維加斯。他將父親留下的黑桃 A 放進外套口袋，知道真正的牌王不是每一局都贏，而是懂得為自己的每一次選擇負責。世界牌桌仍然等著下一位挑戰者。";}
- else{g.chapter++;g.chapterWins=0;g.rescueUsed=false;g.match=createMatch(g.chapter);addJournal("沈行舟啟程前往"+chapter().place+"。新的牌手正在等待。");}
+ else{g.chapter++;g.chapterWins=0;g.rescueUsed=false;matchState=createMatch(g.chapter);addJournal("沈行舟啟程前往"+chapter().place+"。新的牌手正在等待。");}
  renderAll();tab("story");notify("章節完成！獲得 "+c.reward+" 枚王牌籌碼。");
 };
 $("savePlayerName").onclick=()=>{const raw=String($("playerNameInput").value??"").trim();if(!raw){notify("主角姓名不可空白。");$("playerNameInput").value=g.playerName;return;}g.playerName=normalizePlayerName(raw);renderAll();notify("主角姓名已儲存。");};
 $("exportSave").onclick=()=>{const blob=new Blob([JSON.stringify(g,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="one-wager-modern-save.json";a.click();URL.revokeObjectURL(url);notify("存檔已匯出。");};
 $("importSave").onclick=()=>$("saveFile").click();
 $("saveFile").onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{const s=JSON.parse(await f.text());if(typeof s.chips!=="number"||!Array.isArray(s.journal))throw new Error("bad save");g=normalizeStoredState(s);renderAll();notify("存檔匯入成功。");}catch(err){notify("無法匯入，檔案格式不正確。");}e.target.value="";};
-$("resetSave").onclick=()=>{if(!confirm("確定重新開始《一擲闖天下：王牌賭途》故事？請先匯出存檔備份。"))return;const savedName=g.playerName;g=fresh();g.playerName=savedName;g.match=createMatch(0);selectedGame="poker";lastOutcome="等待下注";$("gameResult").textContent="等待下注";$("tableLog").textContent="新的旅程開始了。";renderAll();tab("story");notify("新的旅程開始！");};
+$("resetSave").onclick=()=>{if(!confirm("確定重新開始《一擲闖天下：王牌賭途》故事？請先匯出存檔備份。"))return;const savedName=g.playerName;g=fresh();g.playerName=savedName;matchState=createMatch(0);selectedGame="poker";lastOutcome="等待下注";$("gameResult").textContent="等待下注";$("tableLog").textContent="新的旅程開始了。";renderAll();tab("story");notify("新的旅程開始！");};
 renderAll();
 </script></body></html>
