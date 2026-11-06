@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#17152b">
+<title>Chibi RPG Adventure</title>
+<style>
+:root{color-scheme:dark;--bg:#11111d;--panel:#1d1b31;--panel2:#282440;--ink:#f7f2ff;--muted:#bdb4d4;--pink:#f58cc7;--gold:#ffd47a;--cyan:#8ee8ec;--line:#494263}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0%,#393052 0,transparent 32%),radial-gradient(circle at 100% 15%,#293c54 0,transparent 28%),var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px clamp(16px,4vw,48px);border-bottom:1px solid #ffffff18;background:#11111dbb;position:sticky;top:0;backdrop-filter:blur(12px);z-index:2}
+.brand{font-weight:900;letter-spacing:.04em;font-size:1.1rem}.brand span{color:var(--pink)}.pill{border:1px solid var(--line);padding:6px 12px;border-radius:999px;color:var(--muted);font-size:.8rem}
+main{max-width:1180px;margin:auto;padding:28px 18px 56px}.hero{display:grid;grid-template-columns:1.3fr .7fr;gap:18px;margin-bottom:20px}
+.panel{background:linear-gradient(145deg,#25213b,#191829);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 16px 42px #0003}
+h1{font-size:clamp(2rem,5vw,3.6rem);line-height:1.05;margin:8px 0 14px}.lead{color:var(--muted);max-width:58ch}.eyebrow{color:var(--pink);font-weight:800;letter-spacing:.15em;font-size:.76rem;text-transform:uppercase}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}.stat{background:#ffffff08;border-radius:14px;padding:12px}.stat b{display:block;font-size:1.3rem}.stat small{color:var(--muted)}
+.hero-art{display:grid;place-items:center;text-align:center;min-height:255px;background:radial-gradient(circle,#6c4778 0,#332747 42%,#1b192d 73%);overflow:hidden}.hero-art .mascot{font-size:7rem;filter:drop-shadow(0 12px 14px #0008);animation:bob 3s ease-in-out infinite}.hero-art p{margin:0;color:#f5dff1;font-weight:700}
+@keyframes bob{50%{transform:translateY(-10px)}}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.tab,button{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:#282440;color:var(--ink);cursor:pointer;font:inherit;font-weight:700}.tab.active,button.primary{background:linear-gradient(120deg,#d85fae,#8c67dc);border-color:transparent}.tab:hover,button:hover{filter:brightness(1.13)}
+.view{display:none}.view.active{display:block}.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}.section-head h2{margin:0}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}.unit{background:#ffffff08;border:1px solid var(--line);border-radius:18px;padding:16px}.unit-top{display:flex;justify-content:space-between;align-items:center}.portrait{font-size:3.5rem;text-align:center;padding:12px;background:radial-gradient(circle,#51416c,#29243e);border-radius:14px;margin:12px 0}.rarity{font-size:.72rem;font-weight:900;padding:4px 9px;border-radius:99px;background:#777;color:white}.rarity.SSR{background:#b27a24}.rarity.SR{background:#7154bd}.rarity.R{background:#477e9e}.bar{height:8px;background:#ffffff18;border-radius:99px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--pink),var(--gold));border-radius:99px}.muted{color:var(--muted);font-size:.9rem}.rowline{display:flex;justify-content:space-between;gap:12px;font-size:.9rem}
+.battlebox{display:grid;grid-template-columns:1fr 1fr;gap:14px}.arena{min-height:210px;border-radius:18px;border:1px solid var(--line);padding:18px;background:linear-gradient(135deg,#27354b,#342343);display:flex;flex-direction:column;justify-content:space-between}.enemy{background:linear-gradient(135deg,#4b2b47,#28213c)}.fighters{font-size:3.2rem;letter-spacing:.2em;text-align:center}.log{background:#0d0c16;border:1px solid var(--line);border-radius:14px;padding:14px;min-height:90px;color:#d9d2e8;margin-top:14px;white-space:pre-line}
+.notice{border-left:3px solid var(--cyan);padding:10px 14px;background:#8ee8ec12;color:#d9f8f7;border-radius:0 12px 12px 0;margin-top:16px}
+footer{text-align:center;color:var(--muted);padding:24px;font-size:.82rem}
+@media(max-width:760px){.hero{grid-template-columns:1fr}.hero-art{min-height:190px}.battlebox{grid-template-columns:1fr}header{align-items:flex-start;flex-direction:column}.stats{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<header><div class="brand">✦ <span>CHIBI</span> RPG ADVENTURE</div><div class="pill">開發原型 · 版本 0.1.0</div></header>
+<main>
+<section class="hero">
+ <div class="panel">
+  <div class="eyebrow">A tiny world, a big adventure</div>
+  <h1>萌系冒險，<br>從這裡啟程。</h1>
+  <p class="lead">收集可愛夥伴、組成冒險隊伍，挑戰怪物與首領。這是全新 RPG 專案的第一個可操作原型，正式名稱仍可調整。</p>
+  <div class="stats"><div class="stat"><b id="gold">120</b><small>✦ 金幣</small></div><div class="stat"><b id="level">Lv. 1</b><small>冒險者等級</small></div><div class="stat"><b id="wins">0</b><small>勝利場次</small></div></div>
+ </div>
+ <div class="panel hero-art"><div><div class="mascot">🐰</div><p>準備好出發了嗎？</p></div></div>
+</section>
+<nav class="tabs" aria-label="遊戲選單">
+ <button class="tab active" data-tab="home">冒險首頁</button><button class="tab" data-tab="team">夥伴隊伍</button><button class="tab" data-tab="battle">討伐戰鬥</button><button class="tab" data-tab="recruit">召集夥伴</button>
+</nav>
+<section class="view active" id="home"><div class="panel"><div class="section-head"><h2>🌸 冒險公告</h2><span class="pill">新手旅程</span></div><p>歡迎來到全新的迷你冒險世界！先認識你的夥伴，再前往討伐區挑戰史萊姆。</p><div class="cards"><div class="unit"><div class="portrait">🏕️</div><b>起始營地</b><p class="muted">整理隊伍、查看冒險狀態。</p></div><div class="unit"><div class="portrait">🌲</div><b>翠綠森林</b><p class="muted">適合新手的第一個討伐區。</p></div><div class="unit"><div class="portrait">🏰</div><b>遠古遺跡</b><p class="muted">後續版本開放首領挑戰。</p></div></div><div class="notice">目前是核心玩法原型：隊伍、戰鬥、金幣與招募會在本機瀏覽器中運作。</div></div></section>
+<section class="view" id="team"><div class="panel"><div class="section-head"><h2>💖 我的夥伴</h2><span class="muted">隊伍最多 3 位</span></div><div class="cards" id="teamCards"></div></div></section>
+<section class="view" id="battle"><div class="panel"><div class="section-head"><h2>⚔️ 翠綠森林・討伐</h2><span class="pill">普通難度</span></div><div class="battlebox"><div class="arena"><div><b>冒險者隊伍</b><div class="fighters" id="partyArt">🐰 🌼 🐱</div></div><div class="muted">團隊戰力：<b id="power">32</b></div></div><div class="arena enemy"><div><b>野生魔物</b><div class="fighters" id="enemyArt">🟢</div></div><div class="rowline"><span>森林史萊姆</span><b id="enemyHp">HP 40 / 40</b></div><div class="bar"><i id="enemyBar" style="width:100%"></i></div></div></div><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="primary" id="attack">發動討伐</button><button id="heal">隊伍休整（20 金幣）</button></div><div class="log" id="battleLog">森林裡傳來輕微的跳動聲……似乎有史萊姆出現了。</div></div></section>
+<section class="view" id="recruit"><div class="panel"><div class="section-head"><h2>🎀 夥伴召集</h2><span class="pill">單次召集 50 金幣</span></div><p class="muted">試著召集新的夥伴加入冒險。此原型使用固定的示範角色池。</p><div class="cards"><div class="unit"><div class="portrait">✨</div><b>森林祈願</b><p class="muted">可能獲得 R、SR、SSR 夥伴。</p><button class="primary" id="summon">召集一次 · 50 金幣</button></div><div class="unit"><div class="portrait">🎁</div><b>冒險補給</b><p class="muted">首次體驗可透過討伐取得金幣。</p></div></div><div class="log" id="recruitLog">願星光為你帶來新的旅伴。</div></div></section>
+</main><footer>CHIBI RPG ADVENTURE · Prototype 0.1.0 · 遊戲名稱可於後續版本調整</footer>
+<script>
+const roster=[
+{id:1,name:"莓莓",emoji:"🐰",rarity:"SR",role:"守護者",hp:130,atk:12,level:1},
+{id:2,name:"小花",emoji:"🌼",rarity:"R",role:"治癒師",hp:90,atk:8,level:1},
+{id:3,name:"鈴鈴",emoji:"🐱",rarity:"SR",role:"魔法使",hp:85,atk:15,level:1},
+{id:4,name:"星羽",emoji:"🦊",rarity:"SSR",role:"遊俠",hp:100,atk:20,level:1},
+{id:5,name:"棉糖",emoji:"🐻",rarity:"R",role:"鬥士",hp:115,atk:10,level:1},
+{id:6,name:"露露",emoji:"🐼",rarity:"SR",role:"舞者",hp:95,atk:14,level:1}
+];
+let team=[1,2,3], gold=120,wins=0,enemyHp=40,enemyMax=40;
+const byId=id=>roster.find(x=>x.id===id);
+function renderTeam(){document.getElementById("teamCards").innerHTML=roster.map(c=>'<article class="unit"><div class="unit-top"><span class="rarity '+c.rarity+'">'+c.rarity+'</span><span class="muted">Lv.'+c.level+'</span></div><div class="portrait">'+c.emoji+'</div><b>'+c.name+'</b><div class="muted">'+c.role+'</div><div class="rowline"><span>HP '+c.hp+'</span><span>ATK '+c.atk+'</span></div><div class="bar"><i style="width:'+(Math.min(100,c.hp/1.4))+'%"></i></div><button data-id="'+c.id+'">'+(team.includes(c.id)?"已在隊伍":"加入隊伍")+'</button></article>').join("");document.querySelectorAll("#teamCards button").forEach(b=>b.onclick=()=>{const id=+b.dataset.id;if(team.includes(id)){if(team.length===1)return;team=team.filter(x=>x!==id)}else if(team.length<3)team.push(id);else{document.getElementById("battleLog").textContent="隊伍已滿，請先移除一位夥伴。"}renderTeam();renderParty()})}
+function renderParty(){document.getElementById("partyArt").textContent=team.map(id=>byId(id).emoji).join(" ");document.getElementById("power").textContent=team.reduce((s,id)=>s+byId(id).atk,0)}
+function update(){document.getElementById("gold").textContent=gold;document.getElementById("wins").textContent=wins;document.getElementById("level").textContent="Lv. "+(1+Math.floor(wins/3));renderParty()}
+function setLog(s){document.getElementById("battleLog").textContent=s}
+function enemy(){enemyHp=enemyMax=40+Math.floor(wins/2)*10;document.getElementById("enemyHp").textContent="HP "+enemyHp+" / "+enemyMax;document.getElementById("enemyBar").style.width="100%"}
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===t));document.querySelectorAll(".view").forEach(x=>x.classList.toggle("active",x.id===t.dataset.tab))});
+document.getElementById("attack").onclick=()=>{let damage=team.reduce((s,id)=>s+byId(id).atk,0)+Math.floor(Math.random()*8);enemyHp=Math.max(0,enemyHp-damage);document.getElementById("enemyHp").textContent="HP "+enemyHp+" / "+enemyMax;document.getElementById("enemyBar").style.width=(enemyHp/enemyMax*100)+"%";if(enemyHp===0){wins++;gold+=35;setLog("✨ 討伐成功！隊伍造成 "+damage+" 點傷害。獲得 35 金幣！");enemy();update()}else{setLog("隊伍發動攻擊，造成 "+damage+" 點傷害。史萊姆剩餘 "+enemyHp+" HP。輪到魔物反擊了！")}};
+document.getElementById("heal").onclick=()=>{if(gold<20){setLog("金幣不足，先去討伐賺取獎勵吧。");return}gold-=20;setLog("大家休息了一會兒，狀態恢復了！");update()};
+document.getElementById("summon").onclick=()=>{if(gold<50){document.getElementById("recruitLog").textContent="金幣不足！完成討伐可獲得金幣。";return}gold-=50;let pool=roster.filter(c=>!team.includes(c.id));let pick=pool[Math.floor(Math.random()*pool.length)]||roster[Math.floor(Math.random()*roster.length)];document.getElementById("recruitLog").textContent="🌟 召集成功！你遇見了 "+pick.emoji+" "+pick.name+"（"+pick.rarity+"・"+pick.role+"）。可以到夥伴隊伍將她編入隊伍。";update();renderTeam()};
+renderTeam();update();
+</script></body></html>
