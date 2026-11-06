@@ -247,8 +247,7 @@ input::placeholder,textarea::placeholder{color:#8194aa}
   border-radius:0 12px 12px 0;
   background:#16312f;
   color:#d5ebe7;
-  line-height:1.7;
-}
+  line-height:1.7;}
 .name-editor{gap:10px}
 .name-editor input{min-width:0;max-width:100%}
 .toast{box-shadow:0 8px 24px #0006}
@@ -298,6 +297,10 @@ footer{padding:28px 16px;color:#91a3b7;line-height:1.7}
   .wallet span{font-size:.82rem;padding:6px 7px}
   .playing-card{min-width:42px}
 }
+
+/* Zhou Ming-Che portrait: encyclopedia thumbnail and detail display */
+.character-portrait-thumb{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;object-position:center 30%;border-radius:10px;border:1px solid #52677c;background:#0c1725}
+.character-portrait-detail{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;object-position:center 30%;border-radius:12px;border:1px solid #52677c;background:#0c1725}
 
 /* Approved character encyclopedia */
 .nav{grid-template-columns:repeat(4,minmax(0,1fr));grid-template-areas:"story table entertainment world" "journal characters settings ."}
@@ -497,8 +500,7 @@ function completeNpcFameEvent(){
  npcEventReturnFocus=null;checkNpcFameEvent();
 }
 function personalize(text){return String(text).replaceAll("{{player}}",g.playerName).replaceAll("沈行舟",g.playerName);}
-function addJournal(text){g.journal.unshift(String(text).replaceAll(g.playerName,"{{player}}").replaceAll("沈行舟","{{player}}"));g.journal=g.journal.slice(0,40);}
-function renderHeader(){$("heroIntro").textContent=personalize("現代都市裡，沈行舟靠著撲克牌與骰寶牌技維生。從台北的私人牌局出發，他一路挑戰各大城市的高手、俱樂部與國際賽事，目標是站上世界牌王之巔。這個世界沒有命運的預言，只有每一次判斷、膽識與選擇。");$("tablePlayerName").textContent=g.playerName;$("chips").textContent=g.chips;$("fame").textContent=g.fame;$("placeShort").textContent=chapter().place;$("wins").textContent=g.wins;$("losses").textContent=g.losses;$("chapter").textContent=g.finished?"完結":(g.chapter+1)+"/5";}
+function addJournal(text){g.journal.unshift(String(text).replaceAll(g.playerName,"{{player}}").replaceAll("沈行舟","{{player}}"));g.journal=g.journal.slice(0,40);}function renderHeader(){$("heroIntro").textContent=personalize("現代都市裡，沈行舟靠著撲克牌與骰寶牌技維生。從台北的私人牌局出發，他一路挑戰各大城市的高手、俱樂部與國際賽事，目標是站上世界牌王之巔。這個世界沒有命運的預言，只有每一次判斷、膽識與選擇。");$("tablePlayerName").textContent=g.playerName;$("chips").textContent=g.chips;$("fame").textContent=g.fame;$("placeShort").textContent=chapter().place;$("wins").textContent=g.wins;$("losses").textContent=g.losses;$("chapter").textContent=g.finished?"完結":(g.chapter+1)+"/5";}
 function renderStory(){
  const c=chapter(),m=ensureMatch();
  $("chapterTag").textContent=g.finished?"世界巡迴・完賽":"第 "+(g.chapter+1)+" 站・"+c.place;
@@ -747,8 +749,7 @@ function renderEntertainment(){
 }
 function entPlay(){
  const game=entState.game,stake=entState.bet;
- if(entState.phase==="draw"){const pd=new Set(entState.discard),aiD=new Set(chooseAiDiscards(entState.aiHand,g.chapter)),draws=entState.deck.splice(0,pd.size+aiD.size);let k=0;entState.hand=entState.hand.map((c,i)=>pd.has(i)?draws[k++]:c);entState.aiHand=entState.aiHand.map((c,i)=>aiD.has(i)?draws[k++]:c);const names=["高牌","一對","兩對","三條","順子","同花","葫蘆","四條","同花順"],a=pokerScore(entState.hand),b=pokerScore(entState.aiHand),cmp=compareScores(a,b);entState.result="你："+names[a[0]]+"；AI："+names[b[0]]+"。"+(cmp>0?"你贏得自由牌局。":cmp<0?"AI 贏得自由牌局。":"牌型相同，平局。");entState.phase="result";if(cmp===0){g.chips+=stake;entState.result+=" 退還下注 "+stake+" 枚。";}else if(cmp>0){g.chips+=stake*2;entState.result+=" 淨贏 "+stake+" 枚。";}else entState.result+=" 扣除下注 "+stake+" 枚。";renderHeader();renderEntertainment();save();return;}
- if(entState.phase==="result"){entState.phase="ready";entState.hand=[];entState.aiHand=[];entState.discard=[];entState.choice=null;entState.result="準備開始下一局。";renderEntertainment();return;}
+ if(entState.phase==="draw"){const pd=new Set(entState.discard),aiD=new Set(chooseAiDiscards(entState.aiHand,g.chapter)),draws=entState.deck.splice(0,pd.size+aiD.size);let k=0;entState.hand=entState.hand.map((c,i)=>pd.has(i)?draws[k++]:c);entState.aiHand=entState.aiHand.map((c,i)=>aiD.has(i)?draws[k++]:c);const names=["高牌","一對","兩對","三條","順子","同花","葫蘆","四條","同花順"],a=pokerScore(entState.hand),b=pokerScore(entState.aiHand),cmp=compareScores(a,b);entState.result="你："+names[a[0]]+"；AI："+names[b[0]]+"。"+(cmp>0?"你贏得自由牌局。":cmp<0?"AI 贏得自由牌局。":"牌型相同，平局。");entState.phase="result";if(cmp===0){g.chips+=stake;entState.result+=" 退還下注 "+stake+" 枚。";}else if(cmp>0){g.chips+=stake*2;entState.result+=" 淨贏 "+stake+" 枚。";}else entState.result+=" 扣除下注 "+stake+" 枚。";renderHeader();renderEntertainment();save();return;} if(entState.phase==="result"){entState.phase="ready";entState.hand=[];entState.aiHand=[];entState.discard=[];entState.choice=null;entState.result="準備開始下一局。";renderEntertainment();return;}
  if(![10,25,50,100].includes(stake)||g.chips<stake){notify("王牌籌碼不足，或下注額無效。");return;}
  if(game!=="poker"&&!entState.choice){notify("請先選擇預測項目。");return;}
  g.chips-=stake;entState.phase="playing";
@@ -777,14 +778,14 @@ function renderCharacterBook(){
  const host=$("characterList");
  host.innerHTML=visible.map(x=>{
   const open=g.chapter>=x.chapter;
-  return '<button type="button" class="character-card '+(!open?"is-locked ":"")+(selectedCharacterId===x.id?"selected":"")+'" data-character-id="'+x.id+'" aria-pressed="'+(selectedCharacterId===x.id)+'"><div class="character-silhouette"><span>'+(open?"真人寫實立繪待建立":"尚未解鎖")+'</span></div><h3>'+(open?escapeHtml(x.name):"尚未解鎖人物")+'</h3><p>'+(open?escapeHtml(x.city+"｜"+x.role):"完成對應章節後解鎖")+'</p></button>';
+  return '<button type="button" class="character-card '+(!open?"is-locked ":"")+(selectedCharacterId===x.id?"selected":"")+'" data-character-id="'+x.id+'" aria-pressed="'+(selectedCharacterId===x.id)+'">'+(open&&x.id==="gatekeeper-0"?'<img class="character-portrait-thumb" src="人物圖片/周明哲.png" alt="周明哲人物肖像">':'<div class="character-silhouette"><span>'+(open?"真人寫實立繪待建立":"尚未解鎖")+'</span></div>')+'<h3>'+(open?escapeHtml(x.name):"尚未解鎖人物")+'</h3><p>'+(open?escapeHtml(x.city+"｜"+x.role):"完成對應章節後解鎖")+'</p></button>';
  }).join("")||'<p class="muted">此分類目前沒有已建立的人物資料。</p>';
  let chosen=CHARACTER_ROSTER.find(x=>x.id===selectedCharacterId);
  if(!chosen||g.chapter<chosen.chapter)chosen=unlocked[0]||null;
  if(chosen)selectedCharacterId=chosen.id;
  const detail=$("characterDetail");
  if(!chosen){detail.innerHTML='<h3>尚無已解鎖人物</h3>';return;}
- detail.innerHTML='<div class="character-silhouette large"><span>真人寫實立繪待建立</span></div><span class="tag">'+"已解鎖人物"+'</span><h3>'+escapeHtml(chosen.name)+'</h3><p class="muted">'+escapeHtml(chosen.role+"｜"+chosen.city)+'</p><p>'+escapeHtml(chosen.bio)+'</p><p><b>人物稱號：</b>'+escapeHtml(chosen.title)+'</p><p><b>專屬牌技：</b>'+escapeHtml(chosen.skill)+'</p><p class="tiny">'+("首次進入第 "+(chosen.chapter+1)+" 站時解鎖。")+'</p>';
+ detail.innerHTML=(chosen.id==="gatekeeper-0"?'<img class="character-portrait-detail" src="人物圖片/周明哲.png" alt="周明哲人物肖像">':'<div class="character-silhouette large"><span>真人寫實立繪待建立</span></div>')+'<span class="tag">'+"已解鎖人物"+'</span><h3>'+escapeHtml(chosen.name)+'</h3><p class="muted">'+escapeHtml(chosen.role+"｜"+chosen.city)+'</p><p>'+escapeHtml(chosen.bio)+'</p><p><b>人物稱號：</b>'+escapeHtml(chosen.title)+'</p><p><b>專屬牌技：</b>'+escapeHtml(chosen.skill)+'</p><p class="tiny">'+("首次進入第 "+(chosen.chapter+1)+" 站時解鎖。")+'</p>';
  host.querySelectorAll("[data-character-id]").forEach(button=>button.onclick=()=>{selectedCharacterId=button.dataset.characterId;renderCharacterBook();});
  if(search&&!search.dataset.bound){search.addEventListener("input",()=>{characterQuery=search.value;renderCharacterBook();});search.dataset.bound="1";}
  if(filter&&!filter.dataset.bound){filter.addEventListener("change",()=>{characterFilter=filter.value;renderCharacterBook();});filter.dataset.bound="1";}
