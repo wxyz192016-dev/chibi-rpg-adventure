@@ -174,7 +174,7 @@ function renderTable(){
  const c=chapter(),m=g.match,active=roundState.stage==="discard"||roundState.stage==="choose"||roundState.stage==="revealing";
  $("tableOpponent").textContent=c.place+"・"+c.opponent;$("tableLocation").textContent=c.place+"牌桌";
  const poker=c.kind==="poker",higher=c.kind==="higher",sicbo=c.kind==="sicbo";
- $("gameSymbol").textContent=poker?"🂡":higher?"♠️":"🎲";
+ $("gameSymbol").textContent=poker?"🂡":higher?"♠️":"🎲";$("gameSymbol").classList.toggle("rolling",sicbo&&roundState.stage==="revealing");
  $("gamePrompt").textContent=poker?"五張換牌撲克：選擇保留或更換手牌。":higher?"同一張翻牌：玩家與關主各自預測更高或更低。":"三顆骰子：玩家與關主各自預測大或小。";
  $("playerMatchWins").textContent=m.playerWins;$("dealerMatchWins").textContent=m.dealerWins;$("effectiveRounds").textContent=m.effectiveRounds;
  $("matchStatus").textContent=m.completed?(m.result==="player"?"挑戰賽勝利":"挑戰賽落敗"):(m.effectiveRounds?"進行中":"尚未開始");
@@ -201,7 +201,7 @@ function renderTable(){
  $("lastRoll").textContent=roundState.stage==="discard"?"關主只根據自己的五張手牌決定換牌，尚未亮牌。":roundState.stage==="choose"?"關主已根據公開資訊鎖定預測，尚未揭曉。":lastOutcome;
  $("gameRules").textContent=sicbo?"三顆骰子總和 11–17 為大、4–10 為小；三顆相同為圍骰。圍骰時大小投注失去籌碼，但挑戰賽不計勝場。":higher?"A 固定為最大牌；雙方對同一張揭曉牌預測。相同點數或雙方正確率相同則平局，退還下注。":"標準 52 張牌、不含鬼牌；雙方各五張，可更換零至五張。牌型由高牌至同花順；皇家同花順以最高同花順呈現。";
  const btn=$("placeBet");
- if(m.completed){btn.textContent="挑戰賽已結束";btn.disabled=true;}
+ if(m.completed&&m.result==="player"){btn.textContent="挑戰賽勝利";btn.disabled=true;}else if(m.completed&&m.result==="dealer"){btn.textContent="重新挑戰關主";btn.disabled=g.chips<g.bet||g.chips<=0;}
  else if(roundState.stage==="discard"){btn.textContent="確認換牌・亮牌";btn.disabled=false;}
  else if(roundState.stage==="choose"){btn.textContent="鎖定預測・揭曉結果";btn.disabled=!roundState.playerChoice;}
  else if(roundState.stage==="revealing"){btn.textContent="結果揭曉中";btn.disabled=true;}
@@ -250,7 +250,7 @@ function resolvePredictionV1(){
  settleV1("tie",detail+(pc?"雙方皆正確":"雙方皆錯誤")+"，本回合平局。","refund");
 }
 function handleRoundActionV1(){
- if(g.match.completed)return;
+ if(g.match.completed){if(g.match.result==="dealer"&&g.chips>=g.bet){g.match=freshMatch();roundState={stage:"idle",playerChoice:null,discardIndices:[],stake:0};lastOutcome="重新挑戰開始";}else return;}
  if(roundState.stage==="idle"||roundState.stage==="resolved"){startRoundV1();return;}
  if(roundState.stage==="discard"){resolvePokerV1();return;}
  if(roundState.stage==="choose"){if(!roundState.playerChoice){notify("請先選擇你的預測。");return;}roundState.stage="revealing";renderTable();setTimeout(resolvePredictionV1,650);}
