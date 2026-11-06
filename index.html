@@ -68,7 +68,7 @@ function normalizePlayerName(value){
  return cleaned||"沈行舟";
 }
 function normalizeStoredState(stored){
- const state={...fresh(),...stored};state.playerName=normalizePlayerName(stored.playerName);
+ const state={...fresh(),...stored};delete state.battleVersion;delete state.match;state.playerName=normalizePlayerName(stored.playerName);
  state.chapter=Math.max(0,Math.min(4,Number(stored.chapter)||0));state.chips=Math.max(0,Number(stored.chips)||0);
  state.bet=[10,25,50,100].includes(Number(stored.bet))?Number(stored.bet):25;
  state.journal=Array.isArray(stored.journal)?stored.journal.map(x=>String(x).replaceAll("沈行舟","{{player}}")):fresh().journal;
@@ -226,7 +226,7 @@ function aiHigherChoice(base,chapterIndex){
 }
 function aiSicboChoice(chapterIndex){const p=[0.52,0.54,0.5,0.48,0.56][chapterIndex]??0.5;return Math.random()<p?"big":"small";}
 function startRound(){
- const m=ensureMatch(),kind=chapter().kind,level=g.chapter+1;
+ const m=ensureMatch(),kind=chapter().kind;
  if(kind!=="poker"&&!m.playerChoice){notify("請先選擇本回合預測。");return;}
  if(g.chips<g.bet){notify("王牌籌碼不足，請降低下注或使用既有旅途援助。");return;}
  g.chips-=g.bet;m.stake=g.bet;
