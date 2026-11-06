@@ -306,10 +306,10 @@ function handleMainAction(){
 
 
 
-function entSetGame(game){entState.game=game;entState.choice=null;entState.phase="ready";entState.hand=[];entState.aiHand=[];entState.deck=[];entState.discard=[];entState.result="已切換娛樂玩法。";renderEntertainment();}
+function entSetGame(game){entState.game=game;entState.choice=game==="sum"?10:game==="number"?"yes":null;entState.phase="ready";entState.hand=[];entState.aiHand=[];entState.deck=[];entState.discard=[];entState.result="已切換娛樂玩法。";renderEntertainment();}
 function renderEntertainment(){
- document.querySelectorAll("[data-ent-game]").forEach(b=>b.classList.toggle("active",b.dataset.entGame===entState.game));
- document.querySelectorAll("[data-ent-bet]").forEach(b=>b.classList.toggle("active",Number(b.dataset.entBet)===entState.bet));
+ document.querySelectorAll("[data-ent-game]").forEach(b=>{b.classList.toggle("active",b.dataset.entGame===entState.game);b.disabled=entState.phase==="draw"||entState.phase==="playing";});
+ document.querySelectorAll("[data-ent-bet]").forEach(b=>{b.classList.toggle("active",Number(b.dataset.entBet)===entState.bet);b.disabled=entState.phase==="draw"||entState.phase==="playing";});
  $("entBetAmount").textContent=entState.bet;const game=entState.game;let choices="",extra="",rules="";
  if(game==="poker"){choices='<span class="battle-hint">發牌後選擇要更換的手牌，最多五張。</span>';rules="標準 52 張牌、不含鬼牌。與 AI 進行一手五張牌換牌比牌；平手退還下注。";}
  else if(game==="bigsmall"){choices='<button data-ent-choice="small" class="'+(entState.choice==="small"?"active":"")+'">押小 4–10</button><button data-ent-choice="big" class="'+(entState.choice==="big"?"active":"")+'">押大 11–17</button>';rules="三顆骰子總和 4–10 為小、11–17 為大；三顆相同為圍骰，本玩法視為下注未中。猜中淨得 1 倍下注。";}
