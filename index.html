@@ -86,11 +86,11 @@ const SAVE_KEY="one-wager-modern-save-v1";
 const CHAPTERS=[
 {place:"台北",name:"黑桃 A 的起點",opponent:"退役牌手老周",emoji:"🏙️",symbol:"🂡",kind:"poker",skillName:"五張牌型對決",goal:"在本章牌桌贏得 1 場勝利",kicker:"PROLOGUE · TAIPEI",story:"台北信義區的霓虹映在玻璃帷幕上。沈行舟拿出父親留下的黑桃 A，那是他踏入職業牌桌的起點。今晚，他要在私人牌局中挑戰退役牌手老周，贏得城市巡迴賽的第一個積分。",bio:"曾拿下多場職業賽事冠軍的退役牌手，現在是沈行舟的引路人。",reward:100},
 {place:"香港",name:"維港夜牌局",opponent:"千面薇",emoji:"🌃",symbol:"♠️",kind:"higher",skillName:"翻牌比大小",goal:"在本章牌桌贏得 1 場勝利",kicker:"CHAPTER 01 · HONG KONG",story:"香港中環的私人牌室燈火通明。千面薇是牌桌上最難讀懂的對手，她不相信運氣，只相信觀察與節奏。沈行舟必須在連續翻牌中穩住心態，才能拿下巡迴賽第二站的資格。",bio:"擅長讀牌與心理攻防的職業牌手，從不輕易暴露情緒。",reward:150},
-{place:"東京",name:"霓虹骰寶之夜",opponent:"黑川蓮",emoji:"🌆",symbol:"🎲",kind:"sicbo",skillName:"骰寶押大／小",goal:"在本章牌桌贏得 1 場勝利",kicker:"CHAPTER 02 · TOKYO",story:"東京新宿的高樓會所正在舉辦封閉式骰寶交流賽。黑川蓮以精準冷靜聞名，三顆骰子落桌的瞬間，所有人都屏住呼吸。沈行舟要證明自己不只懂牌，也能在骰寶桌上做出果斷判斷。",bio:"擅長骰寶大小與組合判斷的冷面高手。",reward:200},
-{place:"新加坡",name:"獅城王牌賽",opponent:"艾登・陳",emoji:"🌇",symbol:"🂡",kind:"poker",skillName:"五張牌型對決",goal:"在本章牌桌贏得 1 場勝利",kicker:"CHAPTER 03 · SINGAPORE",story:"新加坡濱海灣迎來亞洲王牌邀請賽。艾登・陳是連續兩屆決賽桌選手，他不急著出手，而是等待對手露出破綻。沈行舟必須打好每一手牌，才能取得世界賽的入場資格。",bio:"以穩健打法與牌型計算著稱的國際賽常客。",reward:250},
-{place:"拉斯維加斯",name:"世界牌王總決賽",opponent:"夜皇",emoji:"🎰",symbol:"🎲",kind:"sicbo",skillName:"骰寶押大／小",goal:"在本章牌桌贏得 1 場勝利",kicker:"FINAL CHAPTER · LAS VEGAS",story:"拉斯維加斯大道的巨型燈幕點亮夜空，世界牌王總決賽正式開幕。最後的對手夜皇以骰寶押大／小聞名，沈行舟終於站上父親曾經夢想抵達的舞台。這一局，將決定他能否成為新一代的世界牌王。",bio:"傳奇級骰寶高手，專精三顆骰子的大小判斷。",reward:500}
+{place:"東京",name:"霓虹骰寶之夜",opponent:"黑川蓮",emoji:"🌆",symbol:"🎲",kind:"sicboSum",skillName:"骰寶精準猜點",goal:"在本章牌桌贏得 1 場勝利",kicker:"CHAPTER 02 · TOKYO",story:"東京新宿的高樓會所正在舉辦封閉式骰寶交流賽。黑川蓮以精準冷靜聞名，三顆骰子落桌的瞬間，所有人都屏住呼吸。沈行舟要證明自己不只懂牌，也能在骰寶桌上做出果斷判斷。",bio:"擅長骰寶大小與組合判斷的冷面高手。",reward:200},
+{place:"新加坡",name:"獅城王牌賽",opponent:"艾登・陳",emoji:"🌇",symbol:"🂡",kind:"texas",skillName:"德州撲克對決",goal:"在本章牌桌贏得 1 場勝利",kicker:"CHAPTER 03 · SINGAPORE",story:"新加坡濱海灣迎來亞洲王牌邀請賽。艾登・陳是連續兩屆決賽桌選手，他不急著出手，而是等待對手露出破綻。沈行舟必須打好每一手牌，才能取得世界賽的入場資格。",bio:"以穩健打法與牌型計算著稱的國際賽常客。",reward:250},
+{place:"拉斯維加斯",name:"世界牌王總決賽",opponent:"夜皇",emoji:"🎰",symbol:"🎲",kind:"sicboRun",skillName:"骰寶指定順子組合",goal:"在本章牌桌贏得 1 場勝利",kicker:"FINAL CHAPTER · LAS VEGAS",story:"拉斯維加斯大道的巨型燈幕點亮夜空，世界牌王總決賽正式開幕。最後的對手夜皇以骰寶押大／小聞名，沈行舟終於站上父親曾經夢想抵達的舞台。這一局，將決定他能否成為新一代的世界牌王。",bio:"傳奇級骰寶高手，專精三顆骰子的大小判斷。",reward:500}
 ];
-function createMatch(chapterIndex){return{chapter:chapterIndex,playerWins:0,opponentWins:0,round:1,phase:"ready",stake:0,playerHand:[],opponentHand:[],deck:[],playerDiscard:[],aiDiscard:[],playerChoice:null,opponentChoice:null,baseCard:null,revealCard:null,dice:null,resultText:"等待下注",roundOutcome:null};}
+function createMatch(chapterIndex){return{chapter:chapterIndex,playerWins:0,opponentWins:0,round:1,phase:"ready",stake:0,playerHand:[],opponentHand:[],communityCards:[],deck:[],playerDiscard:[],aiDiscard:[],playerChoice:null,opponentChoice:null,baseCard:null,revealCard:null,dice:null,resultText:"等待下注",roundOutcome:null};}
 let matchState=createMatch(0);
 const fresh=()=>({playerName:"沈行舟",chips:500,fame:0,wins:0,losses:0,chapter:0,chapterWins:0,bet:25,rescueUsed:false,journal:["{{player}}帶著父親留下的黑桃 A 抵達台北，準備參加城市牌局巡迴賽。"],finished:false});
 
@@ -234,15 +234,18 @@ function renderTableCards(m){
   host.innerHTML='<div class="hand-block"><div class="hand-title">你的手牌 '+(canSelect?"｜點選要更換的牌":"")+'</div><div class="playing-hand">'+player+'</div></div><div class="hand-block"><div class="hand-title">'+chapter().opponent+' 的手牌</div>'+opponent+'</div>';
  }else if(kind==="higher"&&m.baseCard){
   host.innerHTML='<div class="revealed-pair"><div class="hand-block"><div class="hand-title">基準牌</div>'+cardMarkup(m.baseCard,0,false,false)+'</div><div class="hand-block"><div class="hand-title">翻開的牌</div>'+(m.revealCard?cardMarkup(m.revealCard,0,false,false):'<div class="card-back">?</div>')+'</div></div>';
- }else if(kind==="sicbo"&&Array.isArray(m.dice)&&m.dice.length===3){
+ }else if((kind==="sicbo"||kind==="sicboSum"||kind==="sicboRun")&&Array.isArray(m.dice)&&m.dice.length===3){
   const die=["","⚀","⚁","⚂","⚃","⚄","⚅"];host.innerHTML='<div class="dice-row">'+m.dice.map(n=>'<span>'+die[n]+'</span>').join("")+'</div>';
+ }else if(kind==="texas"&&m.playerHand.length===2&&m.opponentHand.length===2){
+  const show=m.phase==="result"||m.phase==="matchOver";
+  host.innerHTML='<div class="hand-block"><div class="hand-title">你的底牌</div><div class="playing-hand">'+m.playerHand.map(c=>cardMarkup(c,0,false,false)).join("")+'</div></div><div class="hand-block"><div class="hand-title">公共牌</div><div class="playing-hand">'+m.communityCards.map(c=>cardMarkup(c,0,false,false)).join("")+'</div></div><div class="hand-block"><div class="hand-title">'+chapter().opponent+' 的底牌</div><div class="playing-hand">'+(show?m.opponentHand.map(c=>cardMarkup(c,0,false,false)).join(""):'<div class="card-back">♠</div><div class="card-back">♠</div>')+'</div></div>';
  }else host.innerHTML="";
 }
 function renderTable(){
  const c=chapter(),m=ensureMatch(),kind=c.kind;selectedGame=kind;
  $("tableOpponent").textContent=c.place+"・"+c.opponent+"｜"+c.skillName;$("tableLocation").textContent=c.place+"專屬牌桌";
- $("gameSymbol").textContent=kind==="sicbo"?"🎲":kind==="higher"?"♠️":"🂡";
- $("gamePrompt").textContent=kind==="poker"?"五張換牌撲克：發牌、選擇換牌、最後攤牌。":kind==="higher"?"翻開基準牌，雙方同時預測下一張牌更高或更低。":"三顆骰子：玩家與關主各自押大或押小，再同時揭曉。";
+ $("gameSymbol").textContent=kind.startsWith("sicbo")?"🎲":kind==="higher"?"♠️":"🂡";
+ $("gamePrompt").textContent=kind==="poker"?"五張換牌撲克：發牌、選擇換牌、最後攤牌。":kind==="higher"?"翻開基準牌，雙方同時預測下一張牌更高或更低。":kind==="sicboSum"?"精準預測三顆骰子的總點數。":kind==="sicboRun"?"預測三顆骰子的指定三連順子組合。":kind==="texas"?"德州撲克：雙方各持兩張底牌，共用五張公共牌，以最佳五張牌型決勝。":"三顆骰子：玩家與關主各自押大或押小，再同時揭曉。";
  $("matchRound").textContent=m.phase==="matchOver"?"挑戰賽結束":"第 "+m.round+" 個有效回合";
  $("matchScore").textContent=g.playerName+" "+m.playerWins+" : "+m.opponentWins+" "+c.opponent+"（先得 3 勝）";
  $("betAmount").textContent=g.bet;$("tablePlayerName").textContent=g.playerName;
@@ -256,6 +259,15 @@ function renderTable(){
  }else if(m.phase==="ready"&&kind==="sicbo"){
   choiceHtml='<button type="button" data-choice="big" class="'+(m.playerChoice==="big"?"selected":"")+'">押大（11–17）</button><button type="button" data-choice="small" class="'+(m.playerChoice==="small"?"selected":"")+'">押小（4–10）</button>';
   rules="雙方各自預測大或小；三顆相同點數為圍骰，本回合平局並退還下注。";
+ }else if(m.phase==="ready"&&kind==="sicboSum"){
+  choiceHtml='<label class="tiny" for="battleSum">選擇總點數</label><select id="battleSum" style="background:#17283b;color:var(--ink);padding:9px;border-radius:9px;border:1px solid var(--line)">'+Array.from({length:14},(_,i)=>i+4).map(n=>'<option value="'+n+'" '+(Number(m.playerChoice||10)===n?"selected":"")+'>'+n+' 點</option>').join("")+'</select>';
+  rules="雙方各自選擇 4–17 點；命中者勝出，雙方同時命中或同時未中則平局。";
+ }else if(m.phase==="ready"&&kind==="sicboRun"){
+  choiceHtml=["1-2-3","2-3-4","3-4-5","4-5-6"].map(v=>'<button type="button" data-choice="'+v+'" class="'+(m.playerChoice===v?"selected":"")+'">'+v+'</button>').join("");
+  rules="選擇一組三連順子；三顆骰子必須恰好各出現該組三個點數，順序不限。雙方各自猜測，命中者勝出。";
+ }else if(m.phase==="ready"&&kind==="texas"){
+  choiceHtml='<span class="battle-hint">雙方各發兩張底牌，接著揭曉五張公共牌，直接比較最佳五張牌型。</span>';
+  rules="使用標準 52 張牌；雙方各持兩張底牌，共用五張公共牌，從七張牌中選出最佳五張牌型比較。";
  }else if(m.phase==="ready"&&kind==="poker"){
   choiceHtml='<span class="battle-hint">發牌後可點選 0 至 5 張手牌，標記需要更換的牌。</span>';
   rules="標準 52 張牌、不含鬼牌；雙方各發五張，玩家與 AI 各自決定換牌。";
@@ -276,6 +288,7 @@ function renderTable(){
  else if(m.phase==="matchOver")result=m.playerWins>=3?"挑戰賽勝利！":"挑戰賽落敗";
  $("gameResult").textContent=result;$("lastRoll").textContent=m.resultText;renderTableCards(m);
  document.querySelectorAll("#choiceButtons [data-choice]").forEach(b=>b.onclick=()=>{if(m.phase!=="ready")return;m.playerChoice=b.dataset.choice;renderTable();save();});
+ const battleSum=$("battleSum");if(battleSum)battleSum.onchange=()=>{m.playerChoice=Number(battleSum.value);renderTable();save();};
  document.querySelectorAll("#tableCards [data-card-index]").forEach(b=>b.onclick=()=>{
   if(m.phase!=="pokerDraw")return;
   const idx=Number(b.dataset.cardIndex),set=new Set(m.playerDiscard);if(set.has(idx))set.delete(idx);else set.add(idx);
@@ -303,6 +316,9 @@ function pokerScore(hand){
  return[0,...vals];
 }
 function compareScores(a,b){for(let i=0;i<Math.max(a.length,b.length);i++){const d=(a[i]||0)-(b[i]||0);if(d)return Math.sign(d);}return 0;}
+function bestTexasScore(cards){let best=null;for(let a=0;a<cards.length-4;a++)for(let b=a+1;b<cards.length-3;b++)for(let c=b+1;c<cards.length-2;c++)for(let d=c+1;d<cards.length-1;d++)for(let e=d+1;e<cards.length;e++){const score=pokerScore([cards[a],cards[b],cards[c],cards[d],cards[e]]);if(!best||compareScores(score,best)>0)best=score;}return best;}
+function aiSumChoice(chapterIndex){const target=[10,9,11,10,12][chapterIndex]??10;return Math.max(4,Math.min(17,target+(Math.random()<0.25?(Math.random()<0.5?-1:1):0)));}
+function aiRunChoice(){return ["1-2-3","2-3-4","3-4-5","4-5-6"][Math.floor(Math.random()*4)];}
 function chooseAiDiscards(hand,chapterIndex){
  const rankCounts={};hand.forEach((c,i)=>{if(!rankCounts[c.r])rankCounts[c.r]=[];rankCounts[c.r].push(i);});
  const groups=Object.entries(rankCounts).map(([r,idx])=>({r:Number(r),idx})).sort((a,b)=>b.idx.length-a.idx.length||b.r-a.r),score=pokerScore(hand);
@@ -339,7 +355,7 @@ function aiHigherChoice(base,chapterIndex){
 function aiSicboChoice(chapterIndex){const p=[0.52,0.54,0.5,0.48,0.56][chapterIndex]??0.5;return Math.random()<p?"big":"small";}
 function startRound(){
  const m=ensureMatch(),kind=chapter().kind;
- if(kind!=="poker"&&!m.playerChoice){notify("請先選擇本回合預測。");return;}
+ if(!["poker","texas"].includes(kind)&&!m.playerChoice){notify("請先選擇本回合預測。");return;}
  if(g.chips<g.bet){notify("王牌籌碼不足，請降低下注或使用既有旅途援助。");return;}
  g.chips-=g.bet;m.stake=g.bet;
  if(kind==="poker"){
@@ -357,7 +373,10 @@ function startRound(){
   const text="基準牌 "+cardText(base)+"，翻牌 "+cardText(reveal)+"；你預測「"+(m.playerChoice==="high"?"更高":"更低")+"」，"+chapter().opponent+" 預測「"+(ai==="high"?"更高":"更低")+"」。"+(side==="tie"?"同點平局。":winner===null?(playerCorrect?"雙方預測皆正確，挑戰賽比分平局。":"雙方預測皆未命中，挑戰賽比分平局。"):winner==="player"?"你的預測正確，本回合勝出。":"關主預測正確，本回合失利。");
   resolveRound(winner,text,betOutcome);return;
  }
- const ai=aiSicboChoice(g.chapter),dice=[1,2,3].map(()=>1+Math.floor(Math.random()*6)),sum=dice.reduce((a,b)=>a+b,0),triple=dice.every(n=>n===dice[0]),side=sum>=11?"big":"small";
+ if(kind==="texas"){const deck=shuffleDeck(createDeck()),names=["高牌","一對","兩對","三條","順子","同花","葫蘆","四條","同花順"];m.playerHand=deck.slice(0,2);m.opponentHand=deck.slice(2,4);m.communityCards=deck.slice(4,9);const ps=bestTexasScore(m.playerHand.concat(m.communityCards)),as=bestTexasScore(m.opponentHand.concat(m.communityCards)),cmp=compareScores(ps,as),winner=cmp===0?null:cmp>0?"player":"opponent";m.dice=null;resolveRound(winner,"德州撲克攤牌。公共牌："+m.communityCards.map(cardText).join(" ")+"；你："+names[ps[0]]+"，"+chapter().opponent+"："+names[as[0]]+"。"+(winner==="player"?"你勝出。":winner==="opponent"?"關主勝出。":"牌型相同，平局。"));return;}
+ const dice=[1,2,3].map(()=>1+Math.floor(Math.random()*6)),sum=dice.reduce((a,b)=>a+b,0),triple=dice.every(n=>n===dice[0]);
+ if(kind==="sicboSum"||kind==="sicboRun"){const ai=kind==="sicboSum"?aiSumChoice(g.chapter):aiRunChoice(),playerHit=kind==="sicboSum"?sum===Number(m.playerChoice):!triple&&[...dice].sort().join("-")===m.playerChoice,aiHit=kind==="sicboSum"?sum===ai:!triple&&[...dice].sort().join("-")===ai,winner=playerHit===aiHit?null:playerHit?"player":"opponent";m.opponentChoice=ai;m.dice=dice;const text="三顆骰子："+dice.join("、")+"，總和 "+sum+"。你預測「"+m.playerChoice+"」，"+chapter().opponent+" 預測「"+ai+"」。"+(winner===null?"雙方命中結果相同，本回合平局。":winner==="player"?"你勝出。":"關主勝出。");resolveRound(winner,text,winner===null?"push":winner==="player"?"win":"lose");return;}
+ const ai=aiSicboChoice(g.chapter),side=sum>=11?"big":"small";
  const playerCorrect=!triple&&m.playerChoice===side,aiCorrect=!triple&&ai===side;
  m.opponentChoice=ai;m.dice=dice;m.baseCard=null;m.revealCard=null;
  const winner=triple||playerCorrect===aiCorrect?null:playerCorrect?"player":"opponent";
