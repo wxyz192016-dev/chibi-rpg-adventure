@@ -778,14 +778,14 @@ function renderCharacterBook(){
  const host=$("characterList");
  host.innerHTML=visible.map(x=>{
   const open=g.chapter>=x.chapter;
-  return '<button type="button" class="character-card '+(!open?"is-locked ":"")+(selectedCharacterId===x.id?"selected":"")+'" data-character-id="'+x.id+'" aria-pressed="'+(selectedCharacterId===x.id)+'">'+(open&&x.id==="gatekeeper-0"?'<img class="character-portrait-thumb" src="人物圖片/周明哲.png" alt="周明哲人物肖像">':'<div class="character-silhouette"><span>'+(open?"真人寫實立繪待建立":"尚未解鎖")+'</span></div>')+'<h3>'+(open?escapeHtml(x.name):"尚未解鎖人物")+'</h3><p>'+(open?escapeHtml(x.city+"｜"+x.role):"完成對應章節後解鎖")+'</p></button>';
+  return '<button type="button" class="character-card '+(!open?"is-locked ":"")+(selectedCharacterId===x.id?"selected":"")+'" data-character-id="'+x.id+'" aria-pressed="'+(selectedCharacterId===x.id)+'">'+(open&&x.id==="gatekeeper-0"?'<img class="character-portrait-thumb" src="人物圖片/周明哲.png" alt="周明哲人物肖像">':open&&x.id==="gatekeeper-1"?'<img class="character-portrait-thumb" src="人物圖片/梁詠晴.png" alt="梁詠晴人物肖像">':'<div class="character-silhouette"><span>'+(open?"真人寫實立繪待建立":"尚未解鎖")+'</span></div>')+'<h3>'+(open?escapeHtml(x.name):"尚未解鎖人物")+'</h3><p>'+(open?escapeHtml(x.city+"｜"+x.role):"完成對應章節後解鎖")+'</p></button>';
  }).join("")||'<p class="muted">此分類目前沒有已建立的人物資料。</p>';
  let chosen=CHARACTER_ROSTER.find(x=>x.id===selectedCharacterId);
  if(!chosen||g.chapter<chosen.chapter)chosen=unlocked[0]||null;
  if(chosen)selectedCharacterId=chosen.id;
  const detail=$("characterDetail");
  if(!chosen){detail.innerHTML='<h3>尚無已解鎖人物</h3>';return;}
- detail.innerHTML=(chosen.id==="gatekeeper-0"?'<img class="character-portrait-detail" src="人物圖片/周明哲.png" alt="周明哲人物肖像">':'<div class="character-silhouette large"><span>真人寫實立繪待建立</span></div>')+'<span class="tag">'+"已解鎖人物"+'</span><h3>'+escapeHtml(chosen.name)+'</h3><p class="muted">'+escapeHtml(chosen.role+"｜"+chosen.city)+'</p><p>'+escapeHtml(chosen.bio)+'</p><p><b>人物稱號：</b>'+escapeHtml(chosen.title)+'</p><p><b>專屬牌技：</b>'+escapeHtml(chosen.skill)+'</p><p class="tiny">'+("首次進入第 "+(chosen.chapter+1)+" 站時解鎖。")+'</p>';
+ detail.innerHTML=(chosen.id==="gatekeeper-0"?'<img class="character-portrait-detail" src="人物圖片/周明哲.png" alt="周明哲人物肖像">':chosen.id==="gatekeeper-1"?'<img class="character-portrait-detail" src="人物圖片/梁詠晴.png" alt="梁詠晴人物肖像">':'<div class="character-silhouette large"><span>真人寫實立繪待建立</span></div>')+'<span class="tag">'+"已解鎖人物"+'</span><h3>'+escapeHtml(chosen.name)+'</h3><p class="muted">'+escapeHtml(chosen.role+"｜"+chosen.city)+'</p><p>'+escapeHtml(chosen.bio)+'</p><p><b>人物稱號：</b>'+escapeHtml(chosen.title)+'</p><p><b>專屬牌技：</b>'+escapeHtml(chosen.skill)+'</p><p class="tiny">'+("首次進入第 "+(chosen.chapter+1)+" 站時解鎖。")+'</p>';
  host.querySelectorAll("[data-character-id]").forEach(button=>button.onclick=()=>{selectedCharacterId=button.dataset.characterId;renderCharacterBook();});
  if(search&&!search.dataset.bound){search.addEventListener("input",()=>{characterQuery=search.value;renderCharacterBook();});search.dataset.bound="1";}
  if(filter&&!filter.dataset.bound){filter.addEventListener("change",()=>{characterFilter=filter.value;renderCharacterBook();});filter.dataset.bound="1";}
