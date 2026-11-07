@@ -355,67 +355,37 @@ body.workspace-open{overflow:hidden}
 .cover-copy h1{font-size:clamp(2.1rem,4.6vw,3.8rem);margin:10px 0}.cover-copy p{line-height:1.8}.cover-copy .stat{background:rgba(12,20,32,.82);border-color:#b991594d}
 @media(max-width:760px){.cover-hero{min-height:480px;align-items:end}.cover-hero>.cover-art{background-image:linear-gradient(0deg,rgba(5,9,17,.98) 0%,rgba(5,9,17,.89) 48%,rgba(5,9,17,.10) 100%),url("./封面/封面.png");background-position:58% center}.cover-hero>.cover-copy{width:auto;margin:12px;padding:16px;background:rgba(12,20,33,.88)}.cover-copy h1{font-size:clamp(2rem,9vw,3rem)}.cover-copy .stat-row{gap:7px}.cover-copy .stat{flex:1 1 80px;min-width:0;padding:8px}}
 
-/* Approved cover separation: image and description occupy independent panels */
+/* Approved A+C cover fit: preserve the entire artwork without cropping */
 .cover-hero{
-  display:grid;
   grid-template-columns:minmax(0,1.08fr) minmax(340px,.92fr);
   align-items:stretch;
-  gap:18px;
-  min-height:0;
-  padding:16px;
-  overflow:hidden;
 }
 .cover-hero>.cover-art{
-  position:relative;
-  inset:auto;
-  z-index:0;
-  display:block;
-  min-width:0;
-  min-height:clamp(340px,34vw,460px);
-  border:1px solid #52647a;
-  border-radius:16px;
+  aspect-ratio:4 / 3;
+  min-height:0;
+  height:auto;
+  align-self:center;
+  background-color:#080d18;
   background-image:url("./封面/封面.png");
-  background-size:cover;
+  background-size:contain;
   background-position:center;
   background-repeat:no-repeat;
 }
 .cover-hero>.cover-copy{
-  width:auto;
-  min-width:0;
-  margin:0;
-  align-self:stretch;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  border:1px solid #b38a5066;
-  border-radius:16px;
-  padding:clamp(20px,2.6vw,32px);
-  background:linear-gradient(145deg,#14253a,#0d1827);
-  box-shadow:0 12px 30px #0005;
-  backdrop-filter:none;
+  min-height:100%;
 }
-.cover-hero>.cover-copy p{max-width:62ch}
 @media(max-width:760px){
-  .cover-hero{
-    grid-template-columns:minmax(0,1fr);
-    gap:12px;
-    padding:12px;
-  }
+  .cover-hero{grid-template-columns:minmax(0,1fr)}
   .cover-hero>.cover-art{
+    width:100%;
+    aspect-ratio:4 / 3;
+    height:auto;
     min-height:0;
-    height:clamp(220px,64vw,310px);
-    background-position:center 45%;
+    background-size:contain;
+    background-position:center;
   }
-  .cover-hero>.cover-copy{
-    width:auto;
-    margin:0;
-    padding:18px;
-  }
-  .cover-hero>.cover-copy h1{font-size:clamp(2rem,9vw,2.8rem)}
-  .cover-hero>.cover-copy .stat-row{gap:7px}
-  .cover-hero>.cover-copy .stat{flex:1 1 80px;min-width:0;padding:8px}
+  .cover-hero>.cover-copy{min-height:0}
 }
-
 </style></head>
 <body>
 <header><div class="brand">♠ <span>一擲闖天下</span> <small class="tiny">王牌賭途 · ONE WAGER, ONE WORLD</small></div><div class="wallet"><span>🪙 王牌籌碼 <b id="chips">500</b></span><span>🏅 名聲 <b id="fame">0</b></span><span>📍 <b id="placeShort">台北</b></span></div></header>
