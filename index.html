@@ -320,6 +320,18 @@ footer{padding:28px 16px;color:#91a3b7;line-height:1.7}
 .subnav button.active{background:linear-gradient(120deg,#9d7440,#d4ad68);border-color:#f0d49a;color:#171b23}
 [hidden]{display:none!important}
 @media(max-width:760px){.nav{grid-template-columns:repeat(2,minmax(0,1fr))}.subnav button{flex:1 1 120px}}
+/* Approved hybrid workspace navigation */
+.view.active{display:block;position:fixed;inset:0;z-index:30;overflow-y:auto;overscroll-behavior:contain;padding:24px clamp(14px,3vw,38px) 42px;background:linear-gradient(180deg,#07101def,#080e18f7);backdrop-filter:blur(16px)}
+.view.active>*{width:min(1280px,100%);margin-left:auto;margin-right:auto}
+.workspace-head{width:min(1280px,100%);margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0 15px;border-bottom:1px solid #52677c66}
+.workspace-head h1{font-size:clamp(1.2rem,2.5vw,1.65rem);margin:0;color:#f3d79f}
+.workspace-head .workspace-back{min-width:108px}
+.view>.story-actions:first-child{display:none}
+.view#settings.active{display:grid;place-items:center;padding:24px;background:#050a13d9}
+#settings.active>.panel{width:min(760px,100%);max-height:88vh;overflow-y:auto;margin:0}
+#settings.active .workspace-head{width:100%}
+body.workspace-open{overflow:hidden}
+@media(max-width:760px){.view.active{padding:14px 12px 28px}.workspace-head{padding:8px 0 12px;margin-bottom:12px}.workspace-head .workspace-back{min-width:88px;padding:8px}.view#settings.active{padding:12px}#settings.active>.panel{max-height:94vh}}
 </style></head>
 <body>
 <header><div class="brand">♠ <span>一擲闖天下</span> <small class="tiny">王牌賭途 · ONE WAGER, ONE WORLD</small></div><div class="wallet"><span>🪙 王牌籌碼 <b id="chips">500</b></span><span>🏅 名聲 <b id="fame">0</b></span><span>📍 <b id="placeShort">台北</b></span></div></header>
@@ -458,18 +470,22 @@ function importSavePackage(parsed){
 }
 function renderSaveListIfReady(){if($("saveList"))renderSaveList();}
 function notify(t){$("toast").textContent=t;$("toast").classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>$("toast").classList.remove("show"),2200);}
-let activeMainTab="story",storySubTab="story",journeySubTab="world",previousMainTab="story";
-function tab(id){if(!["story","entertainment","journey","characters","settings"].includes(id))return;if(activeMainTab!==id)previousMainTab=activeMainTab;activeMainTab=id;document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===id));if(id==="story")setStorySubTab(storySubTab);if(id==="journey")setJourneySubTab(journeySubTab);}
+let activeMainTab=null,storySubTab="story",journeySubTab="world",previousMainTab="story";
+function closeWorkspace(){activeMainTab=null;document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));document.body.classList.remove("workspace-open");}
+function tab(id){if(!["story","entertainment","journey","characters","settings"].includes(id))return;if(activeMainTab!==id&&activeMainTab)previousMainTab=activeMainTab;activeMainTab=id;document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===id));document.body.classList.add("workspace-open");if(id==="story")setStorySubTab(storySubTab);if(id==="journey")setJourneySubTab(journeySubTab);}
+const workspaceTitles={story:"📖 故事模式",entertainment:"🎪 娛樂中心",journey:"🗺️ 旅程紀錄",characters:"👥 人物圖鑑",settings:"💾 存檔管理"};
+document.querySelectorAll(".view").forEach(view=>{const head=document.createElement("div");head.className="workspace-head";const title=document.createElement("h1");title.textContent=workspaceTitles[view.id]||"遊戲功能";const back=document.createElement("button");back.type="button";back.className="workspace-back subtle";back.textContent="← 返回大廳";back.addEventListener("click",closeWorkspace);head.append(title,back);view.insertBefore(head,view.firstChild);});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&activeMainTab)closeWorkspace();});
 function setStorySubTab(id){storySubTab=id==="table"?"table":"story";$("storyPanel").hidden=storySubTab!=="story";$("storyTablePanel").hidden=storySubTab!=="table";document.querySelectorAll("[data-story-tab]").forEach(b=>b.classList.toggle("active",b.dataset.storyTab===storySubTab));}
 function setJourneySubTab(id){journeySubTab=id==="journal"?"journal":"world";$("journeyWorldPanel").hidden=journeySubTab!=="world";$("journeyJournalPanel").hidden=journeySubTab!=="journal";document.querySelectorAll("[data-journey-tab]").forEach(b=>b.classList.toggle("active",b.dataset.journeyTab===journeySubTab));}
 document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>tab(b.dataset.tab));
 document.querySelectorAll("[data-story-tab]").forEach(b=>b.onclick=()=>setStorySubTab(b.dataset.storyTab));
 document.querySelectorAll("[data-journey-tab]").forEach(b=>b.onclick=()=>setJourneySubTab(b.dataset.journeyTab));
 $("tableBackStory").onclick=()=>{tab("story");setStorySubTab("story");};
-$("journeyBack").onclick=()=>tab(previousMainTab==="journey"?"story":previousMainTab);
-$("entertainmentBack").onclick=()=>tab(previousMainTab==="entertainment"?"story":previousMainTab);
-$("charactersBack").onclick=()=>tab(previousMainTab==="characters"?"story":previousMainTab);
-$("settingsBack").onclick=()=>tab(previousMainTab==="settings"?"story":previousMainTab);
+$("journeyBack").onclick=closeWorkspace;
+$("entertainmentBack").onclick=closeWorkspace;
+$("charactersBack").onclick=closeWorkspace;
+$("settingsBack").onclick=closeWorkspace;
 function chapter(){return CHAPTERS[g.chapter];}
 let activeNpcFameEvent=null,npcEventReturnFocus=null;
 function ensureNpcFameEventLayer(){
