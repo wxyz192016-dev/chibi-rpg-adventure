@@ -451,7 +451,7 @@ body.workspace-open{overflow:hidden}
 <div class="panel table-layout"><div class="felt"><div class="felt-top"><span>CITY CASINO TABLE</span><span id="tableLocation">台北私人牌局</span></div><div class="match-strip"><span id="matchRound">第 1 局</span><strong id="matchScore">玩家 0 : 0 關主（先得 3 勝）</strong></div><div class="table-center"><div><div class="table-symbol" id="gameSymbol">🂡</div><b id="gamePrompt">與關主進行專屬牌技對決。</b><div class="play-result" id="gameResult">等待開局</div><div class="tiny" id="lastRoll">牌局尚未開始。</div><div id="tableCards" class="table-cards"></div></div></div><div class="felt-top"><span id="tablePlayerName">沈行舟</span><span>王牌籌碼桌</span></div></div>
 <div class="control-panel"><div class="card"><b>選擇下注王牌籌碼</b><p class="tiny">每個有效回合下注；平局退還下注並重開同一回合。</p><div class="bet-row"><button data-bet="10">10</button><button data-bet="25" class="active">25</button><button data-bet="50">50</button><button data-bet="100">100</button></div><div class="split tiny"><span>本回合下注</span><b id="betAmount">25</b></div></div><div class="card"><b>本回合行動</b><div class="choice-row" id="choiceButtons"></div><p class="tiny" id="gameRules">先得三勝者贏得關主挑戰賽。</p></div><button class="gold-btn" id="placeBet">開始本回合</button><button class="subtle" id="rescueChips" hidden>領取一次旅途援助・100 王牌籌碼</button><div class="history" id="tableLog">周明哲（Chou Ming-Che）把牌洗勻：「牌桌上，運氣只決定開局，判斷才決定你能走多遠。」</div></div></div></div></section>
 <section class="view" id="entertainment"><div class="story-actions"><button type="button" class="subtle" id="entertainmentBack">← 返回上一頁</button></div><div class="panel"><div class="section-head"><h2>🎪 娛樂中心</h2><span class="tag">自由娛樂・不影響主線</span></div><p class="muted">娛樂中心獨立於五城市關主挑戰。使用共通王牌籌碼自由遊玩，不增加主線勝場、章節進度、獎勵或存檔欄位。</p><div class="entertainment-grid" id="entertainmentGames"><button data-ent-game="poker" class="active"><span class="big">🂡</span><b>自由撲克</b><span class="tiny">五張牌換牌比牌</span></button><button data-ent-game="bigsmall"><span class="big">🎲</span><b>骰寶大／小</b><span class="tiny">三骰總和 4–10／11–17</span></button><button data-ent-game="sum"><span class="big">🔢</span><b>猜總點數</b><span class="tiny">預測三顆骰子總和</span></button><button data-ent-game="parity"><span class="big">⚖️</span><b>猜單／雙</b><span class="tiny">預測總和奇偶</span></button><button data-ent-game="triple"><span class="big">🎯</span><b>猜圍骰</b><span class="tiny">預測三顆骰子相同</span></button><button data-ent-game="number"><span class="big">🔍</span><b>指定點數</b><span class="tiny">預測至少出現一顆指定數字</span></button></div><div class="entertainment-layout"><div class="card"><b>娛樂下注</b><p class="tiny">獨立設定，不會改變主線下注額。</p><div class="bet-row" id="entBetButtons"><button data-ent-bet="10">10</button><button data-ent-bet="25" class="active">25</button><button data-ent-bet="50">50</button><button data-ent-bet="100">100</button></div><div class="split tiny"><span>目前娛樂下注</span><b id="entBetAmount">25</b></div><div id="entChoices" class="entertainment-actions" style="margin-top:12px"></div><div id="entExtra" class="entertainment-actions" style="margin-top:8px"></div><button class="gold-btn" id="entPlay" style="margin-top:14px">開始娛樂</button></div><div class="card"><b>娛樂桌結果</b><div id="entVisual" class="table-center" style="min-height:120px"><div class="table-symbol">🎪</div></div><div id="entResult" class="entertainment-result">選擇一種娛樂玩法，開始你的自由牌局。</div><div id="entCards" class="table-cards"></div><p class="tiny" id="entRules">娛樂中心的結果不會計入關主挑戰比分。</p></div></div></div></section>
-<section class="view" id="journey"><div class="story-actions"><button type="button" class="subtle" id="journeyBack">← 返回上一頁</button></div><div class="subnav" role="tablist" aria-label="旅程紀錄頁籤"><button type="button" class="active" data-journey-tab="world">🏙️ 城市巡迴</button><button type="button" data-journey-tab="journal">📰 賭徒手札</button></div><div id="journeyWorldPanel"><div class="panel"><div class="section-head"><h2>🏙️ 世界賭城巡迴</h2><span class="muted">完成本章對局，解鎖下一座城市與賽事</span></div><div id="worldList"></div></div></div><div id="journeyJournalPanel" hidden><div class="panel"><div class="section-head"><h2>📰 賭徒手札</h2><span class="muted">城市賽事、對手與牌桌紀錄</span></div><div class="journal" id="journalList"></div></div></div></section>
+<section class="view" id="journey"><div class="story-actions"><button type="button" class="subtle" id="journeyBack">← 返回上一頁</button></div><div class="subnav" role="tablist" aria-label="旅程紀錄頁籤"><button type="button" class="active" data-journey-tab="world">🏙️ 歷史挑戰</button><button type="button" data-journey-tab="journal">📰 賭徒手札</button></div><div id="journeyWorldPanel"><div class="panel"><div class="section-head"><h2>🏙️ 歷史關卡回歸挑戰</h2><span class="muted">只開放已完成關卡；下注與派彩依原版規則結算，不影響主線進度</span></div><div id="worldList"></div></div></div><div id="journeyJournalPanel" hidden><div class="panel"><div class="section-head"><h2>📰 賭徒手札</h2><span class="muted">城市賽事、對手與牌桌紀錄</span></div><div class="journal" id="journalList"></div></div></div></section>
 <section class="view" id="characters"><div class="story-actions"><button type="button" class="subtle" id="charactersBack">← 返回上一頁</button></div><div class="panel"><div class="section-head"><h2>👥 人物圖鑑</h2><span class="tag" id="characterProgress">已解鎖 0 / 0</span></div><p class="muted">人物圖鑑維持原有五位主要對手的收錄範圍。新增故事關卡挑戰者只在故事模式顯示，不新增圖鑑條目；人物肖像由玩家日後自行設計。</p><div class="character-tools"><input id="characterSearch" type="search" placeholder="搜尋人物姓名、城市或身分" aria-label="搜尋人物"><select id="characterFilter" aria-label="人物分類"><option value="all">全部人物</option><option value="gatekeeper">關主</option><option value="special">特殊人物</option><option value="hidden">隱藏人物</option><option value="event">事件人物</option></select></div><div class="character-layout"><div id="characterList" class="character-grid" aria-live="polite"></div><article id="characterDetail" class="character-detail" aria-live="polite"><div class="character-silhouette large"><span>人物剪影</span></div><h3>選擇已解鎖人物</h3><p class="muted">選擇人物卡片以查看已公開的角色資料。</p></article></div><p class="tiny">本次新增的十位關卡挑戰者不加入人物圖鑑，既有五位主要對手的圖鑑資料及解鎖方式維持不變。</p></div></section>
 <section class="view" id="settings"><div class="story-actions"><button type="button" class="subtle" id="settingsBack">← 返回上一頁</button></div><div class="panel"><div class="section-head"><h2>💾 存檔管理</h2><span class="muted">本機瀏覽器保存</span></div><section class="card" style="margin:14px 0"><div class="section-head"><h3 style="margin:0">主角姓名設定</h3><span class="tag">可隨時修改</span></div><label for="playerNameInput" class="muted">角色顯示姓名</label><div class="name-editor"><input id="playerNameInput" type="text" maxlength="16" value="旅人" autocomplete="off" aria-describedby="playerNameHelp"><button id="savePlayerName" class="gold-btn" type="button">儲存姓名</button></div><p id="playerNameHelp" class="tiny">儲存後會同步更新首頁、牌桌、故事劇情與旅程紀錄，並寫入目前遊戲存檔。</p></section><p class="muted">遊戲進度保存在目前瀏覽器。更換裝置或清除瀏覽器資料前，請先匯出存檔備份。</p><div class="card" style="margin:14px 0"><div class="section-head"><h3 style="margin:0">存檔列表</h3><span class="tag">最新在最上方</span></div><div class="name-editor"><input id="manualSaveName" type="text" maxlength="32" placeholder="輸入手動存檔名稱（可留空）"><button id="createManualSave" class="gold-btn" type="button">建立手動存檔</button></div><div id="saveList" class="journal" style="margin-top:12px"></div></div><div class="card-actions"><button id="exportSave">匯出目前存檔</button><button id="importSave">匯入遊戲存檔</button><button class="danger" id="resetSave">重新開始故事</button></div><input type="file" id="saveFile" accept="application/json" hidden><div class="notice">王牌籌碼僅供遊戲情節與玩法使用，沒有實際金錢價值，也不能轉讓、儲值或兌現。</div></div></section>
 </main><footer>一擲闖天下｜王牌賭途 · 原創都市牌桌故事 · 僅限王牌籌碼</footer><div class="toast" id="toast"></div>
@@ -789,11 +789,11 @@ function startRound(){
  g.chips-=g.bet;m.stake=g.bet;
  if(kind==="poker"){
   const deck=shuffleDeck(createDeck());m.playerHand=deck.slice(0,5);m.opponentHand=deck.slice(5,10);m.deck=deck.slice(10);
-  m.playerDiscard=[];m.aiDiscard=chooseAiDiscards(m.opponentHand,g.chapter);m.playerChoice=null;m.opponentChoice=null;m.baseCard=null;m.revealCard=null;m.dice=null;
+  m.playerDiscard=[];m.aiDiscard=chooseAiDiscards(m.opponentHand,getActiveChallengeCityIndex());m.playerChoice=null;m.opponentChoice=null;m.baseCard=null;m.revealCard=null;m.dice=null;
   m.phase="pokerDraw";m.resultText="已發出雙方五張手牌。選擇你要更換的牌，關主也已完成自己的換牌判斷。";$("tableLog").textContent=m.resultText;renderAll();return;
  }
  if(kind==="higher"){
-  const deck=shuffleDeck(createDeck()),base=deck[0],reveal=deck[1],ai=aiHigherChoice(base,g.chapter);
+  const deck=shuffleDeck(createDeck()),base=deck[0],reveal=deck[1],ai=aiHigherChoice(base,getActiveChallengeCityIndex());
   const side=reveal.r>base.r?"high":reveal.r<base.r?"low":"tie";
   const playerCorrect=side!=="tie"&&m.playerChoice===side,aiCorrect=side!=="tie"&&ai===side;
   m.baseCard=base;m.revealCard=reveal;m.opponentChoice=ai;m.dice=null;
@@ -804,8 +804,8 @@ function startRound(){
  }
  if(kind==="texas"){const deck=shuffleDeck(createDeck()),names=["高牌","一對","兩對","三條","順子","同花","葫蘆","四條","同花順"];m.playerHand=deck.slice(0,2);m.opponentHand=deck.slice(2,4);m.communityCards=deck.slice(4,9);const ps=bestTexasScore(m.playerHand.concat(m.communityCards)),as=bestTexasScore(m.opponentHand.concat(m.communityCards)),cmp=compareScores(ps,as),winner=cmp===0?null:cmp>0?"player":"opponent";m.dice=null;resolveRound(winner,"德州撲克攤牌。公共牌："+m.communityCards.map(cardText).join(" ")+"；你："+names[ps[0]]+"，"+chapter().opponent+"："+names[as[0]]+"。"+(winner==="player"?"你勝出。":winner==="opponent"?"關主勝出。":"牌型相同，平局。"));return;}
  const dice=[1,2,3].map(()=>1+Math.floor(Math.random()*6)),sum=dice.reduce((a,b)=>a+b,0),triple=dice.every(n=>n===dice[0]);
- if(kind==="sicboSum"||kind==="sicboRun"){const ai=kind==="sicboSum"?aiSumChoice(g.chapter):aiRunChoice(),playerHit=kind==="sicboSum"?sum===Number(m.playerChoice):!triple&&[...dice].sort().join("-")===m.playerChoice,aiHit=kind==="sicboSum"?sum===ai:!triple&&[...dice].sort().join("-")===ai,winner=playerHit===aiHit?null:playerHit?"player":"opponent";m.opponentChoice=ai;m.dice=dice;const text="三顆骰子："+dice.join("、")+"，總和 "+sum+"。你預測「"+m.playerChoice+"」，"+chapter().opponent+" 預測「"+ai+"」。"+(winner===null?"雙方命中結果相同，本回合平局。":winner==="player"?"你勝出。":"關主勝出。");resolveRound(winner,text,winner===null?"push":winner==="player"?"win":"lose");return;}
- const ai=aiSicboChoice(g.chapter),side=sum>=11?"big":"small";
+ if(kind==="sicboSum"||kind==="sicboRun"){const ai=kind==="sicboSum"?aiSumChoice(getActiveChallengeCityIndex()):aiRunChoice(),playerHit=kind==="sicboSum"?sum===Number(m.playerChoice):!triple&&[...dice].sort().join("-")===m.playerChoice,aiHit=kind==="sicboSum"?sum===ai:!triple&&[...dice].sort().join("-")===ai,winner=playerHit===aiHit?null:playerHit?"player":"opponent";m.opponentChoice=ai;m.dice=dice;const text="三顆骰子："+dice.join("、")+"，總和 "+sum+"。你預測「"+m.playerChoice+"」，"+chapter().opponent+" 預測「"+ai+"」。"+(winner===null?"雙方命中結果相同，本回合平局。":winner==="player"?"你勝出。":"關主勝出。");resolveRound(winner,text,winner===null?"push":winner==="player"?"win":"lose");return;}
+ const ai=aiSicboChoice(getActiveChallengeCityIndex()),side=sum>=11?"big":"small";
  const playerCorrect=!triple&&m.playerChoice===side,aiCorrect=!triple&&ai===side;
  m.opponentChoice=ai;m.dice=dice;m.baseCard=null;m.revealCard=null;
  const winner=triple||playerCorrect===aiCorrect?null:playerCorrect?"player":"opponent";
@@ -945,10 +945,156 @@ function currentStoryLevel(){return STORY_LEVELS[Math.max(0,Math.min(14,Number(g
 chapter=function(){const base=CHAPTERS[Math.max(0,Math.min(4,Number(g.chapter)||0))],level=currentStoryLevel();return {...base,...level,place:base.place,emoji:base.emoji,symbol:base.symbol,kind:base.kind,skillName:base.skillName,reward:base.reward,levelNumber:level.levelNumber};};
 function storyLevelStatus(index){if(g.finished||index<g.storyLevel||(index===g.storyLevel&&Number(g.chapterWins)>=3))return '已完成';if(index===g.storyLevel)return '可挑戰';return '未解鎖';}
 renderStory=function(){const c=chapter(),level=currentStoryLevel(),m=ensureMatch(),finished=!!g.finished,completed=Math.max(0,Math.min(3,Number(g.storyLevel)-g.chapter*3+(Number(g.chapterWins)>=3?1:0)));const epilogue='主角完成了從台北到拉斯維加斯的旅程，也終於知道父親為何離開賭壇。父親曾拒絕配合一場受到不正當操控的賽事，選擇保住自己的原則，而不是換取不公平的榮耀。黑桃 A 並不是保證勝利的王牌，而是提醒每個人堅持原則，並為自己的選擇負責。主角不必成為父親的影子，而是走出自己的路。\n\n第一季故事至此完整收束。匿名訊息隨後出現：「黑桃 A 並不是唯一的一張。當年那場賽事，還有另外四張王牌的故事。」';$('chapterTag').textContent=finished?'第一季・故事完結':'第 '+(g.chapter+1)+' 站・'+c.place+'｜關卡 '+level.stage+'/3';$('storyKicker').textContent=finished?'SEASON ONE · EPILOGUE':('CITY '+(g.chapter+1)+' · STAGE '+level.stage);$('storyTitle').textContent=finished?'真正的王牌':level.title;$('storyText').textContent=personalize(finished?epilogue:level.opening);$('storyGoal').textContent=finished?'目標：第一季故事已完成':'目標：完成本關牌桌挑戰（沿用五局三勝）';$('chapterProgress').textContent=finished?'15 / 15 關':'城市進度 '+completed+' / 3｜本場 '+m.playerWins+' : '+m.opponentWins;$('storyBar').style.width=(finished?100:completed/3*100)+'%';const summary=$('battleSummary');summary.hidden=!(finished||Number(g.chapterWins)>=3||m.phase==='result'||m.phase==='matchOver');let summaryText='';if(finished)summaryText='第一季主線已完整結束。第二季伏筆已出現。';else if(Number(g.chapterWins)>=3)summaryText='本關勝利：'+level.victory+'\n故事線索：'+level.clue+'\n可確認關卡推進。';else if(m.phase==='matchOver'&&m.opponentWins>=3)summaryText='本關失敗：'+level.defeat+'\n已完成的前置關卡保留，只需重試目前關卡。';else if(m.phase==='result')summaryText='目前比分：'+g.playerName+' '+m.playerWins+' : '+m.opponentWins+' '+level.opponent+'。本關尚未結束，可繼續挑戰。';summary.textContent=personalize(summaryText);$('storyPlay').disabled=finished||Number(g.chapterWins)>=3;$('storyAdvance').disabled=Number(g.chapterWins)<3||finished;$('storyAdvance').textContent=level.levelNumber===15?'完成第一季故事':level.stage===3?'完成城市章節・前往下一城':'完成關卡・前往下一關';$('storyLevelList').innerHTML=STORY_LEVELS.slice(g.chapter*3,g.chapter*3+3).map(x=>{const index=x.levelNumber-1,status=storyLevelStatus(index),mark=status==='已完成'?'✓':status==='可挑戰'?'▶':'🔒';return '<div class="entry"><div class="section-head"><b>'+mark+' '+(x.cityIndex+1)+'-'+x.stage+' '+escapeHtml(x.title)+'</b><span class="tag">'+status+'</span></div><small>'+escapeHtml(x.role+'｜'+x.opponent)+'</small></div>';}).join('');const p=level.profile;const profile=p?('性別：'+p.gender+'｜年齡：'+p.age+' 歲\n身分：'+p.identity+'\n性格：'+p.personality+'\n專長：'+p.specialty):('身分：'+level.role+'\n'+level.bio+'\n專長：'+c.skillName);$('chapterCast').innerHTML='<article class="card"><div class="card-emoji">'+(level.stage===3?'♠':'🎴')+'</div><h3>'+escapeHtml(level.opponent)+'</h3><p class="muted">'+escapeHtml(level.role+'｜'+level.levelType)+'</p><p class="tiny" style="white-space:pre-line">'+escapeHtml(profile)+'</p><span class="tag">'+(level.stage===3?'原有主要對手':'新增關卡挑戰者')+'</span></article><article class="card"><div class="card-emoji">🏆</div><h3>城市章節獎勵</h3><p class="muted">'+(level.stage===3?'完成本城市第三關後，依原有規則獲得 '+c.reward+' 枚王牌籌碼與 20 點名聲。':'前兩關只推進故事進度；城市獎勵於第三關完成後發放。')+'</p><span class="tag">不新增獎勵</span></article>';};
-renderWorld=function(){$('worldList').innerHTML=CHAPTERS.map((city,i)=>{const cityDone=g.finished||i<g.chapter,cityActive=i===g.chapter&&!g.finished,progress=cityDone?3:cityActive?Math.max(0,Math.min(3,g.storyLevel-i*3+(Number(g.chapterWins)>=3?1:0))):0;const rows=STORY_LEVELS.slice(i*3,i*3+3).map(x=>{const status=cityDone?'已完成':i>g.chapter?'未解鎖':storyLevelStatus(x.levelNumber-1);return '<div class="entry"><div class="section-head"><b>'+(x.cityIndex+1)+'-'+x.stage+' '+escapeHtml(x.title)+'</b><span class="tag">'+status+'</span></div><small>'+escapeHtml(x.opponent+'｜'+x.role)+'</small></div>';}).join('');return '<div class="map-row '+(!cityDone&&!cityActive?'locked':'')+'"><div class="map-icon">'+city.emoji+'</div><div><div class="tiny">巡迴站 '+(i+1)+'｜城市關卡 '+progress+'/3</div><h3>'+city.place+'｜'+city.name+'</h3><p>'+(cityDone?'城市已完成':cityActive?'目前進行中':'尚未解鎖')+'</p>'+rows+'</div><button type="button" '+(!cityActive?'disabled':'')+'>'+ (cityActive?'目前賽站':cityDone?'已完成':'未開放')+'</button></div>';}).join('');};
+renderWorld=function(){
+ $("worldList").innerHTML=CHAPTERS.map((city,cityIndex)=>{
+  const levels=STORY_LEVELS.filter(level=>level.cityIndex===cityIndex);
+  const cityCompleted=levels.filter(level=>storyLevelStatus(level.levelNumber-1)==="已完成").length;
+  const rows=levels.map(level=>{
+   const completed=storyLevelStatus(level.levelNumber-1)==="已完成";
+   return '<div class="entry"><div class="section-head"><b>'+level.levelNumber.toString().padStart(2,"0")+'｜'+escapeHtml(level.title)+'</b><span class="tag">'+(completed?"主線已完成":"尚未完成")+'</span></div><small>'+escapeHtml(level.opponent+"｜"+level.role+"｜"+city.skillName)+'</small><div class="story-actions"><button type="button" data-history-challenge="'+(level.levelNumber-1)+'" '+(completed?"":"disabled")+'>'+(completed?"回歸挑戰":"尚未開放")+'</button></div></div>';
+  }).join("");
+  return '<div class="map-row"><div class="map-icon">'+city.emoji+'</div><div><div class="tiny">城市巡迴 '+(cityIndex+1)+'｜已完成 '+cityCompleted+'/3 關</div><h3>'+escapeHtml(city.place+"｜"+city.name)+'</h3><p>'+escapeHtml(city.opponent+"｜"+city.skillName)+'</p>'+rows+'</div></div>';
+ }).join("");
+ document.querySelectorAll("[data-history-challenge]").forEach(button=>button.onclick=()=>startHistoryChallenge(Number(button.dataset.historyChallenge)));
+};
 restartChallenge=function(){const m=ensureMatch();if(m.phase!=='matchOver'||m.opponentWins<3)return;g.chapterWins=0;matchState=createMatch(g.chapter);lastOutcome='等待下注';$('tableLog').textContent=personalize(currentStoryLevel().defeat+'\n\n'+currentStoryLevel().before);renderAll();notify('已重新開始目前關卡。');};
 $('storyPlay').onclick=()=>{if(Number(g.chapterWins)>=3||g.finished)return;const failed=matchState.phase==='matchOver'&&matchState.opponentWins>=3;if(failed)restartChallenge();selectedGame=chapter().kind;tab('story');setStorySubTab('table');renderTable();$('tableLog').textContent=personalize((failed?currentStoryLevel().defeat+'\n\n':'')+currentStoryLevel().before);};
 $('storyAdvance').onclick=()=>{if(Number(g.chapterWins)<3||g.finished)return;const level=currentStoryLevel(),city=CHAPTERS[g.chapter],cityFinal=level.stage===3;addJournal('關卡「'+level.title+'」勝利：'+level.victory+' 線索：'+level.clue);if(!cityFinal){g.storyLevel++;g.chapterWins=0;matchState=createMatch(g.chapter);lastOutcome='等待下注';addJournal('完成「'+level.title+'」，已解鎖下一道故事關卡。');renderAll();tab('story');setStorySubTab('story');notify('關卡完成！下一道關卡已解鎖。');return;}g.chips+=city.reward;g.fame+=20;addJournal('完成「'+city.name+'」城市章節，依原有規則獲得 '+city.reward+' 枚王牌籌碼與 20 點名聲。');if(g.chapter===4){g.finished=true;g.storyLevel=15;addJournal('第一季結局：父親拒絕配合賽事操控，選擇守住原則。黑桃 A 象徵堅持原則與為選擇負責。匿名訊息提及另外四張王牌，作為第二季伏筆。');}else{g.chapter++;g.storyLevel=g.chapter*3;g.chapterWins=0;g.rescueUsed=false;matchState=createMatch(g.chapter);addJournal('主角啟程前往'+CHAPTERS[g.chapter].place+'，新的城市與挑戰即將展開。');}renderAll();tab('story');setStorySubTab('story');notify(g.finished?'第一季故事完結！':'城市章節完成！獲得 '+city.reward+' 枚王牌籌碼。');};
+
+
+/* === Historical level replay: isolated from story progression and records === */
+let historyChallengeIndex=null,historySavedMainMatchState=null;
+const mainChapterBeforeHistory=chapter;
+chapter=function(){
+ if(historyChallengeIndex!==null){
+  const level=STORY_LEVELS[historyChallengeIndex],base=CHAPTERS[level.cityIndex];
+  return {...base,...level,place:base.place,emoji:base.emoji,symbol:base.symbol,kind:base.kind,skillName:base.skillName,reward:base.reward,levelNumber:level.levelNumber};
+ }
+ return mainChapterBeforeHistory();
+};
+function getActiveChallengeCityIndex(){return historyChallengeIndex===null?g.chapter:STORY_LEVELS[historyChallengeIndex].cityIndex;}
+const ensureMatchBeforeHistory=ensureMatch;
+ensureMatch=function(){
+ if(historyChallengeIndex!==null){
+  if(!matchState||matchState.historyLevelIndex!==historyChallengeIndex){matchState=createMatch(g.chapter);matchState.historyLevelIndex=historyChallengeIndex;matchState.roundSettled=false;}
+  return matchState;
+ }
+ return ensureMatchBeforeHistory();
+};
+function setHistoryTableNavigation(active){
+ const storyButton=document.querySelector('[data-story-tab="story"]'),tableButton=document.querySelector('[data-story-tab="table"]');
+ if(storyButton)storyButton.hidden=active;
+ if(tableButton)tableButton.textContent=active?"🂡 歷史牌桌":"🂡 本章牌桌";
+ $("tableBackStory").textContent=active?"← 返回歷史關卡":"← 返回劇情";
+}
+function startHistoryChallenge(index){
+ if(!Number.isInteger(index)||index<0||index>=STORY_LEVELS.length||storyLevelStatus(index)!=="已完成"){notify("只有主線已完成的關卡可以回歸挑戰。");return;}
+ if(historyChallengeIndex!==null&&!leaveHistoryChallenge())return;
+ historySavedMainMatchState=matchState;
+ historyChallengeIndex=index;
+ matchState=createMatch(g.chapter);
+ matchState.historyLevelIndex=index;
+ matchState.roundSettled=false;
+ setHistoryTableNavigation(true);
+ selectedGame=chapter().kind;
+ renderAll();
+ tab("story");
+ setStorySubTab("table");
+ renderTable();
+ $("tableLog").textContent="歷史關卡回歸挑戰｜"+chapter().title+"｜"+chapter().opponent+"。沿用原版牌桌規則與下注結算；不影響主線進度、不保存戰績、不發放額外獎勵。";
+}
+function leaveHistoryChallenge(){
+ if(historyChallengeIndex===null)return true;
+ const m=ensureMatch();
+ if(m.phase==="pokerDraw"&&Number(m.stake)>0){notify("本回合尚未完成攤牌，請先完成結算再離開，避免下注未結算。");return false;}
+ if(Number(m.stake)>0){notify("本回合下注尚未結算，請先完成本回合。");return false;}
+ historyChallengeIndex=null;
+ matchState=historySavedMainMatchState||createMatch(g.chapter);
+ historySavedMainMatchState=null;
+ setHistoryTableNavigation(false);
+ renderAll();
+ return true;
+}
+const originalTabBeforeHistory=tab;
+tab=function(id){
+ if(historyChallengeIndex!==null&&id!=="story"&&!leaveHistoryChallenge())return;
+ return originalTabBeforeHistory(id);
+};
+const originalCloseWorkspaceBeforeHistory=closeWorkspace;
+closeWorkspace=function(){
+ if(historyChallengeIndex!==null&&!leaveHistoryChallenge())return;
+ return originalCloseWorkspaceBeforeHistory();
+};
+$("tableBackStory").onclick=()=>{
+ if(historyChallengeIndex!==null){
+  if(leaveHistoryChallenge()){originalTabBeforeHistory("journey");setJourneySubTab("world");}
+ }else{originalTabBeforeHistory("story");setStorySubTab("story");}
+};
+const originalSaveBeforeHistory=save;
+save=function(){
+ if(historyChallengeIndex!==null&&matchState&&matchState.historyLevelIndex===historyChallengeIndex&&matchState.phase==="pokerDraw"&&Number(matchState.stake)>0)return;
+ return originalSaveBeforeHistory();
+};
+const originalStartRoundBeforeHistory=startRound;
+startRound=function(){
+ if(historyChallengeIndex!==null){const m=ensureMatch();if(m.phase==="ready")m.roundSettled=false;}
+ return originalStartRoundBeforeHistory();
+};
+const originalResolveRoundBeforeHistory=resolveRound;
+resolveRound=function(winner,text,betOutcome){
+ if(historyChallengeIndex===null)return originalResolveRoundBeforeHistory(winner,text,betOutcome);
+ const m=ensureMatch(),stake=Number(m.stake)||0;
+ if(m.roundSettled)return;
+ m.roundSettled=true;
+ betOutcome=betOutcome||(winner===null?"push":winner==="player"?"win":"lose");
+ m.roundOutcome=winner;
+ m.resultText=text;
+ if(betOutcome==="push"){g.chips+=stake;m.resultText+="｜投注退還 "+stake+" 枚王牌籌碼。";}
+ else if(betOutcome==="win"){g.chips+=stake*2;m.resultText+="｜本回合投注猜中，淨贏 "+stake+" 枚王牌籌碼。";}
+ else{m.resultText+="｜本回合投注未中，扣除 "+stake+" 枚王牌籌碼。";}
+ m.stake=0;
+ if(winner==="player"){m.playerWins++;m.phase=m.playerWins>=3?"matchOver":"result";}
+ else if(winner==="opponent"){m.opponentWins++;m.phase=m.opponentWins>=3?"matchOver":"result";}
+ else{m.phase="result";}
+ m.round=m.playerWins+m.opponentWins+1;
+ if(m.playerWins>=3||m.opponentWins>=3)m.phase="matchOver";
+ lastOutcome=m.resultText;
+ $("tableLog").textContent=m.resultText;
+ renderAll();
+ tab("story");
+ setStorySubTab("table");
+ if(m.phase==="matchOver")notify("歷史關卡挑戰已結束。下注已結算；可返回歷史關卡選單再次挑戰。");
+ else if(winner==="player")notify("本回合勝利！再取得 "+(3-m.playerWins)+" 勝即可結束本次挑戰。");
+ else if(winner==="opponent")notify("本回合失利，仍可繼續本次挑戰。");
+ else notify("本回合平局，比分不變；依原版規則處理下注。");
+};
+const originalContinueMatchBeforeHistory=continueMatch;
+continueMatch=function(){
+ const result=originalContinueMatchBeforeHistory();
+ if(historyChallengeIndex!==null){const m=ensureMatch();m.roundSettled=false;}
+ return result;
+};
+const originalRenderTableBeforeHistory=renderTable;
+renderTable=function(){
+ originalRenderTableBeforeHistory();
+ if(historyChallengeIndex!==null){
+  $("rescueChips").hidden=true;
+  $("rescueChips").disabled=true;
+  $("storyPlay").disabled=true;
+  $("storyAdvance").disabled=true;
+  $("gameRules").textContent+=" 歷史回歸挑戰：只結算原版下注，不增加勝敗統計、名聲、主線進度或額外獎勵。";
+  const m=ensureMatch(),action=$("placeBet");
+  if(m.phase==="matchOver"){action.textContent="返回歷史關卡";action.disabled=false;}
+ }
+};
+const originalHandleMainActionBeforeHistory=handleMainAction;
+handleMainAction=function(){
+ if(historyChallengeIndex!==null&&ensureMatch().phase==="matchOver"){
+  if(leaveHistoryChallenge()){originalTabBeforeHistory("journey");setJourneySubTab("world");}
+  return;
+ }
+ return originalHandleMainActionBeforeHistory();
+};
 
 initSaveManager();
 renderAll();
