@@ -332,6 +332,21 @@ footer{padding:28px 16px;color:#91a3b7;line-height:1.7}
 #settings.active>.panel{width:min(760px,100%);max-height:88vh;overflow-y:auto;margin:4vh auto}
 body.workspace-open{overflow:hidden}
 @media(max-width:760px){.view.active{padding:14px 12px 28px}.workspace-head{padding:8px 0 12px;margin-bottom:12px}.workspace-head .workspace-back{min-width:88px;padding:8px}.view#settings.active{padding:12px}#settings.active>.panel{max-height:94vh}}
+
+/* Approved cover art integration */
+.cover-hero{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(0,1fr);min-height:clamp(340px,38vw,500px);overflow:hidden;border:1px solid #6b573d;border-radius:22px;background:#080d18}
+.cover-art{position:absolute;inset:0;z-index:-2;background-image:linear-gradient(90deg,rgba(5,9,17,.94) 0%,rgba(5,9,17,.82) 37%,rgba(5,9,17,.16) 76%,rgba(5,9,17,.08) 100%),linear-gradient(0deg,rgba(5,9,17,.30),transparent 45%),url("封面/封面.png");background-size:cover;background-position:center 52%;background-repeat:no-repeat}
+.cover-copy{width:min(610px,58%);margin:clamp(16px,3vw,34px);align-self:center;background:linear-gradient(145deg,rgba(12,20,33,.90),rgba(12,20,33,.72));border-color:#b38a503d;box-shadow:0 16px 48px #0006;backdrop-filter:blur(3px)}
+.cover-copy h1{font-size:clamp(2.1rem,4.6vw,3.8rem);margin:10px 0}
+.cover-copy p{line-height:1.8}
+.cover-copy .stat{background:rgba(12,20,32,.78);border-color:#b991594d}
+@media(max-width:760px){
+.cover-hero{min-height:450px;align-items:end}
+.cover-art{background-image:linear-gradient(0deg,rgba(5,9,17,.97) 0%,rgba(5,9,17,.88) 48%,rgba(5,9,17,.12) 100%),url("封面/封面.png");background-position:57% center}
+.cover-copy{width:auto;margin:12px;padding:16px;background:rgba(12,20,33,.84)}
+.cover-copy h1{font-size:clamp(2rem,9vw,3rem)}
+.cover-copy .stat-row{gap:7px}.cover-copy .stat{flex:1 1 80px;min-width:0;padding:8px}
+}
 </style></head>
 <body>
 <header><div class="brand">♠ <span>一擲闖天下</span> <small class="tiny">王牌賭途 · ONE WAGER, ONE WORLD</small></div><div class="wallet"><span>🪙 王牌籌碼 <b id="chips">500</b></span><span>🏅 名聲 <b id="fame">0</b></span><span>📍 <b id="placeShort">台北</b></span></div></header>
