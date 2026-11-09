@@ -1,0 +1,4 @@
+import {ITEMS} from "./database.js";
+export function itemById(id){return ITEMS.find(x=>x.id===id);}
+export function addItem(p,id,n=1){for(let i=0;i<n;i++)p.inventory.push(id);}
+export function useItem(p,id){const item=itemById(id);if(!item)return {ok:false,text:"找不到此物品。"};const at=p.inventory.indexOf(id);if(at<0)return {ok:false,text:"行囊中沒有此物品。"};if(item.heal||item.mana){p.inventory.splice(at,1);if(item.heal)p.hp=Math.min(p.maxHp,p.hp+item.heal);if(item.mana)p.mp=Math.min(p.maxMp,p.mp+item.mana);return {ok:true,text:"使用"+item.name+"。"};}if(item.atk||item.def){p.inventory.splice(at,1);const slot=item.atk?"weapon":"armor";const old=p.equipped[slot];if(old){p.inventory.push(old);const prev=itemById(old);if(prev){p.atk-=prev.atk||0;p.def-=prev.def||0;}}p.equipped[slot]=id;p.atk+=item.atk||0;p.def+=item.def||0;return {ok:true,text:"已裝備"+item.name+"。"};}return {ok:false,text:"此物品目前無法直接使用。"};}
