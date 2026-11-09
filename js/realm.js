@@ -59,12 +59,13 @@ function explore(site){
  const r=currentRegion(),roll=Math.random();
  gameSave.worldFlags.lastLog="你來到「"+site+"」，四周傳來腳步與風聲。";
  if(roll<.48){const names=r.enemies;const enemyName=names[Math.floor(Math.random()*names.length)];const scale=Math.max(1,Math.floor(r.level/2));battle={name:enemyName,hp:70+scale*22,maxHp:70+scale*22,atk:8+scale*3,def:2+scale,xp:28+scale*14,gold:12+scale*7,turn:1,guard:false,log:"你在"+site+"遭遇"+enemyName+"！"};gameSave.worldFlags.lastLog=battle.log;write();renderRealm();$("realmBattle").hidden=false;renderBattle();}
- else if(roll<.72){const gain=18+Math.floor(Math.random()*28);playerSave.player.gold=(player().gold||0)+gain;gameSave.worldFlags.lastLog="你在"+site+"找到散落的銀兩，取得 "+gain+" 兩。";savePlayer();}
- else if(roll<.88){const gain=22+Math.floor(Math.random()*30);playerSave.player.xp=(player().xp||0)+gain;gameSave.worldFlags.lastLog="你在"+site+"救助百姓並獲得見聞，取得 "+gain+" 點經驗。";savePlayer();}
+ else if(roll<.72){const gain=18+Math.floor(Math.random()*28);player().gold=(player().gold||0)+gain;gameSave.worldFlags.lastLog="你在"+site+"找到散落的銀兩，取得 "+gain+" 兩。";savePlayer();}
+ else if(roll<.88){const gain=22+Math.floor(Math.random()*30);awardXp(gain);gameSave.worldFlags.lastLog="你在"+site+"救助百姓並獲得見聞，取得 "+gain+" 點經驗。";savePlayer();}
  else{const faction=["people","sects","border"][Math.floor(Math.random()*3)];gameSave.factionRep[faction]=(gameSave.factionRep[faction]||0)+5;gameSave.worldFlags.lastLog="你協助"+(faction==="people"?"百姓":faction==="sects"?"武林門派":"北境邊軍")+"脫困，勢力支持 +5。";}
  write();renderRealm();
 }
-function savePlayer(){if(window.WuxiaGame){window.WuxiaGame.sync();playerSave.player=player();}else{playerSave.player=player();localStorage.setItem(PLAYER_STORE,JSON.stringify(playerSave));}}\nfunction awardXp(amount){if(window.WuxiaGame)return window.WuxiaGame.addXp(amount);player().xp=(player().xp||0)+amount;savePlayer();return 0;}
+function savePlayer(){if(window.WuxiaGame){window.WuxiaGame.sync();playerSave.player=player();}else{playerSave.player=player();localStorage.setItem(PLAYER_STORE,JSON.stringify(playerSave));}}
+function awardXp(amount){if(window.WuxiaGame)return window.WuxiaGame.addXp(amount);player().xp=(player().xp||0)+amount;savePlayer();return 0;}
 function partyHeroes(){return gameSave.party.map(heroById).filter(Boolean);}
 function renderParty(){
  const members=partyHeroes();$("partyCount").textContent=members.length+" / 4 位隊友";
