@@ -42,3 +42,4 @@ $("importSave").onclick=()=>$("saveFile").click();
 $("saveFile").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const data=await importGame(f);player=data.player;logs=data.logs||[];battle=null;renderAll();toast("存檔匯入成功。");}catch(err){toast(err.message||"匯入失敗。");}e.target.value="";};
 $("newGame").onclick=()=>{if(confirm("重新開始會覆蓋目前瀏覽器中的遊戲進度。確定嗎？")){localStorage.removeItem("wuxia_jianghu_rpg_v1");$("game").hidden=true;$("welcome").hidden=false;player=null;battle=null;}};
 const existing=loadGame();if(existing&&existing.version===1&&existing.player){player=existing.player;logs=existing.logs||[];showGame();}
+window.WuxiaGame={getPlayer:()=>player,sync:()=>{if(!player)return false;persist();renderAll();return true;},addXp:(amount)=>{if(!player)return 0;const count=addXp(player,amount);persist();renderAll();return count;}};
