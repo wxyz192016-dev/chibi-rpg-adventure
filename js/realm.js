@@ -44,7 +44,7 @@ function inject(){
  root.appendChild(party);
  renderAll();
 }
-function open(id){activeTab=id;document.querySelectorAll("#game .view").forEach(v=>v.hidden=v.id!=="view-"+id);document.querySelectorAll("#game .nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.view===id));if(id==="realm")renderRealm();if(id==="bonds")renderBonds();if(id==="party")renderParty();}
+function open(id){read();activeTab=id;document.querySelectorAll("#game .view").forEach(v=>v.hidden=v.id!=="view-"+id);document.querySelectorAll("#game .nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.view===id));if(id==="realm")renderRealm();if(id==="bonds")renderBonds();if(id==="party")renderParty();}
 function currentRegion(){return regions.find(r=>r.id===gameSave.worldRegion)||regions[0];}
 function renderRealm(){
  const r=currentRegion();$("realmLocation").textContent=r.name;
