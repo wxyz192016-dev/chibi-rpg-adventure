@@ -28,7 +28,7 @@ function heroList(){return window.WuxiaConstellation?window.WuxiaConstellation.g
 function heroById(id){return heroList().find(h=>h.id===Number(id));}
 function rel(id){if(!gameSave.relations[id])gameSave.relations[id]={loyalty:70,affinity:0,bond:0,notes:[]};return gameSave.relations[id];}
 function recruited(){return gameSave.recruited.map(heroById).filter(Boolean);}
-function player(){return playerSave.player||{name:"星宿俠客",level:1,hp:100,maxHp:100,mp:30,maxMp:30,atk:10,def:5,agi:5,gold:100,xp:0};}
+function player(){return (window.WuxiaGame&&window.WuxiaGame.getPlayer())||playerSave.player||{name:"星宿俠客",level:1,hp:100,maxHp:100,mp:30,maxMp:30,atk:10,def:5,agi:5,gold:100,xp:0};}
 function level(){return Number(player().level||1);}
 function inject(){
  const root=$("game"),nav=root&&root.querySelector(".main-nav");if(!root||!nav||$("view-realm"))return;
@@ -64,7 +64,7 @@ function explore(site){
  else{const faction=["people","sects","border"][Math.floor(Math.random()*3)];gameSave.factionRep[faction]=(gameSave.factionRep[faction]||0)+5;gameSave.worldFlags.lastLog="你協助"+(faction==="people"?"百姓":faction==="sects"?"武林門派":"北境邊軍")+"脫困，勢力支持 +5。";}
  write();renderRealm();
 }
-function savePlayer(){localStorage.setItem(PLAYER_STORE,JSON.stringify(playerSave));}
+function savePlayer(){if(window.WuxiaGame){window.WuxiaGame.sync();playerSave.player=player();}else{playerSave.player=player();localStorage.setItem(PLAYER_STORE,JSON.stringify(playerSave));}}\nfunction awardXp(amount){if(window.WuxiaGame)return window.WuxiaGame.addXp(amount);player().xp=(player().xp||0)+amount;savePlayer();return 0;}
 function partyHeroes(){return gameSave.party.map(heroById).filter(Boolean);}
 function renderParty(){
  const members=partyHeroes();$("partyCount").textContent=members.length+" / 4 位隊友";
@@ -88,7 +88,7 @@ function renderBonds(){
  $("bondList").querySelectorAll("[data-oath]").forEach(b=>b.onclick=()=>oath(Number(b.dataset.oath)));
 }
 function changeRelation(id,action){
- const x=rel(id),h=heroById(id);if(action==="gift"){if((player().gold||0)<5){alert("銀兩不足，需要 5 兩。");return;}playerSave.player.gold-=5;savePlayer();x.loyalty=Math.min(100,x.loyalty+6);x.affinity+=8;}
+ const x=rel(id),h=heroById(id);if(action==="gift"){if((player().gold||0)<5){alert("銀兩不足，需要 5 兩。");return;}player().gold-=5;savePlayer();x.loyalty=Math.min(100,x.loyalty+6);x.affinity+=8;}
  if(action==="talk"){x.loyalty=Math.min(100,x.loyalty+3);x.affinity+=4;}
  if(action==="train"){x.loyalty=Math.min(100,x.loyalty+4);x.bond=Math.min(100,x.bond+3);x.affinity+=3;}
  if(action==="disagree"){x.loyalty=Math.max(0,x.loyalty-12);x.affinity=Math.max(0,x.affinity-5);if(x.loyalty<=15){gameSave.worldFlags.betrayal=gameSave.worldFlags.betrayal||{};gameSave.worldFlags.betrayal[id]=true;gameSave.party=gameSave.party.filter(v=>v!==id);}}
@@ -114,7 +114,7 @@ function battleAction(action){
  if(action==="guard")battle.guard=true;
  if(action!=="guard")battle.hp=Math.max(0,battle.hp-hit);
  let report=action==="guard"?"全隊結成守勢，降低敵人本回合傷害。":"隊伍合計造成 "+hit+" 點傷害。";
- if(battle.hp<=0){p.xp=(p.xp||0)+battle.xp;p.gold=(p.gold||0)+battle.gold;p.fame=(p.fame||0)+2;hs.forEach(h=>{rel(h.id).loyalty=Math.min(100,rel(h.id).loyalty+1);});savePlayer();battle.log=report+" 擊敗"+battle.name+"，獲得 "+battle.xp+" 經驗與 "+battle.gold+" 兩。";const msg=battle.log;battle=null;$("realmBattle").hidden=true;gameSave.worldFlags.lastLog=msg;write();renderRealm();return;}
+ if(battle.hp<=0){awardXp(battle.xp);p.gold=(p.gold||0)+battle.gold;p.fame=(p.fame||0)+2;hs.forEach(h=>{rel(h.id).loyalty=Math.min(100,rel(h.id).loyalty+1);});savePlayer();battle.log=report+" 擊敗"+battle.name+"，獲得 "+battle.xp+" 經驗與 "+battle.gold+" 兩。";const msg=battle.log;battle=null;$("realmBattle").hidden=true;gameSave.worldFlags.lastLog=msg;write();renderRealm();return;}
  const enemyHit=Math.max(1,battle.atk+Math.floor(Math.random()*4)-p.def-(battle.guard?Math.floor(battle.atk*.55):0));p.hp=Math.max(1,p.hp-enemyHit);battle.guard=false;
  hs.forEach(h=>{const x=rel(h.id);x.loyalty=Math.min(100,x.loyalty+1);});
  battle.turn++;battle.log=report+" "+battle.name+"反擊，隊長受到 "+enemyHit+" 點傷害。";savePlayer();write();renderBattle();
