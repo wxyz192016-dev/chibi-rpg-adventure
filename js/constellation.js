@@ -51,16 +51,16 @@ function renderStarSelection(){
  const list=stars.filter(s=>(s.name+s.star+s.role+s.art+s.trait).toLowerCase().includes(q));
  root.innerHTML=list.map(s=>'<button type="button" class="star-select-card '+(s.id===state.playerStar?"selected":"")+'" data-star-choice="'+s.id+'"><span class="select-star-no">第 '+String(s.id).padStart(3,"0")+' 位</span><b>'+esc(s.star)+'</b><strong>'+esc(s.name)+'</strong><small>'+esc(s.role)+' · '+esc(s.art)+'</small><em>戰力 '+s.power+'</em></button>').join("")||'<p class="muted">找不到符合條件的星宿。</p>';
  root.querySelectorAll("[data-star-choice]").forEach(b=>b.addEventListener("click",()=>{
-  state.playerStar=Number(b.dataset.starChoice);renderStarSelection();
+  state.playerStar=Number(b.dataset.starChoice);state.selectionConfirmed=true;renderStarSelection();
   const h=stars[state.playerStar-1];
   $("starSelectChosen").innerHTML='已選擇：<b>'+esc(h.star)+'・'+esc(h.name)+'</b>（第 '+h.id+' 位）';
   $("confirmStarChoice").disabled=false;
  }));
  if(state.initialized){$("star-select").hidden=true;}
- else if(state.playerStar){const h=stars[state.playerStar-1];$("starSelectChosen").innerHTML='預選本命星：<b>'+esc(h.star)+'・'+esc(h.name)+'</b>（第 '+h.id+' 位）';$("confirmStarChoice").disabled=false;}
+ else if(state.selectionConfirmed){const h=stars[state.playerStar-1];$("starSelectChosen").innerHTML='預選本命星：<b>'+esc(h.star)+'・'+esc(h.name)+'</b>（第 '+h.id+' 位）';$("confirmStarChoice").disabled=false;}
 }
 function beginAsChosenStar(){
- const h=stars[state.playerStar-1];if(!h)return;
+ const h=stars[state.playerStar-1];if(!h||!state.selectionConfirmed)return;
  let old=null;try{old=JSON.parse(localStorage.getItem("wuxia_jianghu_rpg_v1")||"null");}catch{}
  if(old&&!state.initialized)localStorage.setItem("wuxia_legacy_backup_v1",JSON.stringify(old));
  state.initialized=true;state.playerName=h.name;save();
