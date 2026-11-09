@@ -56,14 +56,14 @@ function renderStarSelection(){
   $("starSelectChosen").innerHTML='已選擇：<b>'+esc(h.star)+'・'+esc(h.name)+'</b>（第 '+h.id+' 位）';
   $("confirmStarChoice").disabled=false;
  }));
- if(state.initialized){$("star-select").hidden=true;}
+ if(state.identityChosen){$("star-select").hidden=true;}
  else if(state.selectionConfirmed){const h=stars[state.playerStar-1];$("starSelectChosen").innerHTML='預選本命星：<b>'+esc(h.star)+'・'+esc(h.name)+'</b>（第 '+h.id+' 位）';$("confirmStarChoice").disabled=false;}
 }
 function beginAsChosenStar(){
  const h=stars[state.playerStar-1];if(!h||!state.selectionConfirmed)return;
  let old=null;try{old=JSON.parse(localStorage.getItem("wuxia_jianghu_rpg_v1")||"null");}catch{}
- if(old&&!state.initialized)localStorage.setItem("wuxia_legacy_backup_v1",JSON.stringify(old));
- state.initialized=true;state.playerName=h.name;save();
+ if(old&&!state.identityChosen)localStorage.setItem("wuxia_legacy_backup_v1",JSON.stringify(old));
+ state.identityChosen=true;state.initialized=true;state.playerName=h.name;save();
  $("heroName").value=h.name;$("star-select").hidden=true;$("startGame").click();
 }
 function boot(){
