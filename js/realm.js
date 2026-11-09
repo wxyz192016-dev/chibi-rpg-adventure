@@ -32,7 +32,7 @@ function player(){return (window.WuxiaGame&&window.WuxiaGame.getPlayer())||playe
 function level(){return Number(player().level||1);}
 function inject(){
  const root=$("game"),nav=root&&root.querySelector(".main-nav");if(!root||!nav||$("view-realm"))return;
- [["realm","天下地圖"],["bonds","英雄羈絆"],["party","星宿隊伍"]].forEach(([id,label])=>{const b=document.createElement("button");b.className="nav-btn";b.dataset.view=id;b.textContent=label;nav.appendChild(b);b.addEventListener("click",()=>open(id));});
+ [["realm","天下地圖"],["bonds","英雄羈絆"],["party","星宿隊伍"]].forEach(([id,label])=>{const b=document.createElement("button");b.className="nav-btn";b.dataset.view=id;b.textContent=label;nav.insertBefore(b,nav.querySelector('[data-view="save"]'));b.addEventListener("click",()=>open(id));});
  const section=document.createElement("section");section.id="view-realm";section.className="view";section.hidden=true;
  section.innerHTML='<div class="section-heading"><div><p class="eyebrow">THE OPEN JIANGHU</p><h2>天下江湖地圖</h2></div><span class="location-pill" id="realmLocation">青河郡</span></div><div class="realm-hero panel"><div><p class="eyebrow">EXPLORE · ENCOUNTER · LIBERATE</p><h3>山河萬里，星火可成燎原。</h3><p>自由前往已達條件的地區，探索據點、遭遇敵軍、解救百姓並累積各方勢力支持。</p></div><div class="realm-stats" id="realmStats"></div></div><div class="realm-map" id="realmMap"></div><div class="realm-detail panel" id="realmDetail"></div><div class="realm-battle panel" id="realmBattle" hidden></div>';
  root.appendChild(section);
