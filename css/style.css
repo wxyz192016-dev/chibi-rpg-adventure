@@ -33,3 +33,28 @@
 .star-topbar .brand b{letter-spacing:.1em}
 @media(max-width:850px){.star-select-roster{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:600px){.star-select-roster{grid-template-columns:repeat(2,minmax(0,1fr));max-height:480px}.select-confirm{align-items:stretch;flex-direction:column}.select-confirm .btn{max-width:none}.star-select{padding:14px}.select-hero{padding:20px}}
+
+/* Five-hero card battle */
+.card-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px 20px;margin-bottom:14px}
+.card-summary>div{display:grid;gap:3px}.card-summary small{font-size:11px;color:var(--muted)}.card-summary b{color:var(--gold);font-size:18px}
+.card-section{padding:18px;margin:14px 0}.formation-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
+.formation-slot{display:grid;gap:6px;padding:10px;background:#111915;border:1px solid var(--line);border-radius:9px;font-size:11px;color:var(--gold)}
+.formation-slot select{width:100%;min-width:0;padding:8px;background:#26322b;color:var(--ink);border:1px solid #637467;border-radius:6px;font-size:12px}
+.roster-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.roster-card{display:flex;gap:12px;padding:13px;background:#111915;border:1px solid var(--line);border-radius:10px}
+.roster-avatar{flex:0 0 42px;height:42px;display:grid;place-items:center;border:1px solid var(--gold);border-radius:50%;color:var(--gold);font-size:20px}
+.roster-main{min-width:0;flex:1}.roster-main>b{display:block;color:var(--ink)}.roster-main>span,.roster-main small{font-size:11px;color:var(--muted)}
+.roster-main p{margin:5px 0;font-size:12px;color:var(--muted)}.roster-actions{margin-top:8px}
+.battle-launch{display:flex;align-items:center;justify-content:space-between;gap:18px}.battle-launch h3{margin:0}.battle-launch p{margin:5px 0 0;font-size:12px}
+.live-battle{border-color:#8c554b;background:linear-gradient(145deg,#302724,#1b211e)}
+.combat-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.combat-grid h4{margin:8px 0;color:var(--gold)}
+.combat-roster{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.combat-card{padding:10px;background:#111915;border:1px solid #52634f;border-radius:8px;min-width:0}
+.combat-card b{display:block;font-size:13px}.combat-card small{display:block;font-size:10px;color:var(--muted)}
+.combat-card.fallen{opacity:.35;filter:grayscale(1)}.enemy-combat{border-color:#87534a}
+.roster-hp{height:5px;margin:7px 0;background:#080d0a;border-radius:5px;overflow:hidden}.roster-hp i{display:block;height:100%;background:#b66b60}
+.enemy-combat .roster-hp i{background:#c77a69}.energy-line{font-size:10px;color:var(--gold);margin:4px 0}
+.ultimate-btn{width:100%;padding:6px 5px;font-size:10px}.ultimate-btn:disabled{opacity:.35;cursor:not-allowed}
+.card-feed{margin-top:12px;max-height:150px;overflow:auto}.card-feed p{margin:3px 0}
+@media(max-width:760px){.formation-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.roster-grid{grid-template-columns:1fr}.combat-grid{grid-template-columns:1fr}}
+@media(max-width:430px){.card-summary{padding:12px;gap:7px}.card-summary b{font-size:15px}.combat-roster{grid-template-columns:1fr 1fr}.battle-launch{align-items:flex-start;flex-direction:column}}
