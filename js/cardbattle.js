@@ -112,7 +112,7 @@ function ultimate(id){
 function renderFight(){
   const allyRows=fight.allies.map(h=>'<div class="combat-card '+(h.hp<=0?'fallen':'')+'"><b>'+esc(h.name)+'</b><small>'+esc(h.role)+' · HP '+h.hp+'/'+h.maxHp+'</small><div class="roster-hp"><i style="width:'+Math.max(0,h.hp/h.maxHp*100)+'%"></i></div><div class="energy-line">絕技能量 '+h.energy+'/100</div><button class="btn ultimate-btn" data-ultimate="'+h.id+'" '+(h.hp<=0||h.energy<100?'disabled':'')+'>施放「'+esc(h.ult)+'」</button></div>').join("");
   const enemyRows=fight.enemies.map(e=>'<div class="combat-card enemy-combat '+(e.hp<=0?'fallen':'')+'"><b>'+esc(e.name)+'</b><small>'+esc(e.role)+' · HP '+e.hp+'/'+e.maxHp+'</small><div class="roster-hp"><i style="width:'+Math.max(0,e.hp/e.maxHp*100)+'%"></i></div></div>').join("");
-  return '<div class="card-section panel live-battle"><div class="section-heading compact"><div><p class="eyebrow">ROUND '+fight.round+'</p><h3>自動戰鬥進行中</h3></div><button id="retreatCardFight" class="btn danger">撤出戰場</button></div><p class="tiny muted">普通攻擊與敵方行動均自動執行；能量達 100 時，可手動施放絕技。</p><div class="combat-grid"><div><h4>我方五人</h4><div class="combat-roster">'+allyRows+'</div></div><div><h4>敵方部隊</h4><div class="combat-roster">'+enemyRows+'</div></div></div><div class="battle-feed card-feed">'+fight.log.map(x=>'<p>'+esc(x)+'</p>').join("")+'</div></div>';
+  return '<div class="card-section panel live-battle"><div class="section-heading compact"><div><p class="eyebrow">ROUND '+fight.round+'</p><h3>'+(fight.ended?(alive(fight.enemies).length?"戰鬥勝利":"戰鬥失利"):"自動戰鬥進行中")+'</h3></div><button id="retreatCardFight" class="btn '+(fight.ended?"":"danger")+'">'+(fight.ended?"返回隊伍":"撤出戰場")+'</button></div><p class="tiny muted">普通攻擊與敵方行動均自動執行；能量達 100 時，可手動施放絕技。</p><div class="combat-grid"><div><h4>我方五人</h4><div class="combat-roster">'+allyRows+'</div></div><div><h4>敵方部隊</h4><div class="combat-roster">'+enemyRows+'</div></div></div><div class="battle-feed card-feed">'+fight.log.map(x=>'<p>'+esc(x)+'</p>').join("")+'</div></div>';
 }
 function finish(won){
   if(!fight||fight.ended)return;
@@ -124,13 +124,13 @@ function finish(won){
   }else addLog("戰敗！全隊仍獲得 10 點歷練經驗。");
   if(!won)fight.allies.forEach(h=>{const d=state.heroes[h.id];d.xp+=10;});
   save();render();
-  const root=$("cardBattleRoot");if(root){const panel=root.querySelector(".live-battle");if(panel){const h=panel.querySelector("h3");if(h)h.textContent=won?"戰鬥勝利":"戰鬥失利";const p=panel.querySelector(".tiny");if(p)p.textContent=won?"成功擊退敵軍，獲得修練經驗與軍資。":"隊伍暫時撤退，整理陣形後可再次出征。";const btn=$("retreatCardFight");if(btn){btn.textContent="返回隊伍";btn.classList.remove("danger");btn.onclick=()=>{fight=null;render();};}}}
+  const root=$("cardBattleRoot");if(root){const panel=root.querySelector(".live-battle");if(panel){const h=panel.querySelector("h3");if(h)h.textContent=won?"戰鬥勝利":"戰鬥失利";const p=panel.querySelector(".tiny");if(p)p.textContent=won?"成功擊退敵軍，獲得修練經驗與軍資。":"隊伍暫時撤退，整理陣形後可再次出征。";const btn=$("retreatCardFight");if(btn){btn.textContent="返回隊伍";btn.classList.remove("danger");}}}
   toast(won?"戰鬥勝利！":"戰鬥失利，繼續修練再來挑戰。");
 }
 export function initCardBattle(getPlayer,showToast){
   hostPlayer=getPlayer||hostPlayer;toast=showToast||toast;state=load();
   const nav=document.querySelector('[data-view="cards"]');
   if(nav)nav.addEventListener("click",()=>render());
-  const root=$("cardBattleRoot");if(root)root.addEventListener("click",e=>{if(e.target.id==="retreatCardFight"&&fight&&!fight.ended){clearInterval(timer);timer=null;fight=null;render();toast("已撤出戰場。");}});
+  const root=$("cardBattleRoot");if(root)root.addEventListener("click",e=>{if(e.target.id==="retreatCardFight"&&fight){if(!fight.ended){clearInterval(timer);timer=null;toast("已撤出戰場。");}fight=null;render();}});
   render();
 }
