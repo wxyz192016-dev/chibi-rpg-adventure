@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#171b1a">
-<meta name="description" content="一人江湖 RPG：扮演一名俠客，獨自探索江湖、修練武學、完成任務與挑戰強敵。">
-<title>一人江湖 RPG｜獨行俠客</title>
+<meta name="description" content="亂世闖天下：從無名小卒起步，結識豪傑、招募夥伴、聚眾起義，在帝國末日中爭奪天下。">
+<title>亂世闖天下｜群雄爭霸 RPG</title>
 <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 <header class="topbar">
-  <a class="brand" href="#" aria-label="一人江湖首頁"><span class="brand-mark">俠</span><span><b>一人江湖 RPG</b><small>THE LONE WANDERER · WUXIA RPG</small></span></a>
+  <a class="brand" href="#" aria-label="亂世闖天下首頁"><span class="brand-mark">俠</span><span><b>亂世闖天下</b><small>RISE OF HEROES · WUXIA STRATEGY RPG</small></span></a>
   <div class="top-status"><span id="topName">未命名俠客</span><span id="topLevel">Lv.1</span><span>銀兩 <b id="topGold">100</b></span></div>
 </header>
 <main class="shell">
 <section id="welcome" class="welcome panel">
-    <div class="welcome-art"><div class="sun"></div><div class="mountain m1"></div><div class="mountain m2"></div><div class="pine">松</div><div class="art-title">江湖路遠<br><em>一劍入世</em></div></div>
+    <div class="welcome-art"><div class="sun"></div><div class="mountain m1"></div><div class="mountain m2"></div><div class="pine">松</div><div class="art-title">帝國將傾<br><em>群雄並起</em></div></div>
     <div class="welcome-copy">
-      <p class="eyebrow">THE WAY OF THE WANDERING HERO</p>
-      <h1>一人一劍，<br><em>走出自己的江湖。</em></h1>
-      <p class="muted">你只有一個身份、一段人生。從青河鎮出發，獨自拜訪門派、修練武學、承接委託、探索秘境，在恩怨與奇遇之間走出自己的江湖路。</p>
+      <p class="eyebrow">THE LAST DAYS OF EMPIRE</p>
+      <h1>帝國將傾，<br><em>群雄並起，闖出天下。</em></h1>
+      <p class="muted">帝國末年，皇權腐敗、民生凋敝，天下群雄蠢蠢欲動。你從青河鎮的一介無名小卒起步，在亂世中求生、習武、結識豪傑，逐步招募志同道合的夥伴，聚集力量揭竿起義。</p>
       <label for="heroName">俠客姓名</label><input id="heroName" maxlength="12" value="沈行舟" autocomplete="off">
-      <button id="startGame" class="btn primary wide">獨自闖蕩江湖 <span>→</span></button>
-      <p class="tiny muted">單人主角 · 自由探索 · 本機存檔</p>
+      <button id="startGame" class="btn primary wide">踏入亂世 <span>→</span></button>
+      <p class="tiny muted">無名小卒起步 · 群雄招募與起義為長期目標 · 本機存檔</p>
     </div>
   </section>
 
@@ -32,7 +32,7 @@
       <div class="vitals"><div><span>生命</span><b id="hpText">100 / 100</b><i class="bar"><i id="hpBar" class="hp"></i></i></div><div><span>內力</span><b id="mpText">30 / 30</b><i class="bar"><i id="mpBar" class="mp"></i></i></div></div>
       <div class="stat-mini"><span>攻擊 <b id="atkText">10</b></span><span>防禦 <b id="defText">5</b></span><span>身法 <b id="agiText">5</b></span></div>
     </section>
-    <nav class="main-nav" aria-label="一人江湖遊戲功能"><button class="nav-btn active" data-view="world">江湖</button><button class="nav-btn" data-view="skills">武學</button><button class="nav-btn" data-view="quests">任務</button><button class="nav-btn" data-view="inventory">行囊</button><button class="nav-btn" data-view="character">人物</button><button class="nav-btn" data-view="save">存檔</button></nav>
+    <nav class="main-nav" aria-label="亂世闖天下遊戲功能"><button class="nav-btn active" data-view="world">江湖</button><button class="nav-btn" data-view="skills">武學</button><button class="nav-btn" data-view="quests">任務</button><button class="nav-btn" data-view="inventory">行囊</button><button class="nav-btn" data-view="character">人物</button><button class="nav-btn" data-view="save">存檔</button></nav>
 
     <section id="view-world" class="view" hidden>
       <div class="section-heading"><div><p class="eyebrow">THE OPEN WORLD</p><h2>獨行江湖</h2></div><span class="location-pill" id="locationName">青河鎮</span></div>
@@ -54,6 +54,6 @@
   </section>
 </main>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
-<footer>一人江湖 RPG <span>·</span> 一人一劍，行走天下</footer>
+<footer>亂世闖天下 <span>·</span> 帝國將傾，群雄並起</footer>
 <script type="module" src="./js/game.js"></script>
 </body></html>
