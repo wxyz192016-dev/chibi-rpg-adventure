@@ -6,6 +6,7 @@ import {itemById,addItem,useItem} from "./items.js";
 import {questStatus,acceptQuest,claimQuest} from "./quests.js";
 import {damage,enemyTurn} from "./battle.js";
 import {saveGame,loadGame,exportGame,importGame} from "./save.js";
+import {initCardBattle} from "./cardbattle.js";
 const $=id=>document.getElementById(id);
 let player=null,battle=null,defending=false,dodging=false,logs=[];
 const toast=msg=>{const el=$("toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2100);};
@@ -43,3 +44,4 @@ $("saveFile").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{cons
 $("newGame").onclick=()=>{if(confirm("重新開始將清除目前主角的遊戲進度，回到《亂世闖天下》開局畫面。確定嗎？")){localStorage.removeItem("wuxia_jianghu_rpg_v1");location.reload();}};
 const existing=loadGame();if(existing&&existing.version===1&&existing.player){player=existing.player;logs=existing.logs||[];showGame();}
 window.WuxiaGame={getPlayer:()=>player,sync:()=>{if(!player)return false;persist();renderAll();return true;},addXp:(amount)=>{if(!player)return 0;const count=addXp(player,amount);persist();renderAll();return count;}};
+initCardBattle(()=>player,toast);
