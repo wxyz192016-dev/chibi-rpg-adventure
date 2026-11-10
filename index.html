@@ -4,26 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#171b1a">
-<meta name="description" content="武俠江湖 RPG：集結一百零八星宿英雄，推翻暴政帝國。">
-<title>一百零八星宿｜反帝國英雄錄</title>
+<meta name="description" content="一人江湖 RPG：扮演一名俠客，獨自探索江湖、修練武學、完成任務與挑戰強敵。">
+<title>一人江湖 RPG｜獨行俠客</title>
 <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 <header class="topbar">
-  <a class="brand" href="#" aria-label="武俠江湖首頁"><span class="brand-mark">俠</span><span><b>一百零八星宿</b><small>108 CONSTELLATIONS · ANTI-EMPIRE RPG</small></span></a>
+  <a class="brand" href="#" aria-label="一人江湖首頁"><span class="brand-mark">俠</span><span><b>一人江湖 RPG</b><small>THE LONE WANDERER · WUXIA RPG</small></span></a>
   <div class="top-status"><span id="topName">未命名俠客</span><span id="topLevel">Lv.1</span><span>銀兩 <b id="topGold">100</b></span></div>
 </header>
 <main class="shell">
-  <section id="star-select" class="star-select panel"><div class="select-hero"><p class="eyebrow">THE 108 CONSTELLATION HEROES</p><h1>一百零八星宿<br><em>選定你的命運</em></h1><p>承天帝國以天命奴役天下。你不是旁觀者，而是命盤中的一位星宿英雄。選定本命星位，與其餘107位好漢結盟，改寫天下命運。</p><div class="select-count"><b>108</b><span>星宿英雄<br>皆可成為你的身份</span></div></div><div class="select-controls"><label for="starSelectSearch">搜尋星宿姓名、星位或專長</label><input id="starSelectSearch" placeholder="輸入英雄姓名、星位、武學..."><div class="select-hint">點選一位英雄作為你的本命星宿</div></div><div id="starSelectRoster" class="star-select-roster"></div><div class="select-confirm"><div id="starSelectChosen">尚未選擇本命星宿</div><button id="confirmStarChoice" class="btn primary wide" disabled>選擇此星宿，踏上反帝國之路 →</button></div></section>
-<section id="welcome" class="welcome panel" hidden>
+<section id="welcome" class="welcome panel">
     <div class="welcome-art"><div class="sun"></div><div class="mountain m1"></div><div class="mountain m2"></div><div class="pine">松</div><div class="art-title">江湖路遠<br><em>一劍入世</em></div></div>
     <div class="welcome-copy">
       <p class="eyebrow">THE WAY OF THE WANDERING HERO</p>
-      <h1>踏入江湖，<br><em>寫下你的傳奇。</em></h1>
-      <p class="muted">從青河鎮出發，拜訪門派、修練武學、挑戰強敵，在廣闊江湖中尋找自己的道路。</p>
+      <h1>一人一劍，<br><em>走出自己的江湖。</em></h1>
+      <p class="muted">你只有一個身份、一段人生。從青河鎮出發，獨自拜訪門派、修練武學、承接委託、探索秘境，在恩怨與奇遇之間走出自己的江湖路。</p>
       <label for="heroName">俠客姓名</label><input id="heroName" maxlength="12" value="沈行舟" autocomplete="off">
-      <button id="startGame" class="btn primary wide">開始闖蕩江湖 <span>→</span></button>
-      <p class="tiny muted">單人遊玩 · 本機存檔 · 無須登入</p>
+      <button id="startGame" class="btn primary wide">獨自闖蕩江湖 <span>→</span></button>
+      <p class="tiny muted">單人主角 · 自由探索 · 本機存檔</p>
     </div>
   </section>
 
@@ -33,30 +32,28 @@
       <div class="vitals"><div><span>生命</span><b id="hpText">100 / 100</b><i class="bar"><i id="hpBar" class="hp"></i></i></div><div><span>內力</span><b id="mpText">30 / 30</b><i class="bar"><i id="mpBar" class="mp"></i></i></div></div>
       <div class="stat-mini"><span>攻擊 <b id="atkText">10</b></span><span>防禦 <b id="defText">5</b></span><span>身法 <b id="agiText">5</b></span></div>
     </section>
-    <nav class="main-nav" aria-label="108星宿遊戲功能"><button class="nav-btn" data-view="save">存檔</button></nav>
+    <nav class="main-nav" aria-label="一人江湖遊戲功能"><button class="nav-btn active" data-view="world">江湖</button><button class="nav-btn" data-view="skills">武學</button><button class="nav-btn" data-view="quests">任務</button><button class="nav-btn" data-view="inventory">行囊</button><button class="nav-btn" data-view="character">人物</button><button class="nav-btn" data-view="save">存檔</button></nav>
 
     <section id="view-world" class="view" hidden>
-      <div class="section-heading"><div><p class="eyebrow">THE OPEN WORLD</p><h2>江湖行旅</h2></div><span class="location-pill" id="locationName">青河鎮</span></div>
+      <div class="section-heading"><div><p class="eyebrow">THE OPEN WORLD</p><h2>獨行江湖</h2></div><span class="location-pill" id="locationName">青河鎮</span></div>
       <div class="world-layout">
         <article class="scene panel"><div class="scene-image" id="sceneImage"><div class="scene-moon"></div><div class="scene-ridge"></div><div class="scene-ridge second"></div><div class="scene-label"><small>當前所在</small><b id="sceneTitle">青河鎮</b></div></div><div class="scene-copy"><p id="sceneDesc">遠處山巒雲霧繚繞，鎮上人聲漸起。這裡是你踏入江湖的第一站。</p><div class="scene-actions"><button id="exploreBtn" class="btn primary">探索此地</button><button id="restBtn" class="btn">客棧休息 · 10 兩</button></div></div></article>
         <aside class="panel region-panel"><h3>江湖地圖</h3><p class="tiny muted">選擇已開放的地區前往探索。</p><div id="regionList" class="region-list"></div></aside>
       </div>
-      <div class="section-heading compact"><div><p class="eyebrow">PEOPLE OF JIANGHU</p><h2>人物與遭遇</h2></div></div>
+      <div class="section-heading compact"><div><p class="eyebrow">PEOPLE OF JIANGHU</p><h2>江湖人物與奇遇</h2></div></div>
       <div id="npcList" class="npc-grid"></div>
       <div class="panel log-panel"><div class="section-heading compact"><h3>江湖見聞</h3><button id="clearLog" class="text-btn">清除紀錄</button></div><div id="worldLog" class="log-list"><p>你初到青河鎮，江湖之路由此開始。</p></div></div>
     </section>
 
-    <section id="view-skills" class="view" hidden hidden><div class="section-heading"><div><p class="eyebrow">MARTIAL ARTS</p><h2>武學修練</h2></div><span class="location-pill">悟性與修為</span></div><div id="skillList" class="content-grid"></div></section>
-    <section id="view-quests" class="view" hidden hidden><div class="section-heading"><div><p class="eyebrow">JOURNEY & DESTINY</p><h2>江湖任務</h2></div></div><div id="questList" class="stack-list"></div></section>
-    <section id="view-inventory" class="view" hidden hidden><div class="section-heading"><div><p class="eyebrow">YOUR BELONGINGS</p><h2>行囊背包</h2></div><span class="location-pill" id="bagCount">0 件物品</span></div><div id="inventoryList" class="content-grid"></div></section>
-    <section id="view-character" class="view" hidden hidden><div class="section-heading"><div><p class="eyebrow">HERO PROFILE</p><h2>人物狀態</h2></div></div><div id="characterPanel" class="panel profile-grid"></div></section>
+    <section id="view-skills" class="view" hidden><div class="section-heading"><div><p class="eyebrow">MARTIAL ARTS</p><h2>武學修練</h2></div><span class="location-pill">悟性與修為</span></div><div id="skillList" class="content-grid"></div></section>
+    <section id="view-quests" class="view" hidden><div class="section-heading"><div><p class="eyebrow">JOURNEY & DESTINY</p><h2>江湖任務</h2></div></div><div id="questList" class="stack-list"></div></section>
+    <section id="view-inventory" class="view" hidden><div class="section-heading"><div><p class="eyebrow">YOUR BELONGINGS</p><h2>行囊背包</h2></div><span class="location-pill" id="bagCount">0 件物品</span></div><div id="inventoryList" class="content-grid"></div></section>
+    <section id="view-character" class="view" hidden><div class="section-heading"><div><p class="eyebrow">HERO PROFILE</p><h2>俠客狀態</h2></div></div><div id="characterPanel" class="panel profile-grid"></div></section>
     <section id="view-save" class="view" hidden><div class="section-heading"><div><p class="eyebrow">SAVE & CONTINUE</p><h2>存檔管理</h2></div></div><div class="panel save-panel"><p>遊戲進度保存在目前瀏覽器。更換裝置或清除瀏覽資料前，請先匯出備份。</p><div class="button-row"><button id="saveNow" class="btn primary">立即存檔</button><button id="exportSave" class="btn">匯出存檔</button><button id="importSave" class="btn">匯入存檔</button><button id="newGame" class="btn danger">重新開始</button><input type="file" id="saveFile" accept="application/json" hidden></div><p class="tiny muted" id="saveStatus">尚未進行手動存檔。</p></div></section>
     <section id="battle" class="battle panel" hidden><div class="battle-head"><div><p class="eyebrow">ENCOUNTER</p><h2 id="enemyName">山賊</h2><span id="enemyDesc" class="muted">攔路的江湖匪徒</span></div><span class="danger-tag">戰鬥中</span></div><div class="combatants"><div class="fighter"><div class="fighter-art hero-art">俠</div><b id="battleHeroName">俠客</b><small id="battleHeroHp">HP 100/100</small></div><div class="versus">VS</div><div class="fighter"><div class="fighter-art enemy-art">敵</div><b id="battleEnemyName">山賊</b><small id="battleEnemyHp">HP 60/60</small></div></div><div class="battle-feed" id="battleFeed">交手開始！</div><div class="battle-actions"><button id="attackBtn" class="btn primary">普通攻擊</button><button id="skillBtn" class="btn">施展武功</button><button id="defendBtn" class="btn">防禦</button><button id="dodgeBtn" class="btn">輕功閃避</button><button id="itemBtn" class="btn">使用丹藥</button><button id="fleeBtn" class="btn danger">撤退</button></div></section>
   </section>
 </main>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
-<footer>一百零八星宿・反帝國英雄錄 <span>·</span> 天命在人，天下為公</footer>
+<footer>一人江湖 RPG <span>·</span> 一人一劍，行走天下</footer>
 <script type="module" src="./js/game.js"></script>
-<script type="module" src="./js/constellation.js"></script>
-<script type="module" src="./js/realm.js"></script>
 </body></html>
