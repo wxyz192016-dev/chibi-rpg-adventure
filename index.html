@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#171b1a">
+<meta name="theme-color" content="#171b1a">\n<meta property="og:type" content="website">\n<meta property="og:title" content="《亂世闖天下》｜群雄爭霸 RPG">\n<meta property="og:description" content="帝國將傾，群雄並起；一介草民，也能問鼎天下。從無名小卒起步，招募豪傑、聚眾起義，爭奪天下。">
 <meta name="description" content="亂世闖天下：從無名小卒起步，結識豪傑、招募夥伴、聚眾起義，在帝國末日中爭奪天下。">
-<title>亂世闖天下｜群雄爭霸 RPG</title>
+<title>《亂世闖天下》｜群雄爭霸 RPG</title>
 <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 <header class="topbar">
-  <a class="brand" href="#" aria-label="亂世闖天下首頁"><span class="brand-mark">俠</span><span><b>亂世闖天下</b><small>RISE OF HEROES · WUXIA STRATEGY RPG</small></span></a>
-  <div class="top-status"><span id="topName">未命名俠客</span><span id="topLevel">Lv.1</span><span>銀兩 <b id="topGold">100</b></span></div>
+  <a class="brand" href="#" aria-label="亂世闖天下首頁"><span class="brand-mark">亂</span><span><b>亂世闖天下</b><small>RISE OF HEROES · WUXIA STRATEGY RPG</small></span></a>
+  <div class="top-status"><span id="topName">未命名主角</span><span id="topLevel">Lv.1</span><span>銀兩 <b id="topGold">100</b></span></div>
 </header>
 <main class="shell">
 <section id="welcome" class="welcome panel">
@@ -20,7 +20,7 @@
       <p class="eyebrow">THE LAST DAYS OF EMPIRE</p>
       <h1>帝國將傾，<br><em>群雄並起，闖出天下。</em></h1>
       <p class="muted">帝國末年，皇權腐敗、民生凋敝，天下群雄蠢蠢欲動。你從青河鎮的一介無名小卒起步，在亂世中求生、習武、結識豪傑，逐步招募志同道合的夥伴，聚集力量揭竿起義。</p>
-      <label for="heroName">俠客姓名</label><input id="heroName" maxlength="12" value="沈行舟" autocomplete="off">
+      <label for="heroName">主角姓名</label><input id="heroName" maxlength="12" value="沈行舟" autocomplete="off">
       <button id="startGame" class="btn primary wide">踏入亂世 <span>→</span></button>
       <p class="tiny muted">無名小卒起步 · 群雄招募與起義為長期目標 · 本機存檔</p>
     </div>
@@ -28,32 +28,32 @@
 
   <section id="game" hidden>
     <section class="hero-strip panel">
-      <div class="avatar">俠</div><div class="hero-meta"><b id="heroTitle">初入江湖</b><span id="heroSub">江湖新人 · 青河鎮</span><div class="xp-track"><i id="xpBar"></i></div><small id="xpText">經驗 0 / 100</small></div>
+      <div class="avatar">卒</div><div class="hero-meta"><b id="heroTitle">亂世新丁</b><span id="heroSub">起義之路 · 青河鎮</span><div class="xp-track"><i id="xpBar"></i></div><small id="xpText">經驗 0 / 100</small></div>
       <div class="vitals"><div><span>生命</span><b id="hpText">100 / 100</b><i class="bar"><i id="hpBar" class="hp"></i></i></div><div><span>內力</span><b id="mpText">30 / 30</b><i class="bar"><i id="mpBar" class="mp"></i></i></div></div>
       <div class="stat-mini"><span>攻擊 <b id="atkText">10</b></span><span>防禦 <b id="defText">5</b></span><span>身法 <b id="agiText">5</b></span></div>
     </section>
-    <nav class="main-nav" aria-label="亂世闖天下遊戲功能"><button class="nav-btn active" data-view="world">江湖</button><button class="nav-btn" data-view="skills">武學</button><button class="nav-btn" data-view="quests">任務</button><button class="nav-btn" data-view="inventory">行囊</button><button class="nav-btn" data-view="character">人物</button><button class="nav-btn" data-view="save">存檔</button></nav>
+    <nav class="main-nav" aria-label="亂世闖天下遊戲功能"><button class="nav-btn active" data-view="world">天下</button><button class="nav-btn" data-view="skills">武學</button><button class="nav-btn" data-view="quests">任務</button><button class="nav-btn" data-view="inventory">行囊</button><button class="nav-btn" data-view="character">人物</button><button class="nav-btn" data-view="save">存檔</button></nav>
 
     <section id="view-world" class="view" hidden>
-      <div class="section-heading"><div><p class="eyebrow">THE OPEN WORLD</p><h2>獨行江湖</h2></div><span class="location-pill" id="locationName">青河鎮</span></div>
+      <div class="section-heading"><div><p class="eyebrow">THE WORLD IN TURMOIL</p><h2>亂世天下</h2></div><span class="location-pill" id="locationName">青河鎮</span></div>
       <div class="world-layout">
-        <article class="scene panel"><div class="scene-image" id="sceneImage"><div class="scene-moon"></div><div class="scene-ridge"></div><div class="scene-ridge second"></div><div class="scene-label"><small>當前所在</small><b id="sceneTitle">青河鎮</b></div></div><div class="scene-copy"><p id="sceneDesc">遠處山巒雲霧繚繞，鎮上人聲漸起。這裡是你踏入江湖的第一站。</p><div class="scene-actions"><button id="exploreBtn" class="btn primary">探索此地</button><button id="restBtn" class="btn">客棧休息 · 10 兩</button></div></div></article>
-        <aside class="panel region-panel"><h3>江湖地圖</h3><p class="tiny muted">選擇已開放的地區前往探索。</p><div id="regionList" class="region-list"></div></aside>
+        <article class="scene panel"><div class="scene-image" id="sceneImage"><div class="scene-moon"></div><div class="scene-ridge"></div><div class="scene-ridge second"></div><div class="scene-label"><small>當前所在</small><b id="sceneTitle">青河鎮</b></div></div><div class="scene-copy"><p id="sceneDesc">帝國秩序逐漸崩解，青河鎮仍是你立足亂世、結識豪傑的起點。</p><div class="scene-actions"><button id="exploreBtn" class="btn primary">探索此地</button><button id="restBtn" class="btn">客棧休息 · 10 兩</button></div></div></article>
+        <aside class="panel region-panel"><h3>天下地圖</h3><p class="tiny muted">選擇已開放的地區前往探索。</p><div id="regionList" class="region-list"></div></aside>
       </div>
-      <div class="section-heading compact"><div><p class="eyebrow">PEOPLE OF JIANGHU</p><h2>江湖人物與奇遇</h2></div></div>
+      <div class="section-heading compact"><div><p class="eyebrow">HEROES & ENCOUNTERS</p><h2>群雄人物與奇遇</h2></div></div>
       <div id="npcList" class="npc-grid"></div>
-      <div class="panel log-panel"><div class="section-heading compact"><h3>江湖見聞</h3><button id="clearLog" class="text-btn">清除紀錄</button></div><div id="worldLog" class="log-list"><p>你初到青河鎮，江湖之路由此開始。</p></div></div>
+      <div class="panel log-panel"><div class="section-heading compact"><h3>亂世見聞</h3><button id="clearLog" class="text-btn">清除紀錄</button></div><div id="worldLog" class="log-list"><p>你初到青河鎮，亂世之路由此開始。</p></div></div>
     </section>
 
     <section id="view-skills" class="view" hidden><div class="section-heading"><div><p class="eyebrow">MARTIAL ARTS</p><h2>武學修練</h2></div><span class="location-pill">悟性與修為</span></div><div id="skillList" class="content-grid"></div></section>
-    <section id="view-quests" class="view" hidden><div class="section-heading"><div><p class="eyebrow">JOURNEY & DESTINY</p><h2>江湖任務</h2></div></div><div id="questList" class="stack-list"></div></section>
+    <section id="view-quests" class="view" hidden><div class="section-heading"><div><p class="eyebrow">JOURNEY & DESTINY</p><h2>天下任務</h2></div></div><div id="questList" class="stack-list"></div></section>
     <section id="view-inventory" class="view" hidden><div class="section-heading"><div><p class="eyebrow">YOUR BELONGINGS</p><h2>行囊背包</h2></div><span class="location-pill" id="bagCount">0 件物品</span></div><div id="inventoryList" class="content-grid"></div></section>
-    <section id="view-character" class="view" hidden><div class="section-heading"><div><p class="eyebrow">HERO PROFILE</p><h2>俠客狀態</h2></div></div><div id="characterPanel" class="panel profile-grid"></div></section>
+    <section id="view-character" class="view" hidden><div class="section-heading"><div><p class="eyebrow">HERO PROFILE</p><h2>主角狀態</h2></div></div><div id="characterPanel" class="panel profile-grid"></div></section>
     <section id="view-save" class="view" hidden><div class="section-heading"><div><p class="eyebrow">SAVE & CONTINUE</p><h2>存檔管理</h2></div></div><div class="panel save-panel"><p>遊戲進度保存在目前瀏覽器。更換裝置或清除瀏覽資料前，請先匯出備份。</p><div class="button-row"><button id="saveNow" class="btn primary">立即存檔</button><button id="exportSave" class="btn">匯出存檔</button><button id="importSave" class="btn">匯入存檔</button><button id="newGame" class="btn danger">重新開始</button><input type="file" id="saveFile" accept="application/json" hidden></div><p class="tiny muted" id="saveStatus">尚未進行手動存檔。</p></div></section>
-    <section id="battle" class="battle panel" hidden><div class="battle-head"><div><p class="eyebrow">ENCOUNTER</p><h2 id="enemyName">山賊</h2><span id="enemyDesc" class="muted">攔路的江湖匪徒</span></div><span class="danger-tag">戰鬥中</span></div><div class="combatants"><div class="fighter"><div class="fighter-art hero-art">俠</div><b id="battleHeroName">俠客</b><small id="battleHeroHp">HP 100/100</small></div><div class="versus">VS</div><div class="fighter"><div class="fighter-art enemy-art">敵</div><b id="battleEnemyName">山賊</b><small id="battleEnemyHp">HP 60/60</small></div></div><div class="battle-feed" id="battleFeed">交手開始！</div><div class="battle-actions"><button id="attackBtn" class="btn primary">普通攻擊</button><button id="skillBtn" class="btn">施展武功</button><button id="defendBtn" class="btn">防禦</button><button id="dodgeBtn" class="btn">輕功閃避</button><button id="itemBtn" class="btn">使用丹藥</button><button id="fleeBtn" class="btn danger">撤退</button></div></section>
+    <section id="battle" class="battle panel" hidden><div class="battle-head"><div><p class="eyebrow">ENCOUNTER</p><h2 id="enemyName">山賊</h2><span id="enemyDesc" class="muted">攔路的江湖匪徒</span></div><span class="danger-tag">戰鬥中</span></div><div class="combatants"><div class="fighter"><div class="fighter-art hero-art">卒</div><b id="battleHeroName">主角</b><small id="battleHeroHp">HP 100/100</small></div><div class="versus">VS</div><div class="fighter"><div class="fighter-art enemy-art">敵</div><b id="battleEnemyName">山賊</b><small id="battleEnemyHp">HP 60/60</small></div></div><div class="battle-feed" id="battleFeed">交手開始！</div><div class="battle-actions"><button id="attackBtn" class="btn primary">普通攻擊</button><button id="skillBtn" class="btn">施展武功</button><button id="defendBtn" class="btn">防禦</button><button id="dodgeBtn" class="btn">輕功閃避</button><button id="itemBtn" class="btn">使用丹藥</button><button id="fleeBtn" class="btn danger">撤退</button></div></section>
   </section>
 </main>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
-<footer>亂世闖天下 <span>·</span> 帝國將傾，群雄並起</footer>
+<footer>《亂世闖天下》 <span>·</span> 帝國將傾，群雄並起</footer>
 <script type="module" src="./js/game.js"></script>
 </body></html>
