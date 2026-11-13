@@ -106,13 +106,14 @@ function ultimate(id){
   const actor=fight.allies.find(x=>x.id===id&&x.hp>0);
   if(!actor||actor.energy<100)return toast("該英雄的絕技能量尚未集滿。");
   actor.energy=0;
+  fight.action={actorId:id,side:"ally",kind:"ultimate",targetSide:actor.kind==="heal"?"ally":"enemy",targetAll:actor.kind==="aoe"};
   if(actor.kind==="heal"){
     const target=[...alive(fight.allies)].sort((a,b)=>(a.hp/a.maxHp)-(b.hp/b.maxHp))[0];
-    if(target){const amount=Math.round(target.maxHp*.34);target.hp=Math.min(target.maxHp,target.hp+amount);addLog(actor.name+" 施放「"+actor.ult+"」，為 "+target.name+" 恢復 "+amount+" 點生命。");}
+    if(target){fight.action.targetId=target.id||target.name;const amount=Math.round(target.maxHp*.34);target.hp=Math.min(target.maxHp,target.hp+amount);addLog(actor.name+" 施放「"+actor.ult+"」，為 "+target.name+" 恢復 "+amount+" 點生命。");}
   }else if(actor.kind==="aoe"){
     const targets=alive(fight.enemies);targets.forEach(t=>{const hit=Math.max(1,Math.round(actor.atk*actor.power-t.def*.35));t.hp=Math.max(0,t.hp-hit);});addLog(actor.name+" 施放「"+actor.ult+"」，對敵方全體造成傷害。");
   }else{
-    const target=chooseTarget(fight.enemies);if(target){const hit=Math.max(1,Math.round(actor.atk*actor.power-target.def*.35));target.hp=Math.max(0,target.hp-hit);addLog(actor.name+" 施放「"+actor.ult+"」，對 "+target.name+" 造成 "+hit+" 點絕技傷害。");}
+    const target=chooseTarget(fight.enemies);if(target){fight.action.targetId=target.id||target.name;const hit=Math.max(1,Math.round(actor.atk*actor.power-target.def*.35));target.hp=Math.max(0,target.hp-hit);addLog(actor.name+" 施放「"+actor.ult+"」，對 "+target.name+" 造成 "+hit+" 點絕技傷害。");}
   }
   if(!alive(fight.enemies).length)return finish(true);
   render();
@@ -123,8 +124,8 @@ function renderTacticalUnit(unit,side,index){
   const pos=(side==="ally"?allyPositions:enemyPositions)[index]||[50,50];
   const pct=Math.max(0,Math.round(unit.hp/unit.maxHp*100));
   const key=unit.id||unit.name,action=fight.action||{};
-  const attacking=action.actorId===key,hit=action.targetId===key;
-  return '<div class="tactical-unit '+side+(unit.hp<=0?' fallen':'')+(attacking?' unit-attacking':'')+(hit?' unit-hit':'')+'" style="--x:'+pos[0]+';--y:'+pos[1]+'"><div class="unit-name">'+esc(unit.name)+'</div><div class="unit-token">'+(side==="ally"?'⚔':'⚑')+'</div><div class="unit-hp"><i style="width:'+pct+'%"></i></div><div class="unit-stat">'+(unit.hp<=0?'倒下':'HP '+unit.hp+'/'+unit.maxHp)+'</div>'+(hit?'<div class="damage-float">-'+action.damage+'</div>':'')+(side==="ally"?'<div class="unit-energy">絕技 '+unit.energy+'/100</div><button class="btn ultimate-btn" data-ultimate="'+unit.id+'" '+(unit.hp<=0||unit.energy<100||fight.pending?'disabled':'')+'>施放 '+esc(unit.ult)+'</button>':'')+'</div>';
+  const attacking=action.actorId===key,hit=action.targetId===key||(action.kind==="ultimate"&&action.targetAll&&action.targetSide===side),ultimateHit=action.kind==="ultimate"&&(action.actorId===key||hit);
+  return '<div class="tactical-unit '+side+(unit.hp<=0?' fallen':'')+(attacking?' unit-attacking':'')+(hit?' unit-hit':'')+(ultimateHit?' unit-ultimate':'')+'" style="--x:'+pos[0]+';--y:'+pos[1]+'"><div class="unit-name">'+esc(unit.name)+'</div><div class="unit-token">'+(side==="ally"?'⚔':'⚑')+'</div><div class="unit-hp"><i style="width:'+pct+'%"></i></div><div class="unit-stat">'+(unit.hp<=0?'倒下':'HP '+unit.hp+'/'+unit.maxHp)+'</div>'+(hit?'<div class="damage-float">-'+action.damage+'</div>':'')+(side==="ally"?'<div class="unit-energy">絕技 '+unit.energy+'/100</div><button class="btn ultimate-btn" data-ultimate="'+unit.id+'" '+(unit.hp<=0||unit.energy<100||fight.pending?'disabled':'')+'>施放 '+esc(unit.ult)+'</button>':'')+'</div>';
 }
 function renderFight(){
   const allyRows=fight.allies.map((h,i)=>renderTacticalUnit(h,"ally",i)).join("");
