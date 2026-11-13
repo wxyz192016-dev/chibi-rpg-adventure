@@ -103,3 +103,47 @@
 .tactical-unit.unit-ultimate .unit-token{filter:brightness(1.8);box-shadow:0 0 18px #ffe6a0}
 @keyframes ultimatePulse{0%,100%{scale:1;filter:none}35%{scale:1.12;filter:brightness(1.65)}70%{scale:1.04;filter:brightness(1.2)}}
 @media(prefers-reduced-motion:reduce){.tactical-unit,.damage-float{animation:none!important;transition:none!important}}
+
+/* V5.4 focused card-battle home interface */
+.shell{width:min(1320px,100%);padding:28px clamp(16px,2.4vw,34px) 64px}
+.topbar{height:68px;padding-inline:clamp(18px,4vw,64px)}
+.main-nav{gap:10px;padding:10px 0 22px;border-bottom:1px solid #ffffff12;margin-bottom:22px}
+.nav-btn{min-width:116px;padding:11px 22px;font-size:14px;letter-spacing:.08em;background:#1b241e;border-color:#35453a}
+.nav-btn.active{background:linear-gradient(120deg,#594a2e,#2d382b);border-color:#b99a5e;color:#f2d69b;box-shadow:0 4px 18px #0003}
+#view-cards>.section-heading{margin-top:4px;margin-bottom:22px}
+#view-cards>.section-heading h2{font-size:clamp(24px,2.4vw,34px);letter-spacing:.12em}
+#view-cards .card-summary{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding:20px 24px;margin-bottom:18px}
+#view-cards .card-summary small{font-size:12px;letter-spacing:.06em}
+#view-cards .card-summary b{font-size:clamp(18px,1.8vw,24px)}
+#view-cards .card-section{padding:clamp(18px,2vw,26px);margin:18px 0}
+#view-cards .section-heading.compact{margin:0 0 18px}
+#view-cards .section-heading.compact h3{font-size:20px;letter-spacing:.08em}
+#view-cards .formation-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+#view-cards .formation-slot{padding:13px;font-size:12px}
+#view-cards .formation-slot select{font-size:13px;padding:10px}
+#view-cards .roster-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+#view-cards .roster-card{padding:16px;min-height:132px}
+#view-cards .roster-avatar{flex-basis:48px;height:48px;font-size:22px}
+#view-cards .roster-main>b{font-size:15px}
+#view-cards .roster-main>span,#view-cards .roster-main small{font-size:12px}
+#view-cards .roster-main p{font-size:13px;line-height:1.6}
+#view-cards .battle-launch{padding:24px 28px}
+#view-cards .battle-launch h3{font-size:22px}
+#view-cards .battle-launch p{font-size:13px}
+#view-cards .battle-launch .btn{min-width:150px;padding:13px 20px}
+#welcome{max-width:1120px;margin:24px auto}
+footer{padding:32px 16px}
+@media(max-width:800px){
+ .shell{padding:16px 12px 42px}
+ .main-nav{gap:6px;padding-bottom:14px;margin-bottom:14px}
+ .nav-btn{min-width:auto;flex:1;padding:10px 12px;font-size:12px}
+ #view-cards .formation-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #view-cards .roster-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+ #view-cards .card-summary{padding:14px;gap:8px}
+ #view-cards .card-summary b{font-size:16px}
+ #view-cards .card-summary small{font-size:10px}
+ #view-cards .battle-launch{align-items:stretch}
+ #view-cards .battle-launch .btn{width:100%}
+}
