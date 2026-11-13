@@ -67,12 +67,12 @@
 <div class="homeTiles">
  <button class="homeTile" data-screen="story"><span class="tileIcon">⌖</span><b>第一話・校園求生</b><small>故事設定、校園區域與主線規劃</small><span class="tileLink">進入劇情模式 →</span></button>
  <button class="homeTile" data-screen="missions"><span class="tileIcon">⚔</span><b>戰鬥中心</b><small>戰術指揮、正式關卡挑戰與五人小隊</small><span class="tileLink">進入戰鬥中心 →</span></button>
- <button class="homeTile" data-screen="team"><span class="tileIcon">♙</span><b>小隊整備</b><small>舊版隊伍能力、武器與強化</small><span class="tileLink">查看隊伍 →</span></button>
+ <button class="homeTile" data-screen="team"><span class="tileIcon">♙</span><b>小隊整備</b><small>五人小隊能力、武器與強化</small><span class="tileLink">查看隊伍 →</span></button>
  <button class="homeTile" data-screen="archive"><span class="tileIcon">▤</span><b>人物圖鑑</b><small>主角與故事角色資料、設計草稿</small><span class="tileLink">開啟人物圖鑑 →</span></button>
 </div>
 <div class="homeInfoGrid">
  <article class="card situationCard"><div class="panelEyebrow">SITUATION REPORT / 生存情報</div><h3>第一話：末日開始的那一天</h3><p>主角目前獨自在校園內求生。第一話規劃包含10個校園區域、16個主線關卡，以及三個階段性安全據點。</p><div class="infoTags"><span>校園封鎖</span><span>獨自求生</span><span>自由探索規劃中</span></div></article>
- <article class="card statusCard"><div class="panelEyebrow">SYSTEM STATUS / 系統狀態</div><div class="statusLine"><span>故事自由探索</span><b class="statusPending">尚未開發</b></div><div class="statusLine"><span>舊版戰鬥引擎</span><b class="statusReady">既有系統</b></div><div class="statusLine"><span>SAVE 2.0</span><b class="statusReady">運作中</b></div></article>
+ <article class="card statusCard"><div class="panelEyebrow">SYSTEM STATUS / 系統狀態</div><div class="statusLine"><span>故事自由探索</span><b class="statusPending">尚未開發</b></div><div class="statusLine"><span>五人小隊戰鬥引擎</span><b class="statusReady">既有系統</b></div><div class="statusLine"><span>SAVE 2.0</span><b class="statusReady">運作中</b></div></article>
 </div>
 <div class="homeSectionHead saveHeading" id="saveManagerCard"><div><div class="eyebrow">SAVE POINT / BACKUP</div><h2>存檔管理中心</h2></div><small>SAVE 2.0</small></div>
 <article class="card saveManager">
@@ -84,7 +84,7 @@
 </section>
 <section id="team" class="screen"><div class="sectionTitle"><h2>角色管理／小隊整備</h2><small>CHARACTER MANAGEMENT</small></div><div class="cards" id="teamCards"></div><div class="storyPanel" style="margin-top:12px"><h3>人物圖鑑與設計工作台</h3><p>故事角色依劇情逐步登場；可查看已開放資料及未定案設計草稿。</p><button class="btn primary" data-screen="archive">開啟人物圖鑑</button></div><p class="notice">戰鬥中心保留既有五人小隊；劇情主角與故事角色不會因此自動加入該小隊。</p></section>
 <section id="warehouse" class="screen"><div class="sectionTitle"><h2>物資倉庫</h2><small>SUPPLY DEPOT</small></div><div class="cards"><article class="card"><h3>戰術物資</h3><p>目前持有：<b id="warehouseCoins">0</b></p></article><article class="card"><h3>武器強化</h3><p>目前等級：<b id="warehouseWeaponLv">0</b></p></article><article class="card"><h3>補給資料</h3><p>彈藥與戰鬥消耗品依既有戰鬥系統管理。</p></article></div><p class="notice">只顯示目前遊戲已有資料；未開發的物資欄位不會顯示虛構庫存。</p></section>
-<section id="missions" class="screen"><div class="sectionTitle"><h2>戰鬥指揮中心</h2><small>COMBAT CENTER / TACTICAL HQ</small></div><div class="storyIntro"><article class="storyPanel"><div class="panelEyebrow">SQUAD FORMATION</div><h3>目前作戰小隊</h3><div class="cards" id="combatRosterCards"></div><p>沿用既有五人小隊、武器、技能及戰鬥引擎。</p><button class="btn" data-screen="team">小隊整備</button></article><article class="storyPanel"><div class="panelEyebrow">OPERATION STATUS</div><h3>正式戰鬥挑戰</h3><p>第一話16關戰鬥配置獨立於故事探索進度。舊版測試關卡已移除。</p><div class="infoTags"><span>16個正式挑戰</span><span>Z-01最終首領</span><span>波次制</span></div></article></div><div class="sectionTitle"><h2>第一話・正式戰鬥挑戰</h2><small>16 OFFICIAL COMBAT STAGES</small></div><div class="cards missionSubGrid" id="missionCards"></div></section>
+<section id="missions" class="screen"><div class="sectionTitle"><h2>戰鬥指揮中心</h2><small>COMBAT CENTER / TACTICAL HQ</small></div><div class="storyIntro"><article class="storyPanel"><div class="panelEyebrow">SQUAD FORMATION</div><h3>目前作戰小隊</h3><div class="cards" id="combatRosterCards"></div><p>沿用既有五人小隊、武器、技能及戰鬥引擎。</p><button class="btn" data-screen="team">小隊整備</button></article><article class="storyPanel"><div class="panelEyebrow">OPERATION STATUS</div><h3>正式戰鬥挑戰</h3><p>第一話16關戰鬥配置獨立於故事探索進度。戰鬥中心僅保留正式關卡挑戰。</p><div class="infoTags"><span>16個正式挑戰</span><span>Z-01最終首領</span><span>波次制</span></div></article></div><div class="sectionTitle"><h2>第一話・正式戰鬥挑戰</h2><small>16 OFFICIAL COMBAT STAGES</small></div><div class="cards missionSubGrid" id="missionCards"></div></section>
 <section id="story" class="screen">
 <div class="sectionTitle"><h2>第一話：末日開始的那一天</h2><small>STORY MODE / TAIWAN · 2026</small></div>
 <div class="storyIntro">
