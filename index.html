@@ -11,11 +11,12 @@
 <div class="footer">單機網頁版 · SAVE 2.0 本機自動存檔 · 無需登入 · 不使用外部遊戲引擎 <span id="saveStatus" aria-live="polite">存檔系統初始化中</span></div></main>
 <script>
 (()=>{'use strict';
-const $=id=>document.getElementById(id),screens=['home','team','missions','battle'];let profile=load();
+const $=id=>document.getElementById(id),screens=['home','team','missions','battle'];
+const SAVE_VERSION=2,PROFILE_KEY='zombieSurvivalSave',PROFILE_BACKUP='zombieSurvivalSave_backup',CHECKPOINT_DB='projectZSaveDB',CHECKPOINT_STORE='checkpoints';
+let profile=load();
 const roster=[{name:'悠真',role:'隊長／突擊步槍',hp:110,damage:10,rate:.38,range:520,mag:32,color:'#e9c18e',x:180},{name:'凜',role:'狙擊手／精準步槍',hp:88,damage:29,rate:1.1,range:650,mag:6,color:'#9fc6df',x:330},{name:'小葵',role:'支援手／醫療槍',hp:100,damage:8,rate:.62,range:480,mag:26,color:'#f1c1d7',x:480},{name:'蓮',role:'爆破手／榴彈器',hp:112,damage:20,rate:1,range:460,mag:7,color:'#d9a56e',x:630},{name:'千夏',role:'突擊手／霰彈槍',hp:98,damage:16,rate:.72,range:350,mag:9,color:'#b9d69b',x:780}];
 const missions=[{name:'廢校一號',desc:'教學大樓外圍，感染者數量偏低。',unlock:0,enemy:1},{name:'商店街封鎖區',desc:'街道狹窄，奔跑感染者增加。',unlock:1,enemy:1.25},{name:'市立醫院',desc:'裝甲感染者與特殊變異體出沒。',unlock:2,enemy:1.55}];
 let canvas=$('field'),ctx=canvas.getContext('2d'),W=960,H=600,SQUAD_Y=470,BASE_Y=536,zombies=[],bullets=[],particles=[],numbers=[],running=false,paused=false,ended=false,last=0,spawn=0,time=0,wave=1,kills=0,base=100,target=null,boss=false,speed=1,skillCD={heal:0,fire:0,focus:0},buff=0,selected=0,mission=0,ammo=[],reloads=[],xp=0,rosterTick=0,checkpointClock=0,checkpointBusy=false,checkpointPending=false,saveStatus='';
-const SAVE_VERSION=2,PROFILE_KEY='zombieSurvivalSave',PROFILE_BACKUP='zombieSurvivalSave_backup',CHECKPOINT_DB='projectZSaveDB',CHECKPOINT_STORE='checkpoints';
 function cleanProfile(p){let d={coins:0,totalKills:0,level:1,unlocked:0,weaponLv:0,completed:[]};p=p&&typeof p==='object'?p:{};return {coins:Math.max(0,Number(p.coins)||0),totalKills:Math.max(0,Number(p.totalKills)||0),level:Math.max(1,Number(p.level)||1),unlocked:Math.max(0,Math.min(2,Number(p.unlocked)||0)),weaponLv:Math.max(0,Number(p.weaponLv)||0),completed:Array.isArray(p.completed)?p.completed.filter(Number.isInteger):[],saveVersion:SAVE_VERSION,updatedAt:Number(p.updatedAt)||Date.now()};}
 function load(){let p=null;try{p=JSON.parse(localStorage.getItem(PROFILE_KEY)||'null');}catch{}if(!p){try{p=JSON.parse(localStorage.getItem(PROFILE_BACKUP)||'null');}catch{}}return cleanProfile(p);}
 function save(){try{profile=cleanProfile(profile);let data=JSON.stringify(profile);localStorage.setItem(PROFILE_BACKUP,localStorage.getItem(PROFILE_KEY)||data);localStorage.setItem(PROFILE_KEY,data);$('saveStatus')&&($('saveStatus').textContent='存檔已更新 · '+new Date().toLocaleTimeString());return true;}catch(e){console.warn('SAVE 2.0 profile save failed',e);$('saveStatus')&&($('saveStatus').textContent='儲存失敗：請匯出備份');return false;}}
