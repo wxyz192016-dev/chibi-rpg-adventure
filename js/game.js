@@ -14,7 +14,7 @@ function log(msg){logs.unshift(msg);logs=logs.slice(0,14);$("worldLog").innerHTM
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 function currentRegion(){return regionById(player.region);}
 function persist(){if(player)saveGame({version:1,player,logs});}
-function showGame(){ $("welcome").hidden=true;$("game").hidden=false;setView("world");renderAll(); }
+function showGame(){ $("welcome").hidden=true;$("game").hidden=false;setView("cards");renderAll(); }
 function start(name){player=createPlayer(name.trim()||"沈行舟");logs=["帝國末年，你從青河鎮的一介無名小卒起步。亂世之路，就此展開。"];battle=null;persist();showGame();log("你正式踏入亂世。先求生立足，再結識豪傑、招募夥伴，逐步聚眾起義。");}
 function setView(id){document.querySelectorAll(".view").forEach(v=>v.hidden=v.id!=="view-"+id);document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.view===id));$("battle").hidden=true;}
 function renderHeader(){const r=currentRegion();$("topName").textContent=player.name;$("topLevel").textContent="Lv."+player.level;$("topGold").textContent=player.gold;$("heroTitle").textContent=player.level<3?"亂世新丁":player.level<8?"初露鋒芒":"起義義士";$("heroSub").textContent="亂世行者 · "+r.name;$("hpText").textContent=player.hp+" / "+player.maxHp;$("mpText").textContent=player.mp+" / "+player.maxMp;$("hpBar").style.width=(player.hp/player.maxHp*100)+"%";$("mpBar").style.width=(player.mp/player.maxMp*100)+"%";$("xpBar").style.width=(player.xp/xpNeeded(player.level)*100)+"%";$("xpText").textContent="經驗 "+player.xp+" / "+xpNeeded(player.level);$("atkText").textContent=player.atk;$("defText").textContent=player.def;$("agiText").textContent=player.agi;}
