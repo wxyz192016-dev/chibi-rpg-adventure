@@ -66,7 +66,7 @@ function startFight(){
   const scale=1+state.wins*.07;
   const allies=state.team.map(id=>{const h=HEROES.find(x=>x.id===id),s=heroStats(h);return {...h,...s,hp:s.maxHp,energy:0,side:"ally"};});
   const enemies=ENEMIES.map(e=>({...e,maxHp:Math.round(e.hp*scale),hp:Math.round(e.hp*scale),atk:Math.round(e.atk*scale),def:Math.round(e.def*scale),energy:0,side:"enemy"}));
-  fight={allies,enemies,round:0,queue:[],log:["雙方列陣，戰鬥自動開始！"],ended:false};
+  fight={allies,enemies,round:0,queue:[],log:["雙方列陣，戰鬥自動開始！"],ended:false,pending:false,action:null};
   render();runTimer();
 }
 function runTimer(){clearInterval(timer);timer=setInterval(tick,950);}
@@ -74,7 +74,7 @@ function alive(list){return list.filter(x=>x.hp>0);}
 function chooseTarget(list){const live=alive(list);return live[0]||null;}
 function addLog(text){fight.log.unshift(text);fight.log=fight.log.slice(0,8);}
 function tick(){
-  if(!fight||fight.ended)return;
+  if(!fight||fight.ended||fight.pending)return;
   if(!alive(fight.enemies).length)return finish(true);
   if(!alive(fight.allies).length)return finish(false);
   if(!fight.queue.length){
@@ -82,16 +82,24 @@ function tick(){
     fight.queue=[...alive(fight.allies),...alive(fight.enemies)].sort((a,b)=>b.speed-a.speed);
     addLog("第 "+fight.round+" 回合開始。");
   }
-  const actor=fight.queue.shift();if(!actor||actor.hp<=0){render();return;}
+  const actor=fight.queue.shift();
+  if(!actor||actor.hp<=0){render();return;}
   const target=chooseTarget(actor.side==="ally"?fight.enemies:fight.allies);
   if(!target){finish(actor.side==="ally");return;}
   const hit=Math.max(1,Math.round(actor.atk*(.9+Math.random()*.25)-target.def*.55));
-  target.hp=Math.max(0,target.hp-hit);
-  actor.energy=Math.min(100,actor.energy+35);
-  addLog(actor.name+" 攻擊 "+target.name+"，造成 "+hit+" 點傷害。");
-  if(!alive(fight.enemies).length)return finish(true);
-  if(!alive(fight.allies).length)return finish(false);
+  fight.pending=true;
+  fight.action={actorId:actor.id||actor.name,targetId:target.id||target.name,side:actor.side,damage:hit};
   render();
+  setTimeout(()=>{
+    if(!fight||fight.ended)return;
+    target.hp=Math.max(0,target.hp-hit);
+    actor.energy=Math.min(100,actor.energy+35);
+    fight.action=null;fight.pending=false;
+    addLog(actor.name+" 攻擊 "+target.name+"，造成 "+hit+" 點傷害。");
+    if(!alive(fight.enemies).length)return finish(true);
+    if(!alive(fight.allies).length)return finish(false);
+    render();
+  },360);
 }
 function ultimate(id){
   if(!fight||fight.ended)return;
@@ -114,7 +122,9 @@ function renderTacticalUnit(unit,side,index){
   const enemyPositions=[[68,28],[82,43],[68,59],[88,67],[82,19]];
   const pos=(side==="ally"?allyPositions:enemyPositions)[index]||[50,50];
   const pct=Math.max(0,Math.round(unit.hp/unit.maxHp*100));
-  return '<div class="tactical-unit '+side+(unit.hp<=0?' fallen':'')+'" style="--x:'+pos[0]+';--y:'+pos[1]+'"><div class="unit-name">'+esc(unit.name)+'</div><div class="unit-token">'+(side==="ally"?'⚔':'⚑')+'</div><div class="unit-hp"><i style="width:'+pct+'%"></i></div><div class="unit-stat">'+(unit.hp<=0?'倒下':'HP '+unit.hp+'/'+unit.maxHp)+'</div>'+(side==="ally"?'<div class="unit-energy">絕技 '+unit.energy+'/100</div><button class="btn ultimate-btn" data-ultimate="'+unit.id+'" '+(unit.hp<=0||unit.energy<100?'disabled':'')+'>施放 '+esc(unit.ult)+'</button>':'')+'</div>';
+  const key=unit.id||unit.name,action=fight.action||{};
+  const attacking=action.actorId===key,hit=action.targetId===key;
+  return '<div class="tactical-unit '+side+(unit.hp<=0?' fallen':'')+(attacking?' unit-attacking':'')+(hit?' unit-hit':'')+'" style="--x:'+pos[0]+';--y:'+pos[1]+'"><div class="unit-name">'+esc(unit.name)+'</div><div class="unit-token">'+(side==="ally"?'⚔':'⚑')+'</div><div class="unit-hp"><i style="width:'+pct+'%"></i></div><div class="unit-stat">'+(unit.hp<=0?'倒下':'HP '+unit.hp+'/'+unit.maxHp)+'</div>'+(hit?'<div class="damage-float">-'+action.damage+'</div>':'')+(side==="ally"?'<div class="unit-energy">絕技 '+unit.energy+'/100</div><button class="btn ultimate-btn" data-ultimate="'+unit.id+'" '+(unit.hp<=0||unit.energy<100||fight.pending?'disabled':'')+'>施放 '+esc(unit.ult)+'</button>':'')+'</div>';
 }
 function renderFight(){
   const allyRows=fight.allies.map((h,i)=>renderTacticalUnit(h,"ally",i)).join("");
