@@ -143,7 +143,8 @@ function renderArchiveIdeas(){
  $('archiveIdeas').querySelectorAll('[data-archive-approve]').forEach(b=>b.onclick=()=>{let j=+b.dataset.archiveApprove;archiveData[i]={...(archiveData[i]||{}),draft:archiveIdeas[j],approved:false,updatedAt:Date.now()};if(saveArchive())renderArchive();});
  $('archiveDraftStatus').textContent=saved.draft?'此人物已有草稿；選擇方案可覆蓋目前草稿。':'三套方案已產生，請選擇一套保存為草稿。';
 }
-\nfunction log(t){$('log').innerHTML=t+'<br>'+$('log').innerHTML.split('<br>').slice(0,5).join('<br>');}
+
+function log(t){$('log').innerHTML=t+'<br>'+$('log').innerHTML.split('<br>').slice(0,5).join('<br>');}
 function updateRoster(){ $('members').innerHTML=roster.map((s,i)=>'<div class="unit '+(s.hp<=0?'down':'')+'"><div class="portrait">'+['悠','凜','葵','蓮','夏'][i]+'</div><div class="unitInfo"><b>'+s.name+' · '+(s.hp<=0?'倒地':Math.ceil(s.hp)+' HP')+'</b><small>'+s.role+' · 彈藥 '+ammo[i]+'/'+s.mag+'</small><div class="bar"><i style="width:'+Math.max(0,s.hp/s.max*100)+'%"></i></div></div></div>').join('');}
 function hud(){$('wave').textContent=wave+'/5';$('base').textContent=Math.ceil(base)+'%';$('kills').textContent=kills;$('clock').textContent=Math.floor(time/60)+':'+String(Math.floor(time%60)).padStart(2,'0');$('pause').textContent=paused?'▶ 繼續':'Ⅱ 暫停';[['heal','急救包','Q'],['fire','燃燒彈','W'],['focus','全員集火','E']].forEach(([id,label,key])=>{let b=$(id),cd=skillCD[id]||0;b.disabled=!running||paused||ended||cd>0;b.innerHTML=label+'<small>'+(cd>0?'冷卻 '+cd.toFixed(1)+' 秒':'戰術技能 · '+key)+'</small>';});$('reload').disabled=!running||paused||ended;}
 function spawnZ(type){let k=missions[mission].enemy,cfg={normal:[38,39,23,'#849879'],runner:[23,75,17,'#c7a36e'],armored:[120,22,48,'#71828c'],boss:[680,14,120,'#a45e73']}[type];zombies.push({x:35+Math.random()*(W-70),y:-35,hp:cfg[0]*k,max:cfg[0]*k,spd:cfg[1],dmg:cfg[2]*k,color:cfg[3],r:type==='boss'?39:type==='armored'?23:17,type,hit:0,attack:0});}
