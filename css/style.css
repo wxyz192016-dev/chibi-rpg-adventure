@@ -86,3 +86,15 @@
 .battle-legend{justify-content:flex-start;gap:18px;padding:10px 4px 2px}.battle-legend span{display:flex;align-items:center;gap:5px}.battle-legend i{width:8px;height:8px;border-radius:50%;display:inline-block}.legend-ally{background:#b8d78c}.legend-enemy{background:#d98c78}
 .battle-command-panel{display:grid;grid-template-columns:150px 1fr;gap:12px;margin-top:12px;padding:12px;background:#121a16;border:1px solid #394b3d;border-radius:9px}.battle-command-panel>div:first-child{display:grid;align-content:start;gap:4px}.battle-command-panel small{font-size:10px;color:var(--muted)}.battle-command-panel .battle-feed{max-height:130px;overflow:auto}
 @media(max-width:600px){.battlefield-map{min-height:390px}.tactical-unit{width:clamp(58px,16%,82px);min-height:78px;padding:4px 2px}.unit-token{width:25px;height:25px;font-size:17px}.unit-name{font-size:9px}.unit-stat,.unit-energy{font-size:7px}.battle-command-panel{grid-template-columns:1fr}.battle-command-panel .battle-feed{max-height:110px}}
+
+/* V5.3 battle action feedback */
+.tactical-unit{transition:left .42s ease,top .42s ease,filter .2s,opacity .2s}
+.tactical-unit.ally.unit-attacking{animation:allyLunge .36s ease-in-out}
+.tactical-unit.enemy.unit-attacking{animation:enemyLunge .36s ease-in-out}
+.tactical-unit.unit-hit{animation:unitImpact .34s ease-in-out}
+.damage-float{position:absolute;left:50%;top:-9px;transform:translateX(-50%);z-index:8;color:#fff1a6;font:bold 22px Arial,sans-serif;text-shadow:0 2px 4px #341b12,0 0 10px #e85c3b;pointer-events:none;animation:damageRise .72s ease-out forwards}
+.tactical-unit.unit-hit .unit-token{filter:brightness(1.8);box-shadow:0 0 16px #ff9b6c}
+@keyframes allyLunge{0%,100%{translate:0 0}45%{translate:24px -7px}70%{translate:10px -2px}}
+@keyframes enemyLunge{0%,100%{translate:0 0}45%{translate:-24px 7px}70%{translate:-10px 2px}}
+@keyframes unitImpact{0%,100%{translate:0 0;filter:none}25%{translate:-5px 0;filter:brightness(1.8)}55%{translate:5px 0;filter:brightness(1.4)}}
+@keyframes damageRise{0%{opacity:0;top:8px;scale:.65}20%{opacity:1;scale:1.15}100%{opacity:0;top:-38px;scale:1}}
