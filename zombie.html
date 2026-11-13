@@ -25,8 +25,38 @@
 @media(max-width:760px){.app{display:block;padding:9px 9px 92px}.top{position:fixed;left:9px;right:9px;bottom:8px;top:auto;z-index:1000;height:auto;display:block;padding:8px;margin:0;border-radius:14px;background:#172536f5;box-shadow:0 10px 30px #0009}.logo{display:none}.nav{display:flex;flex-direction:row;flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;gap:6px;padding:0 0 2px}.nav .btn{flex:0 0 auto;text-align:center;padding:10px 11px;font-size:11px}.screen{width:100%}.homeHero{grid-template-columns:1fr}.homeTiles{grid-template-columns:repeat(2,minmax(0,1fr))}.missionSubGrid{grid-template-columns:1fr}}
 @media(max-width:430px){.homeTiles{grid-template-columns:1fr}.nav .btn{font-size:10px;padding:9px 10px}}
 .top{display:grid;grid-template-columns:220px minmax(0,1fr);align-items:center;gap:16px}.nav{justify-content:flex-end;gap:7px}.storyArea{min-height:116px;color:inherit;text-align:left;cursor:pointer;width:100%;font:inherit}.storyArea:hover,.storyArea:focus-visible{border-color:var(--gold);background:#223548}#combatRosterCards{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}#combatRosterCards .card{text-align:center;padding:10px}#combatRosterCards .portrait{margin:0 auto 8px}.screen{animation:screenFade .22s ease both}@keyframes screenFade{from{opacity:.55;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}@media(max-width:1050px){.top{grid-template-columns:1fr}#combatRosterCards{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:760px){.top{display:flex;flex-direction:column;align-items:stretch}.nav{width:100%;display:flex;flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start}.nav .btn{flex:0 0 auto}#combatRosterCards{grid-template-columns:repeat(2,minmax(0,1fr))}.storyMissions{grid-template-columns:1fr}}@media(max-width:430px){.nav .btn{font-size:11px;padding:9px 10px}}
+
+/* PROJECT Z UI FINAL 1.1 */
+.app{width:96%;max-width:1800px;grid-template-columns:240px minmax(0,1fr);gap:18px;padding:18px}
+.top{grid-column:1;grid-row:1 / span 30;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;position:sticky;top:12px;height:calc(100vh - 24px);overflow:auto;padding:18px 12px}
+.logo{white-space:normal;margin:0 0 16px}
+.railToggle{display:block;margin:0 0 12px;text-align:left}
+.nav{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:12px}
+.navGroup{display:flex;flex-direction:column;gap:5px;padding:0 0 10px;border-bottom:1px solid #ffffff16}
+.navGroupTitle{padding:5px 9px;color:var(--gold);font-size:10px;font-weight:900;letter-spacing:.12em}
+.nav .btn{text-align:left;white-space:normal;padding:10px 11px;font-size:12px}
+.nav .navPlanned{opacity:.48;cursor:not-allowed;border-style:dashed}
+.globalStatus{grid-column:2;grid-row:1;min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;margin-bottom:0;border:1px solid var(--line);border-radius:15px;background:linear-gradient(110deg,#1b2b3b,#172431);color:#dce4eb}
+.globalStatus small{display:block;color:var(--muted);font-size:9px;letter-spacing:.14em}
+.statusBrand{font-weight:900;color:var(--gold);letter-spacing:.1em}
+.globalPlayer,.globalContext{font-size:12px}
+.globalPlayer b{color:#fff}
+.screen{grid-column:2;grid-row:2;min-width:0}
+.footer{grid-column:2;grid-row:3}
+.app.rail-collapsed{grid-template-columns:72px minmax(0,1fr)}
+.rail-collapsed .top{padding:14px 7px}
+.rail-collapsed .logo{font-size:0}
+.rail-collapsed .logo small{font-size:0}
+.rail-collapsed .railToggle{font-size:0;text-align:center;padding:10px 4px}
+.rail-collapsed .railToggle:after{content:"☰";font-size:17px}
+.rail-collapsed .navGroupTitle{font-size:0;padding:3px}
+.rail-collapsed .nav .btn{font-size:0;text-align:center;padding:10px 3px}
+.rail-collapsed .nav .btn:before{content:"•";font-size:18px}
+@media(max-width:1050px){.app{grid-template-columns:205px minmax(0,1fr);gap:12px}.top{padding:14px 9px}.globalStatus{flex-wrap:wrap}}
+@media(max-width:760px){.app{display:block;width:100%;padding:9px 9px 92px}.top{position:fixed;left:9px;right:9px;bottom:8px;top:auto;z-index:1000;height:auto;max-height:42vh;display:block;padding:8px;margin:0;overflow:auto}.logo{display:none}.railToggle{display:none}.nav{display:flex;flex-direction:row;flex-wrap:nowrap;overflow-x:auto;gap:6px}.navGroup{flex:0 0 auto;display:flex;flex-direction:row;align-items:center;border:0;padding:0;gap:5px}.navGroupTitle{display:none}.nav .btn{flex:0 0 auto;text-align:center;padding:10px;font-size:11px}.nav .navPlanned{display:none}.globalStatus{min-height:52px;margin-bottom:12px;padding:10px}.screen{width:100%}.footer{margin-bottom:10px}}
+
 </style></head><body><main class="app">
-<header class="top"><a class="logo" href="#" data-screen="home" aria-label="返回主基地">末日倖存者 <small>PROJECT Z · ANIME TACTICAL</small></a><nav class="nav" aria-label="主導覽"><button class="btn" data-screen="home">主基地</button><button class="btn" data-screen="story">劇情模式</button><button class="btn" data-screen="missions">戰鬥中心</button><button class="btn" data-screen="team">角色管理</button><button class="btn" data-screen="warehouse">物資倉庫</button><button class="btn" id="goSettings" type="button">系統設定</button></nav></header>
+<header class="top"><a class="logo" href="#" data-screen="home" aria-label="返回主基地">末日倖存者 <small>PROJECT Z · ANIME TACTICAL</small></a><button class="railToggle btn" id="railToggle" type="button" aria-label="收合導覽">☰ 收合導覽</button><nav class="nav" aria-label="主導覽"><div class="navGroup"><div class="navGroupTitle">01｜基地管理</div><button class="btn" data-screen="home">主基地總覽</button><button class="btn" data-screen="warehouse">物資倉庫</button></div><div class="navGroup"><div class="navGroupTitle">02｜劇情與探索</div><button class="btn" data-screen="story">第一話故事</button><button class="btn navPlanned" type="button" title="校園自由探索尚未開發">校園地圖・規劃中</button><button class="btn navPlanned" type="button" title="區域探索尚未開發">區域探索・規劃中</button></div><div class="navGroup"><div class="navGroupTitle">03｜戰鬥系統</div><button class="btn" data-screen="missions">戰鬥中心</button><button class="btn navPlanned" type="button" title="戰鬥紀錄頁尚未建立">戰鬥紀錄・規劃中</button></div><div class="navGroup"><div class="navGroupTitle">04｜人物管理</div><button class="btn" data-screen="team">小隊整備</button><button class="btn" data-screen="archive">人物圖鑑</button></div><div class="navGroup"><div class="navGroupTitle">05｜系統設定</div><button class="btn" id="goSettings" type="button">設定與存檔</button></div></nav></header><div class="globalStatus"><span class="statusBrand">PROJECT Z <small>COMMAND INTERFACE</small></span><span class="globalPlayer">玩家：<b id="globalPlayerName">尚未設定</b></span><span class="globalContext" id="globalContext">主基地總覽</span></div>
 <section id="home" class="screen active">
 <div class="hero homeHero">
  <div class="heroText">
@@ -277,6 +307,13 @@ function togglePause(){if(!running||ended)return;paused=!paused;hud();}
 document.querySelectorAll('[data-screen]').forEach(b=>b.onclick=()=>show(b.dataset.screen));$('goBattle').onclick=()=>show('story');$('goSettings').onclick=()=>{show('home');$('saveManagerCard').scrollIntoView({behavior:'smooth',block:'start'});};$('heal').onclick=()=>skill('heal');$('fire').onclick=()=>skill('fire');$('focus').onclick=()=>skill('focus');$('reload').onclick=()=>roster.forEach((s,i)=>beginReload(i));$('pause').onclick=togglePause;$('speed').onclick=()=>{speed=speed===1?1.5:speed===1.5?2:1;$('speed').textContent='速度 '+speed+'×';};
 canvas.addEventListener('pointerdown',e=>{if(!running||paused)return;let r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)/r.width*W,y=(e.clientY-r.top)/r.height*H,best=null,d=48;zombies.forEach(z=>{let n=Math.hypot(z.x-x,z.y-y);if(n<d){d=n;best=z;}});if(best){target=best;log('集火目標已指定！');}});
 document.addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();togglePause();}if(e.key.toLowerCase()==='q')skill('heal');if(e.key.toLowerCase()==='w')skill('fire');if(e.key.toLowerCase()==='e')skill('focus');if(e.key.toLowerCase()==='r')roster.forEach((s,i)=>beginReload(i));});
-renderHome();renderTeam();renderMissions();renderArchive();updateRoster();$('archiveTarget').onchange=renderArchiveTargetNote;$('generateArchiveIdeas').onclick=renderArchiveIdeas;$('savePlayerName').onclick=savePlayerName;$('playerNameInput').addEventListener('keydown',e=>{if(e.key==='Enter')savePlayerName();});$('manualCheckpoint').onclick=createManualCheckpoint;$('downloadSave').onclick=downloadSavePackage;$('importSave').onclick=()=>$('importSaveFile').click();$('importSaveFile').addEventListener('change',e=>{let file=e.target.files&&e.target.files[0];if(file)importSaveFile(file);e.target.value='';});offerResume();document.addEventListener('visibilitychange',()=>{if(document.hidden&&running&&!paused)saveCheckpoint();});window.addEventListener('pagehide',()=>{if(running&&!paused){let c=makeCheckpoint();try{localStorage.setItem('projectZEmergencyCheckpoint',JSON.stringify(c));}catch{}}});requestAnimationFrame(loop);
+
+const railToggle=document.getElementById('railToggle');
+if(railToggle)railToggle.addEventListener('click',()=>{document.querySelector('.app').classList.toggle('rail-collapsed');railToggle.setAttribute('aria-label',document.querySelector('.app').classList.contains('rail-collapsed')?'展開導覽':'收合導覽');});
+function updateGlobalStatus(){const n=document.getElementById('globalPlayerName');if(n)n.textContent=(profile&&profile.playerName)||'尚未設定';const active=document.querySelector('.screen.active');const labels={home:'主基地總覽',team:'小隊整備',warehouse:'物資倉庫',missions:'戰鬥中心',story:'第一話故事',archive:'人物圖鑑',battle:'戰鬥現場'};const c=document.getElementById('globalContext');if(c&&active)c.textContent=labels[active.id]||'遊戲介面';}
+const originalShow=show;
+show=function(id){originalShow(id);updateGlobalStatus();};
+
+renderHome();renderTeam();renderMissions();renderArchive();updateRoster();$('archiveTarget').onchange=renderArchiveTargetNote;$('generateArchiveIdeas').onclick=renderArchiveIdeas;$('savePlayerName').onclick=savePlayerName;$('playerNameInput').addEventListener('keydown',e=>{if(e.key==='Enter')savePlayerName();});$('manualCheckpoint').onclick=createManualCheckpoint;$('downloadSave').onclick=downloadSavePackage;$('importSave').onclick=()=>$('importSaveFile').click();$('importSaveFile').addEventListener('change',e=>{let file=e.target.files&&e.target.files[0];if(file)importSaveFile(file);e.target.value='';});updateGlobalStatus();offerResume();document.addEventListener('visibilitychange',()=>{if(document.hidden&&running&&!paused)saveCheckpoint();});window.addEventListener('pagehide',()=>{if(running&&!paused){let c=makeCheckpoint();try{localStorage.setItem('projectZEmergencyCheckpoint',JSON.stringify(c));}catch{}}});requestAnimationFrame(loop);
 })();
 </script></body></html>
