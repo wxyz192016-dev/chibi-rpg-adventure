@@ -98,3 +98,8 @@
 @keyframes enemyLunge{0%,100%{translate:0 0}45%{translate:-24px 7px}70%{translate:-10px 2px}}
 @keyframes unitImpact{0%,100%{translate:0 0;filter:none}25%{translate:-5px 0;filter:brightness(1.8)}55%{translate:5px 0;filter:brightness(1.4)}}
 @keyframes damageRise{0%{opacity:0;top:8px;scale:.65}20%{opacity:1;scale:1.15}100%{opacity:0;top:-38px;scale:1}}
+
+.tactical-unit.unit-ultimate{z-index:4;box-shadow:0 0 0 2px #ffe6a0,0 0 22px #f7c86e;animation:ultimatePulse .7s ease-in-out}
+.tactical-unit.unit-ultimate .unit-token{filter:brightness(1.8);box-shadow:0 0 18px #ffe6a0}
+@keyframes ultimatePulse{0%,100%{scale:1;filter:none}35%{scale:1.12;filter:brightness(1.65)}70%{scale:1.04;filter:brightness(1.2)}}
+@media(prefers-reduced-motion:reduce){.tactical-unit,.damage-float{animation:none!important;transition:none!important}}
