@@ -109,10 +109,17 @@ function ultimate(id){
   if(!alive(fight.enemies).length)return finish(true);
   render();
 }
+function renderTacticalUnit(unit,side,index){
+  const allyPositions=[[18,30],[30,48],[18,64],[39,25],[43,68]];
+  const enemyPositions=[[68,28],[82,43],[68,59],[88,67],[82,19]];
+  const pos=(side==="ally"?allyPositions:enemyPositions)[index]||[50,50];
+  const pct=Math.max(0,Math.round(unit.hp/unit.maxHp*100));
+  return '<div class="tactical-unit '+side+(unit.hp<=0?' fallen':'')+'" style="--x:'+pos[0]+';--y:'+pos[1]+'"><div class="unit-name">'+esc(unit.name)+'</div><div class="unit-token">'+(side==="ally"?'⚔':'⚑')+'</div><div class="unit-hp"><i style="width:'+pct+'%"></i></div><div class="unit-stat">'+(unit.hp<=0?'倒下':'HP '+unit.hp+'/'+unit.maxHp)+'</div>'+(side==="ally"?'<div class="unit-energy">絕技 '+unit.energy+'/100</div><button class="btn ultimate-btn" data-ultimate="'+unit.id+'" '+(unit.hp<=0||unit.energy<100?'disabled':'')+'>施放 '+esc(unit.ult)+'</button>':'')+'</div>';
+}
 function renderFight(){
-  const allyRows=fight.allies.map(h=>'<div class="combat-card '+(h.hp<=0?'fallen':'')+'"><b>'+esc(h.name)+'</b><small>'+esc(h.role)+' · HP '+h.hp+'/'+h.maxHp+'</small><div class="roster-hp"><i style="width:'+Math.max(0,h.hp/h.maxHp*100)+'%"></i></div><div class="energy-line">絕技能量 '+h.energy+'/100</div><button class="btn ultimate-btn" data-ultimate="'+h.id+'" '+(h.hp<=0||h.energy<100?'disabled':'')+'>施放「'+esc(h.ult)+'」</button></div>').join("");
-  const enemyRows=fight.enemies.map(e=>'<div class="combat-card enemy-combat '+(e.hp<=0?'fallen':'')+'"><b>'+esc(e.name)+'</b><small>'+esc(e.role)+' · HP '+e.hp+'/'+e.maxHp+'</small><div class="roster-hp"><i style="width:'+Math.max(0,e.hp/e.maxHp*100)+'%"></i></div></div>').join("");
-  return '<div class="card-section panel live-battle"><div class="section-heading compact"><div><p class="eyebrow">ROUND '+fight.round+'</p><h3>'+(fight.ended?(alive(fight.enemies).length?"戰鬥勝利":"戰鬥失利"):"自動戰鬥進行中")+'</h3></div><button id="retreatCardFight" class="btn '+(fight.ended?"":"danger")+'">'+(fight.ended?"返回隊伍":"撤出戰場")+'</button></div><p class="tiny muted">普通攻擊與敵方行動均自動執行；能量達 100 時，可手動施放絕技。</p><div class="combat-grid"><div><h4>我方五人</h4><div class="combat-roster">'+allyRows+'</div></div><div><h4>敵方部隊</h4><div class="combat-roster">'+enemyRows+'</div></div></div><div class="battle-feed card-feed">'+fight.log.map(x=>'<p>'+esc(x)+'</p>').join("")+'</div></div>';
+  const allyRows=fight.allies.map((h,i)=>renderTacticalUnit(h,"ally",i)).join("");
+  const enemyRows=fight.enemies.map((h,i)=>renderTacticalUnit(h,"enemy",i)).join("");
+  return '<div class="card-section panel live-battle"><div class="section-heading compact"><div><p class="eyebrow">ISOMETRIC TACTICAL FIELD · ROUND '+fight.round+'</p><h3>'+(fight.ended?(alive(fight.enemies).length?"戰鬥勝利":"戰鬥失利"):"戰場交鋒中")+'</h3></div><button id="retreatCardFight" class="btn '+(fight.ended?"":"danger")+'">'+(fight.ended?"返回隊伍":"撤出戰場")+'</button></div><p class="tiny muted">斜視角戰棋戰場 · 我方五名英雄對陣敵方部隊。普攻與移動自動進行，絕技能量滿 100 後可手動施放。</p><div class="battlefield-shell"><div class="battlefield-topline"><span>我方陣線</span><span>敵軍陣線</span></div><div class="battlefield-map"><div class="battlefield-ground"></div><div class="terrain terrain-a"></div><div class="terrain terrain-b"></div><div class="terrain terrain-c"></div><div class="battle-lane"></div>'+allyRows+enemyRows+'<div class="battle-effect effect-one"></div><div class="battle-effect effect-two"></div></div><div class="battle-legend"><span><i class="legend-ally"></i>我方英雄</span><span><i class="legend-enemy"></i>敵方部隊</span><span>回合 '+fight.round+'</span></div></div><div class="battle-command-panel"><div><b>絕技指令</b><small>能量集滿後，點選英雄施放絕技</small></div><div class="battle-feed card-feed">'+fight.log.map(x=>'<p>'+esc(x)+'</p>').join("")+'</div></div></div>';
 }
 function finish(won){
   if(!fight||fight.ended)return;
