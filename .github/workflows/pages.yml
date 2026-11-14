@@ -1,5 +1,11 @@
 name: Deploy RPG static site
 on:
+  pull_request:
+    branches: [main]
+    paths:
+      - index.html
+      - zombie.html
+      - .github/workflows/pages.yml
   push:
     branches: [main]
   workflow_dispatch:
@@ -11,7 +17,38 @@ concurrency:
   group: pages
   cancel-in-progress: true
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify entry files stay synchronized
+        run: cmp --silent index.html zombie.html
+      - name: Parse-check inline JavaScript
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          for name in ("index.html", "zombie.html"):
+              html = Path(name).read_text(encoding="utf-8")
+              scripts = re.findall(r"<script(?:\\s[^>]*)?>(.*?)</script\\s*>", html, re.I | re.S)
+              if not scripts:
+                  raise SystemExit(f"No inline script found in {name}")
+              for index, source in enumerate(scripts, 1):
+                  Path(f"/tmp/{name}.{index}.js").write_text(source, encoding="utf-8")
+          PY
+          for source in /tmp/index.html.*.js /tmp/zombie.html.*.js; do
+            node --check "$source"
+          done
   deploy:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    needs: validate
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
