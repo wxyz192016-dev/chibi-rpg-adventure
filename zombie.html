@@ -152,19 +152,10 @@
 <p class="storyNote">任務流程：選擇主線關卡 → 按下「開始關卡」播放該關劇情 → 直接銜接關卡。校園自由移動、區域解鎖、物資搜索及感染者探索刷新仍尚未實作。</p>
 </section>
 <section id="archive" class="screen">
- <div class="sectionTitle"><h2>人物圖鑑</h2><small>CHARACTER ARCHIVE / PROFILE & DESIGN LAB</small></div>
+ <div class="sectionTitle"><h2>人物圖鑑</h2><small>CHARACTER ARCHIVE / PROFILE</small></div>
  <article class="card" style="margin-bottom:14px"><h3>圖鑑規則</h3><p>人物依照劇情相遇逐步解鎖。尚未登場的角色只顯示未知欄位；設計工作台可先保存未定案草稿，但不會提前解鎖劇情人物，也不會自動改動戰鬥隊伍。</p><div><span class="archiveTag">劇情解鎖</span><span class="archiveTag">三套方案比較</span><span class="archiveTag">玩家確認定案</span><span class="archiveTag">立繪／半身／表情／服裝／多角度</span></div></article>
  <div class="archiveGrid" id="archiveSlots"></div>
- <div class="sectionTitle" style="margin-top:22px"><h2>自動推薦設計工作台</h2><small>DESIGN RECOMMENDATION LAB</small></div>
- <div class="archiveTools">
-  <article class="archiveChoice"><h3>選擇設計對象</h3><label for="archiveTarget">人物欄位</label><select id="archiveTarget" style="display:block;width:100%;margin:8px 0 12px;padding:11px;border-radius:10px;background:#101b27;color:#fff;border:1px solid var(--line)"><option value="0">男性主角</option><option value="1">女性角色 01（未命名）</option><option value="2">女性角色 02（未命名）</option><option value="3">女性角色 03（未命名）</option><option value="4">女性角色 04（未命名）</option><option value="5">女性角色 05（未命名）</option></select>
-   <p id="archiveTargetNote">主角姓名沿用玩家自行輸入的姓名。角色外型與個性仍以玩家確認為準。</p>
-   <button class="btn primary" id="generateArchiveIdeas">產生三套推薦方案</button>
-   <p class="archiveMeta" id="archiveDraftStatus" aria-live="polite">推薦內容只會建立設計草稿，不會自動成為正式設定。</p>
-  </article>
-  <div class="archiveGrid" id="archiveIdeas" style="grid-template-columns:repeat(3,minmax(0,1fr))"><article class="archiveChoice"><h3>等待產生方案</h3><p>選擇人物後，按下「產生三套推薦方案」。</p></article></div>
- </div>
- <article class="card" style="margin-top:14px"><h3>圖鑑資料分類</h3><p>正式人物資料可逐步收錄：基本資料、外貌特徵、身形比例、服裝設定、人物個性、背景故事、登場章節、與主角的關係及稱呼、全身立繪、半身像、表情差分、服裝版本與多角度設定。</p><p class="notice">目前圖鑑是獨立資料區。目前正式戰鬥編制為玩家主角一人；五位女性角色尚未登場，將依主線劇情逐一加入。</p></article>
+ 
 </section>
 \n<section id="recruitment" class="screen">
 <div class="sectionTitle"><h2>角色招募</h2><small>CHARACTER RECRUITMENT</small></div>
@@ -410,6 +401,6 @@ function updateGlobalStatus(){const n=document.getElementById('globalPlayerName'
 const originalShow=show;
 show=function(id){originalShow(id);updateGlobalStatus();};
 
-renderHome();renderTeam();renderMissions();renderArchive();renderRecruitment();updateRoster();$('archiveTarget').onchange=renderArchiveTargetNote;$('generateArchiveIdeas').onclick=renderArchiveIdeas;$('manualCheckpoint').onclick=createManualCheckpoint;$('downloadSave').onclick=downloadSavePackage;$('importSave').onclick=()=>$('importSaveFile').click();$('importSaveFile').addEventListener('change',e=>{let file=e.target.files&&e.target.files[0];if(file)importSaveFile(file);e.target.value='';});updateGlobalStatus();updateMainMenu();offerResume();document.addEventListener('visibilitychange',()=>{if(document.hidden&&running&&!paused)saveCheckpoint();});window.addEventListener('pagehide',()=>{if(running&&!paused){let c=makeCheckpoint();try{localStorage.setItem('projectZEmergencyCheckpoint',JSON.stringify(c));}catch{}}});requestAnimationFrame(loop);
+renderHome();renderTeam();renderMissions();renderArchive();renderRecruitment();updateRoster();$('manualCheckpoint').onclick=createManualCheckpoint;$('downloadSave').onclick=downloadSavePackage;$('importSave').onclick=()=>$('importSaveFile').click();$('importSaveFile').addEventListener('change',e=>{let file=e.target.files&&e.target.files[0];if(file)importSaveFile(file);e.target.value='';});updateGlobalStatus();updateMainMenu();offerResume();document.addEventListener('visibilitychange',()=>{if(document.hidden&&running&&!paused)saveCheckpoint();});window.addEventListener('pagehide',()=>{if(running&&!paused){let c=makeCheckpoint();try{localStorage.setItem('projectZEmergencyCheckpoint',JSON.stringify(c));}catch{}}});requestAnimationFrame(loop);
 })();
 </script></body></html>
