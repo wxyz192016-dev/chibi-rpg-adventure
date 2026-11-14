@@ -555,6 +555,7 @@ function renderStory(){const ml=$('storyMissionList');if(!ml)return;const doneCo
 function renderCampusMap(){const root=$('campusPlan'),detail=$('campusAreaDetail');if(!root||!detail)return;root.innerHTML=storyAreasData.map(a=>{const count=mainMissions.filter(m=>m.areaId===a[0]).length;return '<button type="button" class="campusZone" data-area="'+a[0]+'"><span>'+a[0]+'區｜關聯主線 '+count+' 關</span><b>'+a[1]+'</b><small>'+a[2]+'</small></button>';}).join('');const selectArea=(id)=>{const a=storyAreasData.find(x=>x[0]===id);if(!a)return;const linked=mainMissions.filter(m=>m.areaId===id);detail.innerHTML='<h3>'+a[0]+'｜'+a[1]+'</h3><p>'+a[2]+'</p><p>'+a[3]+'</p><p><b>關聯主線任務：</b>'+(linked.length?linked.map(m=>'第'+m.code+'關 '+m.name).join('、'):'目前沒有直接對應的第一話主線任務')+'</p>';root.querySelectorAll('[data-area]').forEach(b=>b.classList.toggle('selected',b.dataset.area===id));};root.querySelectorAll('[data-area]').forEach(b=>b.onclick=()=>selectArea(b.dataset.area));selectArea('A');}
 const ARCHIVE_KEY='projectZCharacterArchive';
 const archiveNames=['男性主角','林舒舒','劉牧晴','胡凌霄','涂月柔','女性角色 05'];
+// 固定圖鑑槽位：第5格（索引4）為涂月柔，第6格（索引5）保留未設定角色。避免舊版快取或草稿資料覆蓋正式角色排序。
 let archiveData=loadArchive();
 let archiveIdeas=[];
 function loadArchive(){try{let d=JSON.parse(localStorage.getItem(ARCHIVE_KEY)||'{}');return d&&typeof d==='object'?d:{}}catch{return {}}}
