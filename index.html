@@ -561,15 +561,33 @@ function loadArchive(){try{let d=JSON.parse(localStorage.getItem(ARCHIVE_KEY)||'
 function saveArchive(){try{localStorage.setItem(ARCHIVE_KEY,JSON.stringify(archiveData));$('archiveDraftStatus').textContent='人物設計草稿已儲存於本機。';return true}catch(e){$('archiveDraftStatus').textContent='儲存失敗：請檢查瀏覽器本機儲存空間。';return false}}
 function escArchive(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function renderArchive(){
- const root=$('archiveSlots');if(!root)return;
- root.classList.remove('archiveDetailView');
- root.innerHTML=archiveNames.map((n,i)=>{let d=archiveData[i]||{},isMain=i===0,isLin=i===1,isLiu=i===2,isHu=i===3,unlocked=isMain||(isLin?profile.storyCharacters.includes('lin-shuyu'):isLiu?profile.ownedCharacters.includes('liu-muqing'):isHu?profile.ownedCharacters.includes('hu-lingxiao'):i===4?hasTuYuerou():!!d.storyUnlocked);
-  let label=isMain?'主角':unlocked?'已取得':'尚未取得';
-  let desc=isMain?'玩家操控角色':(isLin?'偵查與物資搜索':isLiu?'防守支援':isHu?'高速突擊':i===4?'高速精準射擊':(d.shortDescription||''));
-  let visual=isMain?'<div class="archivePortraitWrap"><img class="archivePortrait" src="./人物圖鑑/主角.png" alt="主角全身人物立繪" loading="lazy"></div>':isLin?'<div class="archivePortraitWrap"><img class="archivePortrait" src="./人物圖鑑/01-林舒妤.png" alt="林舒舒正面全身人物立繪" loading="lazy"></div>':isLiu?'<div class="archivePortraitWrap"><img class="archivePortrait" src="./人物圖鑑/02-劉牧晴.png" alt="劉牧晴正面全身人物立繪" loading="lazy"></div>':isHu?'<div class="archivePortraitWrap"><img class="archivePortrait" src="./人物圖鑑/胡凌霄-正面.png" alt="胡凌霄正面全身人物立繪" loading="lazy"></div>':i===4?'<div class="archivePortraitWrap"><img class="archivePortrait" src="./人物圖鑑/涂月柔.png" alt="涂月柔正面全身人物立繪" loading="lazy"></div>':'<div class="archiveIcon">'+(unlocked?'♙':'🔒')+'</div>';
-  return '<article class="archiveSlot '+(isMain||isLin?'archiveMainSlot':'')+'">'+visual+'<div class="archiveSlotInfo"><h3>'+n+'</h3><span class="archiveTag">'+label+'</span><p>'+escArchive(desc)+'</p><button class="btn" type="button" data-archive-select="'+i+'">查看角色資料</button></div></article>';
- }).join('');
- root.querySelectorAll('[data-archive-select]').forEach(b=>b.onclick=()=>showArchiveProfile(+b.dataset.archiveSelect));
+ const root=$('archiveSlots');
+ if(!root)return;
+ try{
+  root.classList.remove('archiveDetailView');
+  const cards=archiveNames.map((n,i)=>{
+   const d=archiveData[i]||{},isMain=i===0,isLin=i===1,isLiu=i===2,isHu=i===3,isTu=i===4;
+   const unlocked=isMain||(isLin?profile.storyCharacters.includes('lin-shuyu'):isLiu?profile.ownedCharacters.includes('liu-muqing'):isHu?profile.ownedCharacters.includes('hu-lingxiao'):isTu?hasTuYuerou():!!d.storyUnlocked);
+   const label=isMain?'主角':unlocked?'已取得':'尚未取得';
+   const desc=isMain?'玩家操控角色':(isLin?'偵查與物資搜索':isLiu?'防守支援':isHu?'高速突擊':isTu?'高速精準射擊':(d.shortDescription||''));
+   const images=['./人物圖鑑/主角.png','./人物圖鑑/01-林舒妤.png','./人物圖鑑/02-劉牧晴.png','./人物圖鑑/胡凌霄-正面.png','./人物圖鑑/涂月柔.png'];
+   const alts=['主角全身人物立繪','林舒舒正面全身人物立繪','劉牧晴正面全身人物立繪','胡凌霄正面全身人物立繪','涂月柔正面全身人物立繪'];
+   const visual=i<images.length?'<div class="archivePortraitWrap"><img class="archivePortrait" src="'+images[i]+'" alt="'+alts[i]+'" loading="eager"></div>':'<div class="archiveIcon">'+(unlocked?'♙':'🔒')+'</div>';
+   return '<article class="archiveSlot '+(isMain||isLin?'archiveMainSlot':'')+'" data-archive-character="'+i+'">'+visual+'<div class="archiveSlotInfo"><h3>'+n+'</h3><span class="archiveTag">'+label+'</span><p>'+escArchive(desc)+'</p><button class="btn" type="button" data-archive-select="'+i+'">查看角色資料</button></div></article>';
+  });
+  root.innerHTML=cards.join('');
+  // 防止舊存檔或前端資料異常時，涂月柔卡片被整批渲染流程漏掉。
+  if(!root.querySelector('[data-archive-character="4"]')){
+   root.insertAdjacentHTML('beforeend','<article class="archiveSlot" data-archive-character="4"><div class="archivePortraitWrap"><img class="archivePortrait" src="./人物圖鑑/涂月柔.png" alt="涂月柔正面全身人物立繪" loading="eager"></div><div class="archiveSlotInfo"><h3>涂月柔</h3><span class="archiveTag">'+(hasTuYuerou()?'已取得':'尚未取得')+'</span><p>高速精準射擊</p><button class="btn" type="button" data-archive-select="4">查看角色資料</button></div></article>');
+  }
+  root.querySelectorAll('[data-archive-select]').forEach(button=>button.onclick=()=>showArchiveProfile(Number(button.dataset.archiveSelect)));
+  const tuPortrait=root.querySelector('[data-archive-character="4"] .archivePortrait');
+  if(tuPortrait)tuPortrait.onerror=()=>{tuPortrait.style.display='none';const wrap=tuPortrait.closest('.archivePortraitWrap');if(wrap){wrap.textContent='涂';wrap.style.color='#f3c66b';wrap.style.fontSize='42px';}};
+ }catch(error){
+  console.error('人物圖鑑渲染失敗：',error);
+  root.classList.remove('archiveDetailView');
+  root.innerHTML='<article class="archiveSlot"><h3>人物圖鑑載入異常</h3><p>圖鑑資料發生錯誤，請重新開啟本頁；角色資料未被刪除。</p><button class="btn" type="button" onclick="location.reload()">重新載入圖鑑</button></article><article class="archiveSlot"><h3>涂月柔</h3><span class="archiveTag">'+(hasTuYuerou()?'已取得':'尚未取得')+'</span><p>高速精準射擊</p><button class="btn" type="button" onclick="showArchiveProfile(4)">查看角色資料</button></article>';
+ }
 }
 let archiveProfileScrollY=0;
 const piercingSkillCosts=[2000,3000,5000,8000,12000];
