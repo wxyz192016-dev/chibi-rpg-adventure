@@ -240,28 +240,58 @@ async function createManualCheckpoint(){if(!$('battle').classList.contains('acti
 async function downloadSavePackage(){try{let checkpoint=null;if($('battle').classList.contains('active')&&!ended)checkpoint=makeCheckpoint();else checkpoint=await getCheckpoint();let pack={format:'projectZSaveExport',version:SAVE_VERSION,exportedAt:new Date().toISOString(),profile:cleanProfile(profile),checkpoint:validCheckpoint(checkpoint)?{...checkpoint,id:'active'}:null};let blob=new Blob([JSON.stringify(pack,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a'),stamp=new Date().toISOString().replace(/[:.]/g,'-');a.href=url;a.download='project-z-save-'+stamp+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);$('saveManagerStatus').textContent='存檔備份已下載 · '+new Date().toLocaleString();}catch(e){console.warn('Save export failed',e);alert('下載存檔失敗，請稍後再試。');}}
 async function importSaveFile(file){if(!file)return;let reader=new FileReader();reader.onload=async()=>{try{let pack=JSON.parse(String(reader.result||''));if(!pack||pack.format!=='projectZSaveExport'||!pack.profile||typeof pack.profile!=='object'||!Number.isFinite(Number(pack.profile.level))||!Number.isFinite(Number(pack.profile.coins)))throw new Error('Invalid save package');let imported=cleanProfile(pack.profile);if(pack.checkpoint&&pack.checkpoint.missionIndexVersion!==1){if(pack.checkpoint.mission<3)pack.checkpoint=null;else pack.checkpoint={...pack.checkpoint,mission:pack.checkpoint.mission-3,missionIndexVersion:1};}if(pack.checkpoint&&!validCheckpoint(pack.checkpoint))throw new Error('Invalid checkpoint');profile=imported;if(!save())throw new Error('Profile save failed');if(pack.checkpoint){let cp={...pack.checkpoint,id:'active'};await putCheckpoint(cp);try{localStorage.setItem('projectZEmergencyCheckpoint',JSON.stringify(cp));}catch{}}else{await clearCheckpoint();}$('saveManagerStatus').textContent='存檔匯入成功 · '+new Date().toLocaleString();renderHome();alert('存檔匯入成功！重新載入後即可套用完整進度；若備份含戰鬥儲存點，會詢問是否恢復。');}catch(e){console.warn('Save import failed',e);alert('匯入未完成：檔案格式不正確、資料損毀或瀏覽器儲存失敗。請檢查目前進度後再試。');}};reader.onerror=()=>alert('無法讀取所選存檔。');reader.readAsText(file);}
 async function offerResume(){let c=await getCheckpoint();if(!c)return;if(!validCheckpoint(c)){await clearCheckpoint();return;}let resume=confirm('發現未完成任務：'+missions[c.mission].name+'（第 '+c.wave+' 波）。\n\n按「確定」繼續任務；按「取消」放棄這次戰鬥。永久進度會保留。');if(resume){restoreCheckpoint(c);}else{await clearCheckpoint();show('home');log('已放棄未完成任務，永久進度保留。');}}
-let bgmContext=null,bgmMaster=null,bgmTimer=null,bgmEnabled=false,bgmMode='ambient',bgmStep=0;
-let bgmVolume=Number(localStorage.getItem('projectZBgmVolume')||28);
-if(!Number.isFinite(bgmVolume))bgmVolume=28;
+let bgmContext=null,bgmMaster=null,bgmTimer=null,bgmEnabled=false,bgmMode='home',bgmStep=0;
+let bgmVolume=Number(localStorage.getItem('projectZBgmVolume')||42);
+if(!Number.isFinite(bgmVolume))bgmVolume=42;
 bgmVolume=Math.max(0,Math.min(100,bgmVolume));
-const bgmPatterns={ambient:[110,0,164.81,0,146.83,0,130.81,0,98,0,146.83,0,130.81,0,110,0],battle:[164.81,196,220,246.94,220,196,164.81,0,146.83,174.61,196,220,196,174.61,146.83,0]};
+// Original instrumental RPG score: home / exploration / battle / boss.
+const bgmTracks={
+ home:{tempo:116,melody:[76,79,83,88,86,83,79,76,74,79,83,86,91,88,83,79],root:48,chord:[0,4,7]},
+ explore:{tempo:94,melody:[69,72,76,81,79,76,72,69,67,72,76,79,84,81,76,72],root:45,chord:[0,3,7]},
+ battle:{tempo:148,melody:[76,79,83,86,88,86,83,79,81,84,88,91,93,91,88,84],root:41,chord:[0,4,7]},
+ boss:{tempo:160,melody:[64,67,71,76,79,76,71,67,62,66,69,74,78,74,69,66],root:38,chord:[0,3,7]}
+};
+function bgmHz(midi){return 440*Math.pow(2,(midi-69)/12);}
 function bgmNote(freq,when,duration,level,type='triangle'){
  if(!bgmContext||!bgmMaster||!freq)return;
  const osc=bgmContext.createOscillator(),gain=bgmContext.createGain(),filter=bgmContext.createBiquadFilter();
- osc.type=type;osc.frequency.setValueAtTime(freq,when);filter.type='lowpass';filter.frequency.value=type==='triangle'?1800:2400;filter.Q.value=.7;
- gain.gain.setValueAtTime(.0001,when);gain.gain.exponentialRampToValueAtTime(level,when+.035);gain.gain.setValueAtTime(level*.72,when+Math.max(.05,duration*.55));gain.gain.exponentialRampToValueAtTime(.0001,when+duration);
- osc.connect(filter);filter.connect(gain);gain.connect(bgmMaster);osc.start(when);osc.stop(when+duration+.04);
+ osc.type=type;osc.frequency.setValueAtTime(freq,when);filter.type='lowpass';filter.frequency.value=type==='sawtooth'?2600:3200;filter.Q.value=.65;
+ gain.gain.setValueAtTime(.0001,when);gain.gain.exponentialRampToValueAtTime(Math.max(.0002,level),when+.025);gain.gain.setValueAtTime(Math.max(.0002,level*.68),when+Math.max(.04,duration*.58));gain.gain.exponentialRampToValueAtTime(.0001,when+duration);
+ osc.connect(filter);filter.connect(gain);gain.connect(bgmMaster);osc.start(when);osc.stop(when+duration+.035);
+}
+function bgmKick(when){
+ if(!bgmContext||!bgmMaster)return;
+ const osc=bgmContext.createOscillator(),gain=bgmContext.createGain();
+ osc.type='sine';osc.frequency.setValueAtTime(125,when);osc.frequency.exponentialRampToValueAtTime(48,when+.13);
+ gain.gain.setValueAtTime(.0001,when);gain.gain.exponentialRampToValueAtTime(.12,when+.008);gain.gain.exponentialRampToValueAtTime(.0001,when+.16);
+ osc.connect(gain);gain.connect(bgmMaster);osc.start(when);osc.stop(when+.17);
+}
+function bgmSnare(when){
+ if(!bgmContext||!bgmMaster)return;
+ const length=Math.floor(bgmContext.sampleRate*.12),buffer=bgmContext.createBuffer(1,length,bgmContext.sampleRate),data=buffer.getChannelData(0);
+ for(let i=0;i<length;i++)data[i]=(Math.random()*2-1)*(1-i/length);
+ const src=bgmContext.createBufferSource(),filter=bgmContext.createBiquadFilter(),gain=bgmContext.createGain();
+ src.buffer=buffer;filter.type='highpass';filter.frequency.value=1400;gain.gain.setValueAtTime(.0001,when);gain.gain.exponentialRampToValueAtTime(.055,when+.006);gain.gain.exponentialRampToValueAtTime(.0001,when+.12);
+ src.connect(filter);filter.connect(gain);gain.connect(bgmMaster);src.start(when);src.stop(when+.13);
 }
 function bgmTick(){
  if(!bgmContext||!bgmEnabled||bgmContext.state!=='running')return;
- const pattern=bgmPatterns[bgmMode],now=bgmContext.currentTime+.025,n=pattern[bgmStep%pattern.length];
- if(n){
-  bgmNote(n,now,bgmMode==='battle'?.42:.72,bgmMode==='battle'?.16:.14,'triangle');
-  if(bgmStep%2===0)bgmNote(n*.5,now,bgmMode==='battle'?.5:1.05,.095,'sine');
-  if(bgmMode==='battle')bgmNote(n*2,now,.16,.045,'sine');
+ const track=bgmTracks[bgmMode]||bgmTracks.home,step=bgmStep%16,now=bgmContext.currentTime+.025;
+ const lead=track.melody[step],energy=bgmMode==='explore'?.72:1;
+ bgmNote(bgmHz(lead),now,.24,.082*energy,'sawtooth');
+ bgmNote(bgmHz(lead-12),now,.29,.045*energy,'triangle');
+ if(step%2===0)bgmNote(bgmHz(track.root+(step%8===0?0:7)),now,.28,.095*energy,'sine');
+ if(step%4===0){
+  const chordRoot=track.root+12;
+  bgmNote(bgmHz(chordRoot+track.chord[0]),now,.72,.045*energy,'triangle');
+  bgmNote(bgmHz(chordRoot+track.chord[1]),now,.68,.032*energy,'triangle');
+  bgmNote(bgmHz(chordRoot+track.chord[2]),now,.66,.028*energy,'triangle');
  }
+ if(step%4===0||step%4===2)bgmKick(now);
+ if(step%8===4)bgmSnare(now);
  bgmStep++;
 }
+function bgmInterval(){return Math.max(110,Math.round(60000/(bgmTracks[bgmMode]||bgmTracks.home).tempo/2));}
 function bgmSetButton(label){const b=$('bgmToggle');if(b)b.textContent=label;}
 async function setBgmEnabled(on){
  if(!on){
@@ -276,8 +306,8 @@ async function setBgmEnabled(on){
   await bgmContext.resume();
   if(bgmContext.state!=='running')throw new Error('AudioContext 未進入播放狀態');
   bgmEnabled=true;bgmMaster.gain.cancelScheduledValues(bgmContext.currentTime);
-  bgmMaster.gain.setTargetAtTime(bgmVolume/100*.8,bgmContext.currentTime,.08);
-  if(bgmTimer)clearInterval(bgmTimer);bgmStep=0;bgmTick();bgmTimer=setInterval(bgmTick,bgmMode==='battle'?300:440);
+  bgmMaster.gain.setTargetAtTime(bgmVolume/100*.72,bgmContext.currentTime,.08);
+  if(bgmTimer)clearInterval(bgmTimer);bgmStep=0;bgmTick();bgmTimer=setInterval(bgmTick,bgmInterval());
   bgmSetButton('♫ 關閉音樂');localStorage.setItem('projectZBgmEnabled','1');
  }catch(err){
   bgmEnabled=false;if(bgmTimer){clearInterval(bgmTimer);bgmTimer=null;}
@@ -285,19 +315,20 @@ async function setBgmEnabled(on){
  }
 }
 function setBgmMode(mode){
- bgmMode=mode;$('bgmMode').textContent=mode==='battle'?'戰鬥配樂':'末日氛圍';
- if(bgmEnabled){bgmStep=0;if(bgmTimer)clearInterval(bgmTimer);bgmTimer=setInterval(bgmTick,mode==='battle'?300:440);bgmTick();}
+ if(!bgmTracks[mode])mode='home';
+ bgmMode=mode;$('bgmMode').textContent=({home:'冒險主題曲',explore:'冒險探索配樂',battle:'熱血戰鬥配樂',boss:'Boss 史詩戰曲'})[mode];
+ if(bgmEnabled){bgmStep=0;if(bgmTimer)clearInterval(bgmTimer);bgmTick();bgmTimer=setInterval(bgmTick,bgmInterval());}
 }
 $('bgmToggle').addEventListener('click',()=>{if(bgmEnabled)setBgmEnabled(false);else setBgmEnabled(true);});
 $('bgmVolume').value=bgmVolume;
 $('bgmVolume').addEventListener('input',e=>{
  bgmVolume=Math.max(0,Math.min(100,Number(e.target.value)||0));
  localStorage.setItem('projectZBgmVolume',String(bgmVolume));
- if(bgmMaster&&bgmContext)bgmMaster.gain.setTargetAtTime(bgmEnabled?bgmVolume/100*.8:0,bgmContext.currentTime,.08);
+ if(bgmMaster&&bgmContext)bgmMaster.gain.setTargetAtTime(bgmEnabled?bgmVolume/100*.72:0,bgmContext.currentTime,.08);
 });
 if(localStorage.getItem('projectZBgmEnabled')==='1')bgmSetButton('♫ 點擊恢復音樂');
 
-function show(id){screens.forEach(s=>$(s).classList.toggle('active',s===id));document.querySelectorAll('[data-screen]').forEach(b=>b.classList.toggle('active',b.dataset.screen===id));if(id==='team')renderTeam();if(id==='recruitment')renderRecruitment();if(id==='missions')renderMissions();if(id==='home'||id==='warehouse')renderHome();if(id==='archive'){renderArchive();renderArchiveTargetNote();}if(id==='story')renderStory();}
+function show(id){screens.forEach(s=>$(s).classList.toggle('active',s===id));document.querySelectorAll('[data-screen]').forEach(b=>b.classList.toggle('active',b.dataset.screen===id));if(id==='home')setBgmMode('home');else if(id==='story')setBgmMode('explore');else if(id==='battle'&&bgmMode!=='boss')setBgmMode('battle');if(id==='team')renderTeam();if(id==='recruitment')renderRecruitment();if(id==='missions')renderMissions();if(id==='home'||id==='warehouse')renderHome();if(id==='archive'){renderArchive();renderArchiveTargetNote();}if(id==='story')renderStory();}
 function renderHome(){if($('homeLevel'))$('homeLevel').textContent='LV.'+profile.level;if($('homeKills'))$('homeKills').textContent=profile.totalKills;if($('homeCoins'))$('homeCoins').textContent=profile.coins;if($('warehouseCoins'))$('warehouseCoins').textContent=profile.coins;if($('recruitGold'))$('recruitGold').textContent=profile.coins;if($('recruitTickets'))$('recruitTickets').textContent=profile.recruitTickets;if($('warehouseWeaponLv'))$('warehouseWeaponLv').textContent=profile.weaponLv;if($('playerNameInput'))$('playerNameInput').value=profile.playerName||'';if($('playerNameStatus'))$('playerNameStatus').textContent=profile.playerName?'目前主角姓名：'+profile.playerName+'（已儲存）':'尚未設定姓名。開始遊戲前可先輸入主角姓名。';}
 function savePlayerName(){let value=$('playerNameInput').value.trim();if(!value){$('playerNameStatus').textContent='請先輸入主角姓名。';$('playerNameInput').focus();return;}profile.playerName=value.slice(0,20);if(save()){$('playerNameStatus').textContent='主角姓名已儲存：'+profile.playerName;}else{$('playerNameStatus').textContent='儲存失敗，請檢查瀏覽器本機儲存空間。';}}
 function renderTeam(){syncProtagonist();const s=roster[0];$('teamCards').innerHTML='<article class="card"><div class="mission"><div class="portrait">主</div><div><h3>'+s.name+'</h3><small>玩家主角／單人作戰</small></div></div><p>生命 '+s.hp+'｜攻擊 '+Math.round(s.damage*(1+profile.weaponLv*.15))+'｜射程 '+s.range+'｜彈匣 '+s.mag+'</p><p>主角為唯一初始可操作人物；後續角色依主線劇情逐一登場。</p></article><article class="card"><h3>武器研究室</h3><p>目前強化等級：'+profile.weaponLv+'<br>主角攻擊加成：'+(profile.weaponLv*15)+'%</p><button class="btn primary" id="upgradeBtn" '+(profile.coins<30?'disabled':'')+'>花費 30 金幣升級</button></article>';$('upgradeBtn').onclick=()=>{if(profile.coins>=30){profile.coins-=30;profile.weaponLv++;save();renderTeam();}};}
@@ -391,7 +422,7 @@ function log(t){$('log').innerHTML=t+'<br>'+$('log').innerHTML.split('<br>').sli
 function syncProtagonist(){roster[0].name=profile.playerName||'主角';}
 function updateRoster(){syncProtagonist();const s=roster[0];$('members').innerHTML='<div class="unit"><div class="portrait">主</div><div class="unitInfo"><b>'+s.name+'</b><small>單人作戰 · 彈藥 '+(ammo[0]??s.mag)+'/'+s.mag+'</small></div></div>'; $('memberHeading')&&($('memberHeading').textContent='◆ 主角狀態');}
 function hud(){$('wave').textContent=wave+'/'+wavePlan().length;$('base').textContent=Math.ceil(base)+'%';$('kills').textContent=kills;$('clock').textContent=Math.floor(time/60)+':'+String(Math.floor(time%60)).padStart(2,'0');$('pause').textContent=paused?'▶ 繼續':'Ⅱ 暫停';[['heal','防線修復','Q'],['fire','燃燒彈','W'],['focus','專注射擊','E']].forEach(([id,label,key])=>{let b=$(id),cd=skillCD[id]||0;b.disabled=!running||paused||ended||cd>0;b.innerHTML=label+'<small>'+(cd>0?'冷卻 '+cd.toFixed(1)+' 秒':'戰術技能 · '+key)+'</small>';});$('reload').disabled=!running||paused||ended;}
-function spawnZ(type){let k=missions[mission].enemy,cfg={normal:[38,39,23,'#849879'],runner:[23,75,17,'#c7a36e'],armored:[120,22,48,'#71828c'],special:[78,48,34,'#9b80b8'],boss:[680,14,120,'#a45e73']}[type];let hp=cfg[0]*k;zombies.push({x:35+Math.random()*(W-70),y:-35,hp,max:hp,spd:cfg[1],dmg:cfg[2]*k,color:cfg[3],r:type==='boss'?39:type==='armored'?23:type==='special'?20:17,type,hit:0,attack:0,phase:1});}
+function spawnZ(type){if(type==='boss')setBgmMode('boss');let k=missions[mission].enemy,cfg={normal:[38,39,23,'#849879'],runner:[23,75,17,'#c7a36e'],armored:[120,22,48,'#71828c'],special:[78,48,34,'#9b80b8'],boss:[680,14,120,'#a45e73']}[type];let hp=cfg[0]*k;zombies.push({x:35+Math.random()*(W-70),y:-35,hp,max:hp,spd:cfg[1],dmg:cfg[2]*k,color:cfg[3],r:type==='boss'?39:type==='armored'?23:type==='special'?20:17,type,hit:0,attack:0,phase:1});}
 function pick(s){if(target&&target.hp>0)return target;let best=null,d=1e9;zombies.forEach(z=>{let n=Math.hypot(z.x-s.x,z.y-SQUAD_Y);if(n<s.range&&n<d){best=z;d=n;}});return best;}
 function getMuzzlePosition(s){const spriteReady=protagonistSprite.complete&&protagonistSprite.naturalWidth>0;if(spriteReady){const spriteH=108,spriteW=spriteH*protagonistSprite.naturalWidth/protagonistSprite.naturalHeight;return{x:s.x+spriteW*.29,y:SQUAD_Y-spriteH*.67};}return{x:s.x+37,y:SQUAD_Y-1};}
 function fireShot(s,z,i){const muzzle=getMuzzlePosition(s),dx=z.x-muzzle.x,dy=z.y-muzzle.y,d=Math.hypot(dx,dy)||1;bullets.push({x:muzzle.x,y:muzzle.y,vx:dx/d*500,vy:dy/d*500,damage:s.damage*(1+profile.weaponLv*.15),life:1.5,aoe:i===3});}
@@ -424,7 +455,7 @@ function drawBarricade(){
 function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#74766c';ctx.fillRect(0,0,W,H);ctx.fillStyle='#626962';ctx.fillRect(0,0,24,H);ctx.fillRect(W-24,0,24,H);for(let y=0;y<H;y+=150){ctx.fillStyle='#88877a';ctx.fillRect(25,y,W-50,2);ctx.fillStyle='#555f5d';ctx.fillRect(25,y+72,W-50,2);}for(let i=0;i<18;i++){ctx.fillStyle=i%2?'#9b9b89':'#59655e';ctx.beginPath();ctx.arc((i*91+38)%W,(i*139+60)%H,3+i%4,0,7);ctx.fill();}
 ctx.fillStyle='#242e36';ctx.fillRect(0,540,W,60);drawBarricade();ctx.fillStyle='#fff';ctx.font='bold 15px system-ui';ctx.fillText('防 護 欄 · '+Math.ceil(base)+'%',18,585);zombies.forEach(z=>{ctx.save();ctx.translate(z.x,z.y+Math.sin(time*7+z.x)*2);ctx.fillStyle=z.hit>0?'#fff':z.color;ctx.beginPath();ctx.ellipse(0,5,z.r*.7,z.r,0,0,7);ctx.fill();ctx.fillStyle='#d9d1bf';ctx.beginPath();ctx.arc(0,-z.r*.55,z.r*.55,0,7);ctx.fill();ctx.fillStyle='#a52d3b';ctx.fillRect(-7,-z.r*.62,4,4);ctx.fillRect(4,-z.r*.62,4,4);ctx.strokeStyle='#393532';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-8,8);ctx.lineTo(-z.r,22);ctx.moveTo(8,8);ctx.lineTo(z.r,22);ctx.stroke();ctx.fillStyle='#26313a';ctx.fillRect(-z.r,-z.r-14,z.r*2,5);ctx.fillStyle='#80d69a';ctx.fillRect(-z.r,-z.r-14,z.r*2*Math.max(0,z.hp/z.max),5);if(z===target){ctx.strokeStyle='#ffe28c';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,z.r+9,0,7);ctx.stroke();}if(z.type==='boss'){ctx.fillStyle='#fff';ctx.font='bold 12px system-ui';ctx.fillText('Z-01 暴君型',-38,-z.r-24);}if(z.type==='special'){ctx.fillStyle='#fff';ctx.font='bold 10px system-ui';ctx.fillText('特殊感染者',-30,-z.r-20);}ctx.restore();});bullets.forEach(b=>{ctx.strokeStyle=b.aoe?'#ffb34d':'#ffe6a0';ctx.lineWidth=b.aoe?5:3;ctx.beginPath();ctx.moveTo(b.x,b.y);ctx.lineTo(b.x-b.vx*.025,b.y-b.vy*.025);ctx.stroke();});let bossUnit=zombies.find(z=>z.type==='boss');if(bossUnit){ctx.fillStyle='#101a24cc';ctx.fillRect(300,14,360,13);ctx.fillStyle='#e66b79';ctx.fillRect(302,16,356*Math.max(0,bossUnit.hp/bossUnit.max),9);ctx.fillStyle='#fff';ctx.font='bold 10px system-ui';ctx.textAlign='center';ctx.fillText('Z-01 暴君型 · '+Math.ceil(bossUnit.hp)+' HP',480,11);}roster.forEach((s,i)=>{ctx.save();ctx.translate(s.x,SQUAD_Y);if(s.hp<=0){ctx.globalAlpha=.62;ctx.rotate(-.12);ctx.fillStyle='#26313a';ctx.fillRect(-18,7,36,13);ctx.fillStyle=s.color;ctx.beginPath();ctx.arc(0,2,10,0,7);ctx.fill();ctx.fillStyle='#ff7b82';ctx.font='bold 10px system-ui';ctx.fillText('倒地',-12,39);ctx.restore();return;}let pulse=(Math.sin(time*5+i)*.5+.5);if(protagonistSprite.complete&&protagonistSprite.naturalWidth>0){const spriteH=108,spriteW=spriteH*protagonistSprite.naturalWidth/protagonistSprite.naturalHeight;ctx.drawImage(protagonistSprite,-spriteW/2,-spriteH+12,spriteW,spriteH);}else{ctx.fillStyle='#17232c';ctx.beginPath();ctx.ellipse(0,25,18,7,0,0,7);ctx.fill();ctx.fillStyle='#273745';ctx.fillRect(-12,5,9,22);ctx.fillRect(3,5,9,22);ctx.fillStyle=s.color;ctx.beginPath();ctx.roundRect(-13,-1,26,28,7);ctx.fill();ctx.fillStyle='#d8c4ad';ctx.beginPath();ctx.arc(0,-13,12,0,7);ctx.fill();ctx.fillStyle='#3a2f35';ctx.beginPath();ctx.arc(0,-17,12,Math.PI,Math.PI*2);ctx.fill();ctx.fillRect(-11,-17,4,8);ctx.fillRect(7,-17,4,8);}ctx.strokeStyle='#27313b';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(8,8);ctx.lineTo(18,1);ctx.stroke();ctx.fillStyle='#202a34';ctx.fillRect(12,-1,24,5);ctx.fillStyle='#8c9aa4';ctx.fillRect(29,-2,8,3);ctx.fillStyle='#fff';ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.fillText(s.name,0,48);ctx.restore();});particles.forEach(p=>{ctx.globalAlpha=Math.max(0,p.life/.5);ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,3,0,7);ctx.fill();ctx.globalAlpha=1;});numbers.forEach(n=>{ctx.fillStyle='#fff0a5';ctx.font='bold 17px system-ui';ctx.fillText(n.t,n.x,n.y);});if(paused){ctx.fillStyle='#07101bbd';ctx.fillRect(0,0,W,H);ctx.fillStyle='#fff';ctx.font='bold 40px system-ui';ctx.fillText('PAUSED',185,450);}}
 function loop(t){let dt=Math.min(.04,(t-last)/1000||0);last=t;if(running&&!paused&&!ended)update(dt*speed);draw();requestAnimationFrame(loop);}
-function togglePause(){if(!running||ended)return;paused=!paused;if(bgmMaster&&bgmContext)bgmMaster.gain.setTargetAtTime(bgmEnabled?(paused?bgmVolume/100*.16:bgmVolume/100*.8):0,bgmContext.currentTime,.18);hud();}
+function togglePause(){if(!running||ended)return;paused=!paused;if(bgmMaster&&bgmContext)bgmMaster.gain.setTargetAtTime(bgmEnabled?(paused?bgmVolume/100*.12:bgmVolume/100*.72):0,bgmContext.currentTime,.18);hud();}
 document.querySelectorAll('[data-screen]').forEach(b=>b.onclick=()=>show(b.dataset.screen));$('goSettings').onclick=()=>{show('home');$('saveManagerCard').scrollIntoView({behavior:'smooth',block:'start'});};
 
 const recruitableCharacters=[];
