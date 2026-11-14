@@ -340,7 +340,7 @@ async function setBgmEnabled(on){
 function setBgmMode(mode){
  if(!bgmTracks[mode])mode='home';
  const previousMode=bgmMode;
- bgmMode=mode;$('bgmMode').textContent=({home:'冒險主題曲',explore:'冒險探索配樂',battle:'熱血女聲戰鬥歌曲',boss:'Boss 熱血女聲戰曲'})[mode];
+ bgmMode=mode;$('bgmMode').textContent=({home:'女聲主題曲',explore:'女聲冒險歌曲',battle:'女聲戰鬥歌曲',boss:'Boss 女聲歌曲'})[mode];
  if(bgmEnabled){
   if(bgmTimer)clearInterval(bgmTimer);
   if(bgmIsVocalMode()){
