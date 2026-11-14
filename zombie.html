@@ -256,7 +256,7 @@ bgmVolume=Math.max(0,Math.min(100,bgmVolume));
 let bgmShuffle=localStorage.getItem('projectZBgmShuffle')==='1';
 let bgmRepeatMode=localStorage.getItem('projectZBgmRepeatMode')||'all';
 if(!['all','one','off'].includes(bgmRepeatMode))bgmRepeatMode='all';
-let bgmVocalFailed=false,bgmFadeTimer=null,bgmSwitchToken=0;
+let bgmVocalFailed=false,bgmFadeTimer=null,bgmFadeResolve=null,bgmSwitchToken=0;
 let bgmVocalTrack=new Audio(bgmVocalTracks[bgmSelectedTrack].url);
 bgmVocalTrack.preload='metadata';bgmVocalTrack.loop=bgmRepeatMode==='one';bgmVocalTrack.volume=bgmVolume/100*.72;
 function bgmIsVocalMode(){return true;}
@@ -286,14 +286,22 @@ function bgmUpdatePlayer(){
  bgmSetButton(bgmEnabled?'Ⅱ 暫停':'▶ 播放');
  const toggle=$('bgmToggle');if(toggle)toggle.setAttribute('aria-label',bgmEnabled?'暫停音樂':'播放音樂');
 }
-function bgmFadeTo(target,duration=200){
+function bgmCancelFade(){
  if(bgmFadeTimer){clearInterval(bgmFadeTimer);bgmFadeTimer=null;}
+ if(bgmFadeResolve){const done=bgmFadeResolve;bgmFadeResolve=null;done();}
+}
+function bgmFadeTo(target,duration=200){
+ bgmCancelFade();
  const start=bgmVocalTrack.volume,started=performance.now();
  return new Promise(resolve=>{
+  bgmFadeResolve=resolve;
   bgmFadeTimer=setInterval(()=>{
    const progress=Math.min(1,(performance.now()-started)/duration);
    bgmVocalTrack.volume=start+(target-start)*progress;
-   if(progress>=1){clearInterval(bgmFadeTimer);bgmFadeTimer=null;resolve();}
+   if(progress>=1){
+    clearInterval(bgmFadeTimer);bgmFadeTimer=null;
+    const done=bgmFadeResolve;bgmFadeResolve=null;if(done)done();
+   }
   },20);
  });
 }
@@ -356,7 +364,7 @@ function bgmSyncVocal(restart=false){
 async function setBgmEnabled(on){
  if(!on){
   bgmEnabled=false;++bgmSwitchToken;
-  if(bgmFadeTimer){clearInterval(bgmFadeTimer);bgmFadeTimer=null;}
+  bgmCancelFade();
   bgmVocalTrack.pause();bgmVocalTrack.volume=bgmVolume/100*.72;
   localStorage.setItem('projectZBgmEnabled','0');bgmUpdatePlayer();return;
  }
