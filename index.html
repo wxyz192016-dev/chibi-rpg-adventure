@@ -103,9 +103,9 @@
 #archiveSlots .archiveDetailInfo p{color:#c1cbd5;font-size:13px;line-height:1.8}
 @media(max-width:1050px){#archiveSlots.archiveGrid{grid-template-columns:repeat(2,minmax(0,1fr))}#archiveSlots .archiveSlot{grid-template-columns:1fr}#archiveSlots .archivePortraitWrap,#archiveSlots .archiveIcon{height:190px}}
 @media(max-width:760px){#archiveSlots.archiveGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#archiveSlots .archiveSlot{padding:9px}#archiveSlots .archivePortraitWrap,#archiveSlots .archiveIcon{height:160px}#archiveSlots .archiveDetailCard{grid-template-columns:1fr;gap:12px}#archiveSlots .archivePortraitDetail{height:48vh}}
-.bgmControl{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-left:auto;padding:6px 10px;border:1px solid #53677b;border-radius:10px;background:#101b28aa;color:var(--text);font-size:12px}.bgmControl button{border:1px solid #74869a;background:#26384a;color:#fff;border-radius:8px;padding:7px 10px;cursor:pointer}.bgmControl input{width:88px;accent-color:#d5b477}.bgmLabel{color:#c9d4df;white-space:nowrap}@media(max-width:650px){.globalStatus{flex-wrap:wrap}.bgmControl{width:100%;margin-left:0;justify-content:space-between}}
+.bgmControl{flex:1 1 100%;min-width:0;width:100%;display:grid;grid-template-columns:minmax(180px,1fr) auto;gap:9px 14px;margin:8px 0 0;padding:11px 13px;border:1px solid #53677b;border-radius:12px;background:#101b28aa;color:var(--text);font-size:12px}.bgmNow{display:flex;align-items:baseline;gap:10px;min-width:0;flex-wrap:wrap}.bgmEyebrow{color:#91a4b7;font-size:9px;letter-spacing:.16em;font-weight:800}.bgmNow strong{color:#f3d28f;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bgmNow small{color:#aab7c5;font-size:10px}.bgmTransport{display:flex;align-items:center;justify-content:flex-end;gap:6px}.bgmTransport button{min-width:34px;height:34px;padding:6px 9px;border:1px solid #74869a;background:#26384a;color:#fff;border-radius:8px;cursor:pointer;font-size:13px}.bgmTransport button:focus-visible,.bgmOptions select:focus-visible,.bgmTimeline input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}.bgmTransport #bgmToggle{min-width:86px;background:#354b5e;font-weight:800}.bgmTransport button[aria-pressed=true]{border-color:var(--gold);color:var(--gold)}.bgmTimeline{display:grid;grid-template-columns:38px minmax(0,1fr) 38px;align-items:center;gap:8px;color:#aab7c5;font-size:10px;font-variant-numeric:tabular-nums}.bgmTimeline input{width:100%;accent-color:#d5b477}.bgmOptions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}.bgmOptions label{color:#c9d4df;white-space:nowrap}.bgmOptions select{max-width:230px;min-width:145px;padding:6px 8px;border:1px solid #53677b;border-radius:7px;background:#1b2b3b;color:#fff}.bgmOptions input[type=range]{width:96px;accent-color:#d5b477}.bgmMode{color:#c9d4df;white-space:nowrap;border:1px solid #53677b;border-radius:7px;padding:4px 7px}@media(max-width:760px){.bgmControl{grid-template-columns:1fr;gap:9px}.bgmNow{justify-content:center}.bgmTransport{justify-content:center}.bgmTimeline{grid-template-columns:36px minmax(0,1fr) 36px}.bgmOptions{justify-content:space-between}.bgmOptions select{flex:1;min-width:120px;max-width:none}}
 </style></head><body><main class="app">
-<header class="top"><a class="logo" href="#" data-screen="home" aria-label="返回遊戲主介面">PROJECT Z <small>末日倖存者：Z計畫</small></a><button class="railToggle btn" id="railToggle" type="button" aria-label="收合導覽">☰ 收合選單</button><nav class="nav" aria-label="遊戲主選單"><div class="navGroup"><div class="navGroupTitle">01｜冒險與據點</div><button class="btn" data-screen="home">冒險首頁</button><button class="btn" data-screen="story">主線章節／校園探索</button><button class="btn" data-screen="missions">戰鬥指揮中心</button><button class="btn" data-screen="baseManagement">據點發展</button></div><div class="navGroup"><div class="navGroupTitle">02｜物資與裝備</div><button class="btn" data-screen="warehouse">物資倉庫</button></div><div class="navGroup"><div class="navGroupTitle">03｜人物管理</div><button class="btn" data-screen="team">人物整備</button><button class="btn" data-screen="archive">人物圖鑑</button><button class="btn" data-screen="recruitment">角色招募</button></div><div class="navGroup"><div class="navGroupTitle">04｜系統設定</div><button class="btn" id="goSettings" type="button">設定與存檔</button></div></nav></header><div class="globalStatus"><span class="statusBrand">PROJECT Z <small>COMMAND INTERFACE</small></span><span class="globalPlayer">玩家：<b id="globalPlayerName">尚未設定</b></span><span class="globalContext" id="globalContext">主基地總覽</span><div class="bgmControl"><button id="bgmToggle" type="button">♫ 開啟音樂</button><label class="bgmLabel" for="bgmTrackSelect">歌曲</label><select id="bgmTrackSelect" aria-label="選擇戰鬥歌曲"><option value="lastclass">最後一堂課（校園末日主題曲）</option><option value="dawn">越過末日的黎明</option><option value="japanese">鼓動の証明</option></select><span class="bgmLabel" id="bgmMode">末日氛圍</span><label class="bgmLabel" for="bgmVolume">音量</label><input id="bgmVolume" type="range" min="0" max="100" value="28"></div></div>
+<header class="top"><a class="logo" href="#" data-screen="home" aria-label="返回遊戲主介面">PROJECT Z <small>末日倖存者：Z計畫</small></a><button class="railToggle btn" id="railToggle" type="button" aria-label="收合導覽">☰ 收合選單</button><nav class="nav" aria-label="遊戲主選單"><div class="navGroup"><div class="navGroupTitle">01｜冒險與據點</div><button class="btn" data-screen="home">冒險首頁</button><button class="btn" data-screen="story">主線章節／校園探索</button><button class="btn" data-screen="missions">戰鬥指揮中心</button><button class="btn" data-screen="baseManagement">據點發展</button></div><div class="navGroup"><div class="navGroupTitle">02｜物資與裝備</div><button class="btn" data-screen="warehouse">物資倉庫</button></div><div class="navGroup"><div class="navGroupTitle">03｜人物管理</div><button class="btn" data-screen="team">人物整備</button><button class="btn" data-screen="archive">人物圖鑑</button><button class="btn" data-screen="recruitment">角色招募</button></div><div class="navGroup"><div class="navGroupTitle">04｜系統設定</div><button class="btn" id="goSettings" type="button">設定與存檔</button></div></nav></header><div class="globalStatus"><span class="statusBrand">PROJECT Z <small>COMMAND INTERFACE</small></span><span class="globalPlayer">玩家：<b id="globalPlayerName">尚未設定</b></span><span class="globalContext" id="globalContext">主基地總覽</span><div class="bgmControl" role="region" aria-label="背景音樂播放器"><div class="bgmNow"><span class="bgmEyebrow">NOW PLAYING</span><strong id="bgmTrackTitle">最後一堂課</strong><small id="bgmMode" class="bgmMode">主基地</small></div><div class="bgmTransport"><button id="bgmShuffle" type="button" aria-label="隨機播放" aria-pressed="false" title="隨機播放">⤨</button><button id="bgmPrev" type="button" aria-label="上一首" title="上一首">|◀</button><button id="bgmToggle" type="button" aria-label="播放音樂">▶ 播放</button><button id="bgmNext" type="button" aria-label="下一首" title="下一首">▶|</button><button id="bgmRepeat" type="button" aria-label="循環模式：播放清單循環" aria-pressed="true" title="切換循環模式">🔁</button></div><div class="bgmTimeline"><span id="bgmCurrentTime">0:00</span><input id="bgmSeek" type="range" min="0" max="1000" value="0" step="1" aria-label="歌曲播放進度"><span id="bgmDuration">0:00</span></div><div class="bgmOptions"><label for="bgmTrackSelect">播放清單</label><select id="bgmTrackSelect" aria-label="選擇背景音樂"><option value="lastclass">最後一堂課</option><option value="japanese">鼓動の証明</option><option value="dawn">越過末日的黎明</option><option value="breach">Take the Breach</option></select><label for="bgmVolume">音量</label><input id="bgmVolume" type="range" min="0" max="100" value="42" aria-label="背景音樂音量"></div></div></div>
 <section id="home" class="screen active">
 <div class="hero homeHero">
  <div class="heroText">
@@ -243,131 +243,175 @@ async function offerResume(){let c=await getCheckpoint();if(!c)return;if(!validC
 let bgmContext=null,bgmMaster=null,bgmTimer=null,bgmEnabled=false,bgmMode='home',bgmStep=0;
 const bgmVocalTracks={
  lastclass:{label:'最後一堂課',url:'./%E9%9F%B3%E6%A8%82/%E6%9C%80%E5%BE%8C%E4%B8%80%E5%A0%82%E8%AA%B2.mp3'},
+ japanese:{label:'鼓動の証明',url:'./%E9%9F%B3%E6%A8%82/%E9%BC%93%E5%8B%95%E3%81%AE%E8%A8%BC%E6%98%8E.mp3'},
  dawn:{label:'越過末日的黎明',url:'./%E9%9F%B3%E6%A8%82/%E8%B6%8A%E9%81%8E%E6%9C%AB%E6%97%A5%E7%9A%84%E9%BB%8E%E6%98%8E.mp3'},
- japanese:{label:'鼓動の証明',url:'./%E9%9F%B3%E6%A8%82/%E9%BC%93%E5%8B%95%E3%81%AE%E8%A8%BC%E6%98%8E.mp3'}
+ breach:{label:'Take the Breach',url:'./%E9%9F%B3%E6%A8%82/Take%20the%20Breach.mp3'}
 };
-let bgmSelectedTrack=localStorage.getItem('projectZBgmSelectedTrack')||'lastclass';if(!bgmVocalTracks[bgmSelectedTrack])bgmSelectedTrack='lastclass';
-let bgmVocalTrack=new Audio(bgmVocalTracks[bgmSelectedTrack].url);bgmVocalTrack.loop=true;bgmVocalTrack.preload='auto';bgmVocalTrack.volume=0;
-let bgmVocalFailed=false;
-function bgmSelectTrack(id,restart=true){
- if(!bgmVocalTracks[id])return;
- const wasPlaying=bgmEnabled&&bgmIsVocalMode()&&!paused&&!bgmVocalFailed;
- bgmVocalTrack.pause();bgmVocalTrack.removeAttribute('src');bgmVocalTrack.load();
- bgmSelectedTrack=id;bgmVocalFailed=false;bgmVocalTrack=new Audio(bgmVocalTracks[id].url);bgmVocalTrack.loop=true;bgmVocalTrack.preload='auto';bgmVocalTrack.volume=0;
- bgmVocalTrack.addEventListener('error',()=>{bgmVocalFailed=true;console.warn('歌曲載入失敗，請檢查音檔或重新選擇。');bgmStartSynthFallback();});
- localStorage.setItem('projectZBgmSelectedTrack',id);
- const select=$('bgmTrackSelect');if(select)select.value=id;
- if(wasPlaying&&restart)bgmSyncVocal(true);
- }
-bgmVocalTrack.addEventListener('error',()=>{bgmVocalFailed=true;console.warn('歌曲載入失敗，請檢查音檔或重新選擇。');bgmStartSynthFallback();});
-function bgmIsVocalMode(){return true;}
-function bgmStartSynthFallback(){
-  if(bgmTimer){clearInterval(bgmTimer);bgmTimer=null;}
-  if(bgmMaster&&bgmContext)bgmMaster.gain.setTargetAtTime(0,bgmContext.currentTime,.08);
-  bgmVocalTrack.pause();bgmSetButton('♫ 歌曲載入失敗');
- }
-bgmVocalTrack.addEventListener('error',()=>{
- bgmVocalFailed=true;console.warn('歌曲載入失敗，請檢查音檔或重新選擇。');
- bgmStartSynthFallback();
-});
-function bgmSyncVocal(restart=false){
- if(!bgmEnabled||!bgmIsVocalMode()||paused||bgmVocalFailed){bgmVocalTrack.pause();return;}
- bgmVocalTrack.volume=Math.max(0,Math.min(1,bgmVolume/100*.72));
- if(restart)bgmVocalTrack.currentTime=0;
- const p=bgmVocalTrack.play();
- if(p&&p.catch)p.catch(e=>{console.warn('歌曲播放失敗：',e);bgmVocalFailed=true;bgmStartSynthFallback();});
-}
+const bgmTrackOrder=Object.keys(bgmVocalTracks);
+let bgmSelectedTrack=localStorage.getItem('projectZBgmSelectedTrack')||'lastclass';
+if(!bgmVocalTracks[bgmSelectedTrack])bgmSelectedTrack='lastclass';
 let bgmVolume=Number(localStorage.getItem('projectZBgmVolume')||42);
 if(!Number.isFinite(bgmVolume))bgmVolume=42;
 bgmVolume=Math.max(0,Math.min(100,bgmVolume));
-// Legacy synthesizer definitions retained but playback is disabled; selectable vocal songs are used throughout the game.
-const bgmTracks={
- home:{tempo:116,melody:[76,79,83,88,86,83,79,76,74,79,83,86,91,88,83,79],root:48,chord:[0,4,7]},
- explore:{tempo:94,melody:[69,72,76,81,79,76,72,69,67,72,76,79,84,81,76,72],root:45,chord:[0,3,7]},
- battle:{tempo:148,melody:[76,79,83,86,88,86,83,79,81,84,88,91,93,91,88,84],root:41,chord:[0,4,7]},
- boss:{tempo:160,melody:[64,67,71,76,79,76,71,67,62,66,69,74,78,74,69,66],root:38,chord:[0,3,7]}
-};
-function bgmHz(midi){return 440*Math.pow(2,(midi-69)/12);}
-function bgmNote(freq,when,duration,level,type='triangle'){
- if(!bgmContext||!bgmMaster||!freq)return;
- const osc=bgmContext.createOscillator(),gain=bgmContext.createGain(),filter=bgmContext.createBiquadFilter();
- osc.type=type;osc.frequency.setValueAtTime(freq,when);filter.type='lowpass';filter.frequency.value=type==='sawtooth'?2600:3200;filter.Q.value=.65;
- gain.gain.setValueAtTime(.0001,when);gain.gain.exponentialRampToValueAtTime(Math.max(.0002,level),when+.025);gain.gain.setValueAtTime(Math.max(.0002,level*.68),when+Math.max(.04,duration*.58));gain.gain.exponentialRampToValueAtTime(.0001,when+duration);
- osc.connect(filter);filter.connect(gain);gain.connect(bgmMaster);osc.start(when);osc.stop(when+duration+.035);
+let bgmShuffle=localStorage.getItem('projectZBgmShuffle')==='1';
+let bgmRepeatMode=localStorage.getItem('projectZBgmRepeatMode')||'all';
+if(!['all','one','off'].includes(bgmRepeatMode))bgmRepeatMode='all';
+let bgmVocalFailed=false,bgmFadeTimer=null,bgmSwitchToken=0;
+let bgmVocalTrack=new Audio(bgmVocalTracks[bgmSelectedTrack].url);
+bgmVocalTrack.preload='metadata';bgmVocalTrack.loop=bgmRepeatMode==='one';bgmVocalTrack.volume=bgmVolume/100*.72;
+function bgmIsVocalMode(){return true;}
+function bgmFormatTime(seconds){
+ if(!Number.isFinite(seconds)||seconds<0)return '0:00';
+ const m=Math.floor(seconds/60),s=Math.floor(seconds%60);
+ return m+':'+String(s).padStart(2,'0');
 }
-function bgmKick(when){
- if(!bgmContext||!bgmMaster)return;
- const osc=bgmContext.createOscillator(),gain=bgmContext.createGain();
- osc.type='sine';osc.frequency.setValueAtTime(125,when);osc.frequency.exponentialRampToValueAtTime(48,when+.13);
- gain.gain.setValueAtTime(.0001,when);gain.gain.exponentialRampToValueAtTime(.12,when+.008);gain.gain.exponentialRampToValueAtTime(.0001,when+.16);
- osc.connect(gain);gain.connect(bgmMaster);osc.start(when);osc.stop(when+.17);
-}
-function bgmSnare(when){
- if(!bgmContext||!bgmMaster)return;
- const length=Math.floor(bgmContext.sampleRate*.12),buffer=bgmContext.createBuffer(1,length,bgmContext.sampleRate),data=buffer.getChannelData(0);
- for(let i=0;i<length;i++)data[i]=(Math.random()*2-1)*(1-i/length);
- const src=bgmContext.createBufferSource(),filter=bgmContext.createBiquadFilter(),gain=bgmContext.createGain();
- src.buffer=buffer;filter.type='highpass';filter.frequency.value=1400;gain.gain.setValueAtTime(.0001,when);gain.gain.exponentialRampToValueAtTime(.055,when+.006);gain.gain.exponentialRampToValueAtTime(.0001,when+.12);
- src.connect(filter);filter.connect(gain);gain.connect(bgmMaster);src.start(when);src.stop(when+.13);
-}
-function bgmTick(){
-  return; // 全遊戲改用玩家選擇的人聲歌曲，不再播放合成器 BGM。
- }
-function bgmInterval(){return Math.max(110,Math.round(60000/(bgmTracks[bgmMode]||bgmTracks.home).tempo/2));}
 function bgmSetButton(label){const b=$('bgmToggle');if(b)b.textContent=label;}
+function bgmUpdatePlayer(){
+ const title=$('bgmTrackTitle'),select=$('bgmTrackSelect'),seek=$('bgmSeek');
+ if(title)title.textContent=bgmVocalTracks[bgmSelectedTrack].label;
+ if(select)select.value=bgmSelectedTrack;
+ if(seek&&!seek.matches(':active'))seek.value=Number.isFinite(bgmVocalTrack.duration)&&bgmVocalTrack.duration>0?String(Math.round(bgmVocalTrack.currentTime/bgmVocalTrack.duration*1000)):'0';
+ const current=$('bgmCurrentTime'),duration=$('bgmDuration');
+ if(current)current.textContent=bgmFormatTime(bgmVocalTrack.currentTime);
+ if(duration)duration.textContent=bgmFormatTime(bgmVocalTrack.duration);
+ const shuffle=$('bgmShuffle'),repeat=$('bgmRepeat');
+ if(shuffle){shuffle.setAttribute('aria-pressed',String(bgmShuffle));shuffle.title=bgmShuffle?'隨機播放：開啟':'隨機播放：關閉';}
+ if(repeat){
+  const labels={all:'播放清單循環',one:'單曲循環',off:'不循環'};
+  repeat.setAttribute('aria-pressed',String(bgmRepeatMode!=='off'));
+  repeat.setAttribute('aria-label','循環模式：'+labels[bgmRepeatMode]);
+  repeat.title='循環模式：'+labels[bgmRepeatMode];
+  repeat.textContent=bgmRepeatMode==='one'?'🔂':bgmRepeatMode==='off'?'↻':'🔁';
+ }
+ bgmSetButton(bgmEnabled?'Ⅱ 暫停':'▶ 播放');
+ const toggle=$('bgmToggle');if(toggle)toggle.setAttribute('aria-label',bgmEnabled?'暫停音樂':'播放音樂');
+}
+function bgmFadeTo(target,duration=200){
+ if(bgmFadeTimer){clearInterval(bgmFadeTimer);bgmFadeTimer=null;}
+ const start=bgmVocalTrack.volume,started=performance.now();
+ return new Promise(resolve=>{
+  bgmFadeTimer=setInterval(()=>{
+   const progress=Math.min(1,(performance.now()-started)/duration);
+   bgmVocalTrack.volume=start+(target-start)*progress;
+   if(progress>=1){clearInterval(bgmFadeTimer);bgmFadeTimer=null;resolve();}
+  },20);
+ });
+}
+async function bgmSelectTrack(id,restart=true){
+ if(!bgmVocalTracks[id])return;
+ const token=++bgmSwitchToken,shouldPlay=bgmEnabled&&!paused;
+ if(shouldPlay)await bgmFadeTo(0,160);
+ if(token!==bgmSwitchToken)return;
+ bgmVocalTrack.pause();
+ bgmSelectedTrack=id;bgmVocalFailed=false;
+ bgmVocalTrack.src=bgmVocalTracks[id].url;
+ bgmVocalTrack.loop=bgmRepeatMode==='one';
+ bgmVocalTrack.load();
+ if(restart){try{bgmVocalTrack.currentTime=0;}catch(e){}}
+ localStorage.setItem('projectZBgmSelectedTrack',id);
+ bgmUpdatePlayer();
+ if(shouldPlay){
+  try{
+   await bgmVocalTrack.play();
+   if(token===bgmSwitchToken)await bgmFadeTo(bgmVolume/100*.72,220);
+  }catch(err){
+   bgmVocalFailed=true;bgmEnabled=false;localStorage.setItem('projectZBgmEnabled','0');
+   bgmSetButton('音檔播放失敗');console.warn('歌曲播放失敗：',err);
+  }
+ }else bgmVocalTrack.volume=bgmVolume/100*.72;
+ bgmUpdatePlayer();
+}
+function bgmNextTrack(automatic=false){
+ if(automatic&&bgmRepeatMode==='off'){
+  bgmEnabled=false;localStorage.setItem('projectZBgmEnabled','0');bgmVocalTrack.pause();bgmUpdatePlayer();return;
+ }
+ let next;
+ if(bgmShuffle&&bgmTrackOrder.length>1){
+  const choices=bgmTrackOrder.filter(id=>id!==bgmSelectedTrack);
+  next=choices[Math.floor(Math.random()*choices.length)];
+ }else{
+  const index=bgmTrackOrder.indexOf(bgmSelectedTrack);
+  next=bgmTrackOrder[(index+1)%bgmTrackOrder.length];
+ }
+ bgmSelectTrack(next,true);
+}
+function bgmPrevTrack(){
+ if(Number.isFinite(bgmVocalTrack.currentTime)&&bgmVocalTrack.currentTime>3){
+  try{bgmVocalTrack.currentTime=0;}catch(e){}
+  bgmUpdatePlayer();return;
+ }
+ const index=bgmTrackOrder.indexOf(bgmSelectedTrack);
+ bgmSelectTrack(bgmTrackOrder[(index-1+bgmTrackOrder.length)%bgmTrackOrder.length],true);
+}
+function bgmSyncVocal(restart=false){
+ if(!bgmEnabled||!bgmIsVocalMode()||paused||bgmVocalFailed){bgmVocalTrack.pause();return;}
+ if(restart){try{bgmVocalTrack.currentTime=0;}catch(e){}}
+ bgmVocalTrack.volume=bgmVolume/100*.72;
+ const p=bgmVocalTrack.play();
+ if(p&&p.catch)p.catch(err=>{
+  bgmVocalFailed=true;bgmEnabled=false;localStorage.setItem('projectZBgmEnabled','0');
+  bgmSetButton('音檔播放失敗');console.warn('歌曲播放失敗：',err);bgmUpdatePlayer();
+ });
+}
 async function setBgmEnabled(on){
  if(!on){
-  bgmEnabled=false;if(bgmTimer){clearInterval(bgmTimer);bgmTimer=null;}
-  if(bgmMaster&&bgmContext)bgmMaster.gain.setTargetAtTime(0,bgmContext.currentTime,.12);
-  bgmVocalTrack.pause();
-  bgmSetButton('♫ 開啟音樂');localStorage.setItem('projectZBgmEnabled','0');return;
+  bgmEnabled=false;++bgmSwitchToken;
+  if(bgmFadeTimer){clearInterval(bgmFadeTimer);bgmFadeTimer=null;}
+  bgmVocalTrack.pause();bgmVocalTrack.volume=bgmVolume/100*.72;
+  localStorage.setItem('projectZBgmEnabled','0');bgmUpdatePlayer();return;
  }
+ bgmEnabled=true;bgmVocalFailed=false;localStorage.setItem('projectZBgmEnabled','1');
+ if(paused){bgmVocalTrack.pause();bgmUpdatePlayer();return;}
+ bgmVocalTrack.volume=0;
  try{
-  const AC=window.AudioContext||window.webkitAudioContext;
-  if(!AC){bgmSetButton('此瀏覽器不支援音訊');return;}
-  if(!bgmContext){bgmContext=new AC();bgmMaster=bgmContext.createGain();bgmMaster.gain.value=0;bgmMaster.connect(bgmContext.destination);}
-  await bgmContext.resume();
-  if(bgmContext.state!=='running')throw new Error('AudioContext 未進入播放狀態');
-  bgmEnabled=true;bgmMaster.gain.cancelScheduledValues(bgmContext.currentTime);
-  bgmMaster.gain.setTargetAtTime(bgmIsVocalMode()&&!bgmVocalFailed?0:bgmVolume/100*.72,bgmContext.currentTime,.08);
-  if(bgmTimer)clearInterval(bgmTimer);bgmStep=0;bgmTick();bgmTimer=setInterval(bgmTick,bgmInterval());
-  bgmSyncVocal();
-  bgmSetButton('♫ 關閉音樂');localStorage.setItem('projectZBgmEnabled','1');
+  await bgmVocalTrack.play();
+  await bgmFadeTo(bgmVolume/100*.72,240);
  }catch(err){
-  bgmEnabled=false;if(bgmTimer){clearInterval(bgmTimer);bgmTimer=null;}
-  bgmSetButton('♫ 音樂啟動失敗，請再點一次');console.warn('BGM start failed:',err);
+  bgmEnabled=false;bgmVocalFailed=true;localStorage.setItem('projectZBgmEnabled','0');
+  bgmSetButton('音檔播放失敗');console.warn('BGM start failed:',err);
  }
+ bgmUpdatePlayer();
 }
 function setBgmMode(mode){
- if(!bgmTracks[mode])mode='home';
- const previousMode=bgmMode;
- bgmMode=mode;$('bgmMode').textContent=({home:'女聲主題曲',explore:'女聲冒險歌曲',battle:'女聲戰鬥歌曲',boss:'Boss 女聲歌曲'})[mode];
- if(bgmEnabled){
-  if(bgmTimer)clearInterval(bgmTimer);
-  if(bgmIsVocalMode()){
-   if(bgmVocalFailed){bgmStartSynthFallback();}
-   else{
-    if(bgmMaster&&bgmContext)bgmMaster.gain.setTargetAtTime(0,bgmContext.currentTime,.08);
-    bgmSyncVocal(previousMode==='home'||previousMode==='explore');
-   }
-  }else{
-   bgmVocalTrack.pause();
-   if(bgmMaster&&bgmContext)bgmMaster.gain.setTargetAtTime(bgmVolume/100*.72,bgmContext.currentTime,.08);
-   bgmStep=0;bgmTick();bgmTimer=setInterval(bgmTick,bgmInterval());
-  }
- }
+ const labels={home:'主基地',explore:'校園探索',battle:'戰鬥中',boss:'Boss 戰'};
+ bgmMode=labels[mode]?mode:'home';
+ const el=$('bgmMode');if(el)el.textContent=labels[bgmMode];
 }
-$('bgmToggle').addEventListener('click',()=>{if(bgmEnabled)setBgmEnabled(false);else setBgmEnabled(true);});
+$('bgmToggle').addEventListener('click',()=>setBgmEnabled(!bgmEnabled));
+$('bgmPrev').addEventListener('click',bgmPrevTrack);
+$('bgmNext').addEventListener('click',()=>bgmNextTrack(false));
+$('bgmShuffle').addEventListener('click',()=>{
+ bgmShuffle=!bgmShuffle;localStorage.setItem('projectZBgmShuffle',bgmShuffle?'1':'0');bgmUpdatePlayer();
+});
+$('bgmRepeat').addEventListener('click',()=>{
+ bgmRepeatMode=bgmRepeatMode==='all'?'one':bgmRepeatMode==='one'?'off':'all';
+ bgmVocalTrack.loop=bgmRepeatMode==='one';
+ localStorage.setItem('projectZBgmRepeatMode',bgmRepeatMode);bgmUpdatePlayer();
+});
 $('bgmVolume').value=bgmVolume;
 $('bgmVolume').addEventListener('input',e=>{
  bgmVolume=Math.max(0,Math.min(100,Number(e.target.value)||0));
  localStorage.setItem('projectZBgmVolume',String(bgmVolume));
- if(bgmMaster&&bgmContext)bgmMaster.gain.setTargetAtTime(bgmEnabled&&(!bgmIsVocalMode()||bgmVocalFailed)?bgmVolume/100*.72:0,bgmContext.currentTime,.08);
- bgmVocalTrack.volume=bgmVolume/100*.72;
+ if(!bgmFadeTimer)bgmVocalTrack.volume=bgmVolume/100*.72;
 });
-const bgmTrackSelect=$('bgmTrackSelect');if(bgmTrackSelect){bgmTrackSelect.value=bgmSelectedTrack;bgmTrackSelect.addEventListener('change',e=>bgmSelectTrack(e.target.value,true));}
-if(localStorage.getItem('projectZBgmEnabled')==='1')bgmSetButton('♫ 點擊恢復音樂');
-
+const bgmTrackSelect=$('bgmTrackSelect');
+if(bgmTrackSelect){bgmTrackSelect.value=bgmSelectedTrack;bgmTrackSelect.addEventListener('change',e=>bgmSelectTrack(e.target.value,true));}
+$('bgmSeek').addEventListener('change',e=>{
+ if(Number.isFinite(bgmVocalTrack.duration)&&bgmVocalTrack.duration>0){
+  bgmVocalTrack.currentTime=Math.max(0,Math.min(1,Number(e.target.value)/1000))*bgmVocalTrack.duration;
+  bgmUpdatePlayer();
+ }
+});
+bgmVocalTrack.addEventListener('timeupdate',bgmUpdatePlayer);
+bgmVocalTrack.addEventListener('loadedmetadata',bgmUpdatePlayer);
+bgmVocalTrack.addEventListener('durationchange',bgmUpdatePlayer);
+bgmVocalTrack.addEventListener('ended',()=>bgmNextTrack(true));
+bgmVocalTrack.addEventListener('error',()=>{
+ bgmVocalFailed=true;bgmEnabled=false;localStorage.setItem('projectZBgmEnabled','0');
+ bgmSetButton('音檔載入失敗');console.warn('歌曲載入失敗，請檢查音檔路徑或重新上傳。');bgmUpdatePlayer();
+});
+bgmUpdatePlayer();
+if(localStorage.getItem('projectZBgmEnabled')==='1')bgmSetButton('▶ 點擊恢復音樂');
 function show(id){screens.forEach(s=>$(s).classList.toggle('active',s===id));document.querySelectorAll('[data-screen]').forEach(b=>b.classList.toggle('active',b.dataset.screen===id));if(id==='home')setBgmMode('home');else if(id==='story')setBgmMode('explore');else if(id==='battle'&&bgmMode!=='boss')setBgmMode('battle');if(id==='team')renderTeam();if(id==='recruitment')renderRecruitment();if(id==='missions')renderMissions();if(id==='home'||id==='warehouse')renderHome();if(id==='archive'){renderArchive();renderArchiveTargetNote();}if(id==='story')renderStory();}
 function renderHome(){if($('homeLevel'))$('homeLevel').textContent='LV.'+profile.level;if($('homeKills'))$('homeKills').textContent=profile.totalKills;if($('homeCoins'))$('homeCoins').textContent=profile.coins;if($('warehouseCoins'))$('warehouseCoins').textContent=profile.coins;if($('recruitGold'))$('recruitGold').textContent=profile.coins;if($('recruitTickets'))$('recruitTickets').textContent=profile.recruitTickets;if($('warehouseWeaponLv'))$('warehouseWeaponLv').textContent=profile.weaponLv;if($('playerNameInput'))$('playerNameInput').value=profile.playerName||'';if($('playerNameStatus'))$('playerNameStatus').textContent=profile.playerName?'目前主角姓名：'+profile.playerName+'（已儲存）':'尚未設定姓名。開始遊戲前可先輸入主角姓名。';}
 function savePlayerName(){let value=$('playerNameInput').value.trim();if(!value){$('playerNameStatus').textContent='請先輸入主角姓名。';$('playerNameInput').focus();return;}profile.playerName=value.slice(0,20);if(save()){$('playerNameStatus').textContent='主角姓名已儲存：'+profile.playerName;}else{$('playerNameStatus').textContent='儲存失敗，請檢查瀏覽器本機儲存空間。';}}
