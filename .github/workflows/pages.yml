@@ -5,6 +5,7 @@ on:
     paths:
       - index.html
       - zombie.html
+      - skill-test.html
       - .github/workflows/pages.yml
   push:
     branches: [main]
@@ -35,7 +36,7 @@ jobs:
           from pathlib import Path
           import re
 
-          for name in ("index.html", "zombie.html"):
+          for name in ("index.html", "zombie.html", "skill-test.html"):
               html = Path(name).read_text(encoding="utf-8")
               scripts = re.findall(r"<script(?:\s[^>]*)?>(.*?)</script\s*>", html, re.I | re.S)
               if not scripts:
@@ -43,7 +44,7 @@ jobs:
               for index, source in enumerate(scripts, 1):
                   Path(f"/tmp/{name}.{index}.js").write_text(source, encoding="utf-8")
           PY
-          for source in /tmp/index.html.*.js /tmp/zombie.html.*.js; do
+          for source in /tmp/index.html.*.js /tmp/zombie.html.*.js /tmp/skill-test.html.*.js; do
             node --check "$source"
           done
   deploy:
