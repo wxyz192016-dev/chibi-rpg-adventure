@@ -253,21 +253,20 @@ function bgmSelectTrack(id,restart=true){
  const wasPlaying=bgmEnabled&&bgmIsVocalMode()&&!paused&&!bgmVocalFailed;
  bgmVocalTrack.pause();bgmVocalTrack.removeAttribute('src');bgmVocalTrack.load();
  bgmSelectedTrack=id;bgmVocalFailed=false;bgmVocalTrack=new Audio(bgmVocalTracks[id].url);bgmVocalTrack.loop=true;bgmVocalTrack.preload='auto';bgmVocalTrack.volume=0;
- bgmVocalTrack.addEventListener('error',()=>{bgmVocalFailed=true;console.warn('戰鬥歌曲載入失敗，改用內建戰鬥配樂。');bgmStartSynthFallback();});
+ bgmVocalTrack.addEventListener('error',()=>{bgmVocalFailed=true;console.warn('歌曲載入失敗，請檢查音檔或重新選擇。');bgmStartSynthFallback();});
  localStorage.setItem('projectZBgmSelectedTrack',id);
  const select=$('bgmTrackSelect');if(select)select.value=id;
  if(wasPlaying&&restart)bgmSyncVocal(true);
  }
-bgmVocalTrack.addEventListener('error',()=>{bgmVocalFailed=true;console.warn('戰鬥歌曲載入失敗，改用內建戰鬥配樂。');bgmStartSynthFallback();});
-function bgmIsVocalMode(){return bgmMode==='battle'||bgmMode==='boss';}
+bgmVocalTrack.addEventListener('error',()=>{bgmVocalFailed=true;console.warn('歌曲載入失敗，請檢查音檔或重新選擇。');bgmStartSynthFallback();});
+function bgmIsVocalMode(){return true;}
 function bgmStartSynthFallback(){
- if(!bgmEnabled||!bgmIsVocalMode()||!bgmContext||!bgmMaster||bgmContext.state!=='running'||paused)return;
- if(bgmTimer)clearInterval(bgmTimer);
- bgmMaster.gain.setTargetAtTime(bgmVolume/100*.72,bgmContext.currentTime,.08);
- bgmStep=0;bgmTick();bgmTimer=setInterval(bgmTick,bgmInterval());
-}
+  if(bgmTimer){clearInterval(bgmTimer);bgmTimer=null;}
+  if(bgmMaster&&bgmContext)bgmMaster.gain.setTargetAtTime(0,bgmContext.currentTime,.08);
+  bgmVocalTrack.pause();bgmSetButton('♫ 歌曲載入失敗');
+ }
 bgmVocalTrack.addEventListener('error',()=>{
- bgmVocalFailed=true;console.warn('戰鬥歌曲載入失敗，改用內建戰鬥配樂。');
+ bgmVocalFailed=true;console.warn('歌曲載入失敗，請檢查音檔或重新選擇。');
  bgmStartSynthFallback();
 });
 function bgmSyncVocal(restart=false){
@@ -275,12 +274,12 @@ function bgmSyncVocal(restart=false){
  bgmVocalTrack.volume=Math.max(0,Math.min(1,bgmVolume/100*.72));
  if(restart)bgmVocalTrack.currentTime=0;
  const p=bgmVocalTrack.play();
- if(p&&p.catch)p.catch(e=>{console.warn('戰鬥歌曲播放失敗，改用內建戰鬥配樂：',e);bgmVocalFailed=true;bgmStartSynthFallback();});
+ if(p&&p.catch)p.catch(e=>{console.warn('歌曲播放失敗：',e);bgmVocalFailed=true;bgmStartSynthFallback();});
 }
 let bgmVolume=Number(localStorage.getItem('projectZBgmVolume')||42);
 if(!Number.isFinite(bgmVolume))bgmVolume=42;
 bgmVolume=Math.max(0,Math.min(100,bgmVolume));
-// Original instrumental RPG score: home / exploration / battle / boss.
+// Legacy synthesizer definitions retained but playback is disabled; selectable vocal songs are used throughout the game.
 const bgmTracks={
  home:{tempo:116,melody:[76,79,83,88,86,83,79,76,74,79,83,86,91,88,83,79],root:48,chord:[0,4,7]},
  explore:{tempo:94,melody:[69,72,76,81,79,76,72,69,67,72,76,79,84,81,76,72],root:45,chord:[0,3,7]},
@@ -311,22 +310,8 @@ function bgmSnare(when){
  src.connect(filter);filter.connect(gain);gain.connect(bgmMaster);src.start(when);src.stop(when+.13);
 }
 function bgmTick(){
- if(!bgmContext||!bgmEnabled||bgmContext.state!=='running'||(bgmIsVocalMode()&&!bgmVocalFailed))return;
- const track=bgmTracks[bgmMode]||bgmTracks.home,step=bgmStep%16,now=bgmContext.currentTime+.025;
- const lead=track.melody[step],energy=bgmMode==='explore'?.72:1;
- bgmNote(bgmHz(lead),now,.24,.082*energy,'sawtooth');
- bgmNote(bgmHz(lead-12),now,.29,.045*energy,'triangle');
- if(step%2===0)bgmNote(bgmHz(track.root+(step%8===0?0:7)),now,.28,.095*energy,'sine');
- if(step%4===0){
-  const chordRoot=track.root+12;
-  bgmNote(bgmHz(chordRoot+track.chord[0]),now,.72,.045*energy,'triangle');
-  bgmNote(bgmHz(chordRoot+track.chord[1]),now,.68,.032*energy,'triangle');
-  bgmNote(bgmHz(chordRoot+track.chord[2]),now,.66,.028*energy,'triangle');
+  return; // 全遊戲改用玩家選擇的人聲歌曲，不再播放合成器 BGM。
  }
- if(step%4===0||step%4===2)bgmKick(now);
- if(step%8===4)bgmSnare(now);
- bgmStep++;
-}
 function bgmInterval(){return Math.max(110,Math.round(60000/(bgmTracks[bgmMode]||bgmTracks.home).tempo/2));}
 function bgmSetButton(label){const b=$('bgmToggle');if(b)b.textContent=label;}
 async function setBgmEnabled(on){
