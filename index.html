@@ -241,6 +241,17 @@ async function downloadSavePackage(){try{let checkpoint=null;if($('battle').clas
 async function importSaveFile(file){if(!file)return;let reader=new FileReader();reader.onload=async()=>{try{let pack=JSON.parse(String(reader.result||''));if(!pack||pack.format!=='projectZSaveExport'||!pack.profile||typeof pack.profile!=='object'||!Number.isFinite(Number(pack.profile.level))||!Number.isFinite(Number(pack.profile.coins)))throw new Error('Invalid save package');let imported=cleanProfile(pack.profile);if(pack.checkpoint&&pack.checkpoint.missionIndexVersion!==1){if(pack.checkpoint.mission<3)pack.checkpoint=null;else pack.checkpoint={...pack.checkpoint,mission:pack.checkpoint.mission-3,missionIndexVersion:1};}if(pack.checkpoint&&!validCheckpoint(pack.checkpoint))throw new Error('Invalid checkpoint');profile=imported;if(!save())throw new Error('Profile save failed');if(pack.checkpoint){let cp={...pack.checkpoint,id:'active'};await putCheckpoint(cp);try{localStorage.setItem('projectZEmergencyCheckpoint',JSON.stringify(cp));}catch{}}else{await clearCheckpoint();}$('saveManagerStatus').textContent='存檔匯入成功 · '+new Date().toLocaleString();renderHome();alert('存檔匯入成功！重新載入後即可套用完整進度；若備份含戰鬥儲存點，會詢問是否恢復。');}catch(e){console.warn('Save import failed',e);alert('匯入未完成：檔案格式不正確、資料損毀或瀏覽器儲存失敗。請檢查目前進度後再試。');}};reader.onerror=()=>alert('無法讀取所選存檔。');reader.readAsText(file);}
 async function offerResume(){let c=await getCheckpoint();if(!c)return;if(!validCheckpoint(c)){await clearCheckpoint();return;}let resume=confirm('發現未完成任務：'+missions[c.mission].name+'（第 '+c.wave+' 波）。\n\n按「確定」繼續任務；按「取消」放棄這次戰鬥。永久進度會保留。');if(resume){restoreCheckpoint(c);}else{await clearCheckpoint();show('home');log('已放棄未完成任務，永久進度保留。');}}
 let bgmContext=null,bgmMaster=null,bgmTimer=null,bgmEnabled=false,bgmMode='home',bgmStep=0;
+const bgmVocalTrack=new Audio('音樂/鼓動の証明.mp3');
+bgmVocalTrack.loop=true;bgmVocalTrack.preload='auto';bgmVocalTrack.volume=0;
+let bgmVocalFailed=false;
+bgmVocalTrack.addEventListener('error',()=>{bgmVocalFailed=true;console.warn('戰鬥歌曲讀取失敗，改用內建戰鬥配樂。');});
+function bgmIsVocalMode(){return bgmMode==='battle'||bgmMode==='boss';}
+function bgmSyncVocal(restart=false){
+ if(!bgmEnabled||!bgmIsVocalMode()||paused||bgmVocalFailed){bgmVocalTrack.pause();return;}
+ bgmVocalTrack.volume=Math.max(0,Math.min(1,bgmVolume/100*.72));
+ if(restart)bgmVocalTrack.currentTime=0;
+ const p=bgmVocalTrack.play();if(p&&p.catch)p.catch(e=>console.warn('戰鬥歌曲播放受瀏覽器限制：',e));
+}
 let bgmVolume=Number(localStorage.getItem('projectZBgmVolume')||42);
 if(!Number.isFinite(bgmVolume))bgmVolume=42;
 bgmVolume=Math.max(0,Math.min(100,bgmVolume));
@@ -275,7 +286,7 @@ function bgmSnare(when){
  src.connect(filter);filter.connect(gain);gain.connect(bgmMaster);src.start(when);src.stop(when+.13);
 }
 function bgmTick(){
- if(!bgmContext||!bgmEnabled||bgmContext.state!=='running')return;
+ if(!bgmContext||!bgmEnabled||bgmContext.state!=='running'||bgmIsVocalMode())return;
  const track=bgmTracks[bgmMode]||bgmTracks.home,step=bgmStep%16,now=bgmContext.currentTime+.025;
  const lead=track.melody[step],energy=bgmMode==='explore'?.72:1;
  bgmNote(bgmHz(lead),now,.24,.082*energy,'sawtooth');
@@ -297,6 +308,7 @@ async function setBgmEnabled(on){
  if(!on){
   bgmEnabled=false;if(bgmTimer){clearInterval(bgmTimer);bgmTimer=null;}
   if(bgmMaster&&bgmContext)bgmMaster.gain.setTargetAtTime(0,bgmContext.currentTime,.12);
+  bgmVocalTrack.pause();
   bgmSetButton('♫ 開啟音樂');localStorage.setItem('projectZBgmEnabled','0');return;
  }
  try{
@@ -306,8 +318,9 @@ async function setBgmEnabled(on){
   await bgmContext.resume();
   if(bgmContext.state!=='running')throw new Error('AudioContext 未進入播放狀態');
   bgmEnabled=true;bgmMaster.gain.cancelScheduledValues(bgmContext.currentTime);
-  bgmMaster.gain.setTargetAtTime(bgmVolume/100*.72,bgmContext.currentTime,.08);
+  bgmMaster.gain.setTargetAtTime(bgmIsVocalMode()?0:bgmVolume/100*.72,bgmContext.currentTime,.08);
   if(bgmTimer)clearInterval(bgmTimer);bgmStep=0;bgmTick();bgmTimer=setInterval(bgmTick,bgmInterval());
+  bgmSyncVocal();
   bgmSetButton('♫ 關閉音樂');localStorage.setItem('projectZBgmEnabled','1');
  }catch(err){
   bgmEnabled=false;if(bgmTimer){clearInterval(bgmTimer);bgmTimer=null;}
@@ -316,15 +329,27 @@ async function setBgmEnabled(on){
 }
 function setBgmMode(mode){
  if(!bgmTracks[mode])mode='home';
- bgmMode=mode;$('bgmMode').textContent=({home:'冒險主題曲',explore:'冒險探索配樂',battle:'熱血戰鬥配樂',boss:'Boss 史詩戰曲'})[mode];
- if(bgmEnabled){bgmStep=0;if(bgmTimer)clearInterval(bgmTimer);bgmTick();bgmTimer=setInterval(bgmTick,bgmInterval());}
+ const previousMode=bgmMode;
+ bgmMode=mode;$('bgmMode').textContent=({home:'冒險主題曲',explore:'冒險探索配樂',battle:'熱血女聲戰鬥歌曲',boss:'Boss 熱血女聲戰曲'})[mode];
+ if(bgmEnabled){
+  if(bgmTimer)clearInterval(bgmTimer);
+  if(bgmIsVocalMode()){
+   if(bgmMaster&&bgmContext)bgmMaster.gain.setTargetAtTime(0,bgmContext.currentTime,.08);
+   bgmSyncVocal(previousMode==='home'||previousMode==='explore');
+  }else{
+   bgmVocalTrack.pause();
+   if(bgmMaster&&bgmContext)bgmMaster.gain.setTargetAtTime(bgmVolume/100*.72,bgmContext.currentTime,.08);
+   bgmStep=0;bgmTick();bgmTimer=setInterval(bgmTick,bgmInterval());
+  }
+ }
 }
 $('bgmToggle').addEventListener('click',()=>{if(bgmEnabled)setBgmEnabled(false);else setBgmEnabled(true);});
 $('bgmVolume').value=bgmVolume;
 $('bgmVolume').addEventListener('input',e=>{
  bgmVolume=Math.max(0,Math.min(100,Number(e.target.value)||0));
  localStorage.setItem('projectZBgmVolume',String(bgmVolume));
- if(bgmMaster&&bgmContext)bgmMaster.gain.setTargetAtTime(bgmEnabled?bgmVolume/100*.72:0,bgmContext.currentTime,.08);
+ if(bgmMaster&&bgmContext)bgmMaster.gain.setTargetAtTime(bgmEnabled&&!bgmIsVocalMode()?bgmVolume/100*.72:0,bgmContext.currentTime,.08);
+ bgmVocalTrack.volume=bgmVolume/100*.72;
 });
 if(localStorage.getItem('projectZBgmEnabled')==='1')bgmSetButton('♫ 點擊恢復音樂');
 
@@ -428,7 +453,7 @@ function getMuzzlePosition(s){const spriteReady=protagonistSprite.complete&&prot
 function fireShot(s,z,i){const muzzle=getMuzzlePosition(s),dx=z.x-muzzle.x,dy=z.y-muzzle.y,d=Math.hypot(dx,dy)||1;bullets.push({x:muzzle.x,y:muzzle.y,vx:dx/d*500,vy:dy/d*500,damage:s.damage*(1+profile.weaponLv*.15),life:1.5,aoe:i===3});}
 function beginReload(i=0){const s=roster[0];if(reloads[0]>0||ammo[0]>=s.mag)return;reloads[0]=1.7;log(s.name+' 開始換彈');}
 function skill(k){if(!running||paused||ended||skillCD[k]>0)return;const s=roster[0];if(k==='heal'){base=Math.min(100,base+20);s.hp=base*1.2;skillCD.heal=18;log('使用修復工具，防護欄耐久恢復 20%。');hud();}if(k==='fire'){let x=target&&target.hp>0?target.x:270,y=target&&target.hp>0?target.y:330;zombies.forEach(z=>{if(Math.hypot(z.x-x,z.y-y)<155)z.hp-=115;});for(let n=0;n<28;n++)particles.push({x:x+(Math.random()-.5)*170,y:y+(Math.random()-.5)*170,life:.5,color:'#ffad52'});skillCD.fire=24;log('燃燒彈投擲！');}if(k==='focus'){buff=7;skillCD.focus=26;log('主角進入專注射擊，攻速提升');}hud();}
-function startMission(withStory=false){setBgmMode('battle');clearCheckpoint();checkpointClock=0;waveSpawned=0;waveRemaining=0;waveBreak=0;show('battle');$('missionName').textContent=missions[mission].name;zombies=[];bullets=[];particles=[];numbers=[];time=0;wave=1;kills=0;base=100;target=null;boss=false;spawn=.5;skillCD={heal:0,fire:0,focus:0};buff=0;syncProtagonist();roster.forEach(s=>{s.max=120;s.hp=120;});ammo=roster.map(s=>s.mag);reloads=roster.map(()=>0);running=false;paused=false;ended=false;$('battleOverlay').hidden=false;$('overlayTitle').textContent='任務準備';$('overlayText').textContent='守住本關防護欄。主角自動射擊，感染者會持續攻擊防線；防護欄耐久歸零即任務失敗。';$('battleAction').textContent='開始戰鬥';$('battleAction').onclick=()=>{running=true;$('battleOverlay').hidden=true;wave=1;spawnWave();saveCheckpoint();};rosterTick=0;updateRoster();hud();if(withStory){const scenes=[{title:'第01關｜平凡的早晨',text:'2026年，上午 7:35。\n明川綜合高中迎來普通的上課日。主角背著書包走進校園，走廊裡充滿學生交談與上課鐘聲。'},{title:'日常出現裂縫',text:'第一節課開始前，手機突然跳出一則快訊：市區傳出不明攻擊事件，部分民眾出現失控與暴力行為。\n教室裡有人議論，也有人認為只是誇大的網路消息。'},{title:'校園異常',text:'走廊外傳來急促的奔跑聲，接著是一聲撞擊。遠處有人大喊求救，廣播卻只傳出斷續的雜音。\n老師要求所有學生留在教室，不要靠近走廊。'},{title:'關卡開始',text:'教室門外傳來抓刮聲。門把緩緩轉動，原本平凡的早晨已經結束。\n你必須先確認教室內的情況，想辦法活下去。'}];let idx=0;let cut=document.getElementById('storyCutscene');if(!cut){cut=document.createElement('div');cut.id='storyCutscene';cut.className='storyCutscene';cut.hidden=true;cut.innerHTML='<div class="storyCutsceneBox"><div class="storyCutsceneEyebrow">PROJECT Z · STORY MODE</div><h2 id="storyCutsceneTitle"></h2><p id="storyCutsceneText"></p><div class="storyCutsceneFooter"><small id="storyCutsceneCount"></small><button class="btn primary" id="storyCutsceneNext">繼續 ▶</button></div></div>';document.body.appendChild(cut);}scenes[0].title='第'+String(mission+1).padStart(2,'0')+'關｜'+missions[mission].name;const paint=()=>{const scene=scenes[idx];$('storyCutsceneTitle').textContent=scene.title;$('storyCutsceneText').textContent=scene.text;$('storyCutsceneCount').textContent='劇情 '+(idx+1)+' / '+scenes.length;$('storyCutsceneNext').textContent=idx===scenes.length-1?'進入關卡 ▶':'繼續 ▶';};cut.hidden=false;paint();$('storyCutsceneNext').onclick=()=>{idx++;if(idx<scenes.length){paint();}else{cut.hidden=true;running=true;paused=false;$('battleOverlay').hidden=true;wave=1;spawnWave();saveCheckpoint();log('第'+String(mission+1).padStart(2,'0')+'關劇情結束，直接進入戰鬥。');}};}}function finish(win){setBgmMode('ambient');running=false;ended=true;clearCheckpoint();$('battleOverlay').hidden=false;$('overlayTitle').textContent=win?'任務完成':'防線失守';let reward=win?35+mission*20+Math.floor(kills/3):0;profile.coins+=reward;profile.totalKills+=kills;profile.level=Math.max(profile.level,1+Math.floor(profile.totalKills/30));if(win){profile.completed=Array.from(new Set([...profile.completed,mission]));profile.unlocked=Math.min(missions.length-1,Math.max(profile.unlocked,mission+1));}$('overlayText').textContent=(win?'成功守住區域！':'主角撤離，請重新整備。')+' 擊倒 '+kills+' 隻感染者，'+(win?'獲得 '+reward+' 金幣。':'未達成通關條件，本次不發放通關獎勵。');$('battleAction').textContent='返回任務地圖';$('battleAction').onclick=()=>{save();show('missions');};}
+function startMission(withStory=false){setBgmMode('battle');clearCheckpoint();checkpointClock=0;waveSpawned=0;waveRemaining=0;waveBreak=0;show('battle');$('missionName').textContent=missions[mission].name;zombies=[];bullets=[];particles=[];numbers=[];time=0;wave=1;kills=0;base=100;target=null;boss=false;spawn=.5;skillCD={heal:0,fire:0,focus:0};buff=0;syncProtagonist();roster.forEach(s=>{s.max=120;s.hp=120;});ammo=roster.map(s=>s.mag);reloads=roster.map(()=>0);running=false;paused=false;ended=false;$('battleOverlay').hidden=false;$('overlayTitle').textContent='任務準備';$('overlayText').textContent='守住本關防護欄。主角自動射擊，感染者會持續攻擊防線；防護欄耐久歸零即任務失敗。';$('battleAction').textContent='開始戰鬥';$('battleAction').onclick=()=>{running=true;$('battleOverlay').hidden=true;wave=1;spawnWave();saveCheckpoint();};rosterTick=0;updateRoster();hud();if(withStory){const scenes=[{title:'第01關｜平凡的早晨',text:'2026年，上午 7:35。\n明川綜合高中迎來普通的上課日。主角背著書包走進校園，走廊裡充滿學生交談與上課鐘聲。'},{title:'日常出現裂縫',text:'第一節課開始前，手機突然跳出一則快訊：市區傳出不明攻擊事件，部分民眾出現失控與暴力行為。\n教室裡有人議論，也有人認為只是誇大的網路消息。'},{title:'校園異常',text:'走廊外傳來急促的奔跑聲，接著是一聲撞擊。遠處有人大喊求救，廣播卻只傳出斷續的雜音。\n老師要求所有學生留在教室，不要靠近走廊。'},{title:'關卡開始',text:'教室門外傳來抓刮聲。門把緩緩轉動，原本平凡的早晨已經結束。\n你必須先確認教室內的情況，想辦法活下去。'}];let idx=0;let cut=document.getElementById('storyCutscene');if(!cut){cut=document.createElement('div');cut.id='storyCutscene';cut.className='storyCutscene';cut.hidden=true;cut.innerHTML='<div class="storyCutsceneBox"><div class="storyCutsceneEyebrow">PROJECT Z · STORY MODE</div><h2 id="storyCutsceneTitle"></h2><p id="storyCutsceneText"></p><div class="storyCutsceneFooter"><small id="storyCutsceneCount"></small><button class="btn primary" id="storyCutsceneNext">繼續 ▶</button></div></div>';document.body.appendChild(cut);}scenes[0].title='第'+String(mission+1).padStart(2,'0')+'關｜'+missions[mission].name;const paint=()=>{const scene=scenes[idx];$('storyCutsceneTitle').textContent=scene.title;$('storyCutsceneText').textContent=scene.text;$('storyCutsceneCount').textContent='劇情 '+(idx+1)+' / '+scenes.length;$('storyCutsceneNext').textContent=idx===scenes.length-1?'進入關卡 ▶':'繼續 ▶';};cut.hidden=false;paint();$('storyCutsceneNext').onclick=()=>{idx++;if(idx<scenes.length){paint();}else{cut.hidden=true;running=true;paused=false;$('battleOverlay').hidden=true;wave=1;spawnWave();saveCheckpoint();log('第'+String(mission+1).padStart(2,'0')+'關劇情結束，直接進入戰鬥。');}};}}function finish(win){bgmVocalTrack.pause();setBgmMode('home');running=false;}ended=true;clearCheckpoint();$('battleOverlay').hidden=false;$('overlayTitle').textContent=win?'任務完成':'防線失守';let reward=win?35+mission*20+Math.floor(kills/3):0;profile.coins+=reward;profile.totalKills+=kills;profile.level=Math.max(profile.level,1+Math.floor(profile.totalKills/30));if(win){profile.completed=Array.from(new Set([...profile.completed,mission]));profile.unlocked=Math.min(missions.length-1,Math.max(profile.unlocked,mission+1));}$('overlayText').textContent=(win?'成功守住區域！':'主角撤離，請重新整備。')+' 擊倒 '+kills+' 隻感染者，'+(win?'獲得 '+reward+' 金幣。':'未達成通關條件，本次不發放通關獎勵。');$('battleAction').textContent='返回任務地圖';$('battleAction').onclick=()=>{save();show('missions');};}
 function update(dt){time+=dt;checkpointClock+=dt;if(checkpointClock>=15){checkpointClock=0;saveCheckpoint();}buff=Math.max(0,buff-dt);Object.keys(skillCD).forEach(k=>skillCD[k]=Math.max(0,skillCD[k]-dt));if(waveBreak>0){waveBreak-=dt;if(waveBreak<=0){spawnWave();log('第 '+wave+' 波開始！');}}
 roster.forEach((s,i)=>{if(reloads[i]>0){reloads[i]-=dt;if(reloads[i]<=0){let n=Math.min(s.mag-ammo[i],s.mag*4);ammo[i]+=n;}}s.cool=(s.cool||Math.random()*.3)-dt*(buff>0?1.7:1);if(s.cool<=0){let z=pick(s);if(z){if(ammo[i]>0){fireShot(s,z,i);ammo[i]--;s.cool=s.rate;}else beginReload(i);}}});
 for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;let z=zombies.find(z=>Math.hypot(z.x-b.x,z.y-b.y)<z.r+5);if(z){z.hp-=b.damage;z.hit=.1;numbers.push({x:z.x,y:z.y-10,t:Math.round(b.damage),life:.6});if(b.aoe)zombies.forEach(q=>{if(q!==z&&Math.hypot(q.x-z.x,q.y-z.y)<70)q.hp-=b.damage*.45;});bullets.splice(i,1);}else if(b.life<=0||b.y<0||b.y>H)bullets.splice(i,1);}
@@ -455,7 +480,7 @@ function drawBarricade(){
 function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#74766c';ctx.fillRect(0,0,W,H);ctx.fillStyle='#626962';ctx.fillRect(0,0,24,H);ctx.fillRect(W-24,0,24,H);for(let y=0;y<H;y+=150){ctx.fillStyle='#88877a';ctx.fillRect(25,y,W-50,2);ctx.fillStyle='#555f5d';ctx.fillRect(25,y+72,W-50,2);}for(let i=0;i<18;i++){ctx.fillStyle=i%2?'#9b9b89':'#59655e';ctx.beginPath();ctx.arc((i*91+38)%W,(i*139+60)%H,3+i%4,0,7);ctx.fill();}
 ctx.fillStyle='#242e36';ctx.fillRect(0,540,W,60);drawBarricade();ctx.fillStyle='#fff';ctx.font='bold 15px system-ui';ctx.fillText('防 護 欄 · '+Math.ceil(base)+'%',18,585);zombies.forEach(z=>{ctx.save();ctx.translate(z.x,z.y+Math.sin(time*7+z.x)*2);ctx.fillStyle=z.hit>0?'#fff':z.color;ctx.beginPath();ctx.ellipse(0,5,z.r*.7,z.r,0,0,7);ctx.fill();ctx.fillStyle='#d9d1bf';ctx.beginPath();ctx.arc(0,-z.r*.55,z.r*.55,0,7);ctx.fill();ctx.fillStyle='#a52d3b';ctx.fillRect(-7,-z.r*.62,4,4);ctx.fillRect(4,-z.r*.62,4,4);ctx.strokeStyle='#393532';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-8,8);ctx.lineTo(-z.r,22);ctx.moveTo(8,8);ctx.lineTo(z.r,22);ctx.stroke();ctx.fillStyle='#26313a';ctx.fillRect(-z.r,-z.r-14,z.r*2,5);ctx.fillStyle='#80d69a';ctx.fillRect(-z.r,-z.r-14,z.r*2*Math.max(0,z.hp/z.max),5);if(z===target){ctx.strokeStyle='#ffe28c';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,z.r+9,0,7);ctx.stroke();}if(z.type==='boss'){ctx.fillStyle='#fff';ctx.font='bold 12px system-ui';ctx.fillText('Z-01 暴君型',-38,-z.r-24);}if(z.type==='special'){ctx.fillStyle='#fff';ctx.font='bold 10px system-ui';ctx.fillText('特殊感染者',-30,-z.r-20);}ctx.restore();});bullets.forEach(b=>{ctx.strokeStyle=b.aoe?'#ffb34d':'#ffe6a0';ctx.lineWidth=b.aoe?5:3;ctx.beginPath();ctx.moveTo(b.x,b.y);ctx.lineTo(b.x-b.vx*.025,b.y-b.vy*.025);ctx.stroke();});let bossUnit=zombies.find(z=>z.type==='boss');if(bossUnit){ctx.fillStyle='#101a24cc';ctx.fillRect(300,14,360,13);ctx.fillStyle='#e66b79';ctx.fillRect(302,16,356*Math.max(0,bossUnit.hp/bossUnit.max),9);ctx.fillStyle='#fff';ctx.font='bold 10px system-ui';ctx.textAlign='center';ctx.fillText('Z-01 暴君型 · '+Math.ceil(bossUnit.hp)+' HP',480,11);}roster.forEach((s,i)=>{ctx.save();ctx.translate(s.x,SQUAD_Y);if(s.hp<=0){ctx.globalAlpha=.62;ctx.rotate(-.12);ctx.fillStyle='#26313a';ctx.fillRect(-18,7,36,13);ctx.fillStyle=s.color;ctx.beginPath();ctx.arc(0,2,10,0,7);ctx.fill();ctx.fillStyle='#ff7b82';ctx.font='bold 10px system-ui';ctx.fillText('倒地',-12,39);ctx.restore();return;}let pulse=(Math.sin(time*5+i)*.5+.5);if(protagonistSprite.complete&&protagonistSprite.naturalWidth>0){const spriteH=108,spriteW=spriteH*protagonistSprite.naturalWidth/protagonistSprite.naturalHeight;ctx.drawImage(protagonistSprite,-spriteW/2,-spriteH+12,spriteW,spriteH);}else{ctx.fillStyle='#17232c';ctx.beginPath();ctx.ellipse(0,25,18,7,0,0,7);ctx.fill();ctx.fillStyle='#273745';ctx.fillRect(-12,5,9,22);ctx.fillRect(3,5,9,22);ctx.fillStyle=s.color;ctx.beginPath();ctx.roundRect(-13,-1,26,28,7);ctx.fill();ctx.fillStyle='#d8c4ad';ctx.beginPath();ctx.arc(0,-13,12,0,7);ctx.fill();ctx.fillStyle='#3a2f35';ctx.beginPath();ctx.arc(0,-17,12,Math.PI,Math.PI*2);ctx.fill();ctx.fillRect(-11,-17,4,8);ctx.fillRect(7,-17,4,8);}ctx.strokeStyle='#27313b';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(8,8);ctx.lineTo(18,1);ctx.stroke();ctx.fillStyle='#202a34';ctx.fillRect(12,-1,24,5);ctx.fillStyle='#8c9aa4';ctx.fillRect(29,-2,8,3);ctx.fillStyle='#fff';ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.fillText(s.name,0,48);ctx.restore();});particles.forEach(p=>{ctx.globalAlpha=Math.max(0,p.life/.5);ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,3,0,7);ctx.fill();ctx.globalAlpha=1;});numbers.forEach(n=>{ctx.fillStyle='#fff0a5';ctx.font='bold 17px system-ui';ctx.fillText(n.t,n.x,n.y);});if(paused){ctx.fillStyle='#07101bbd';ctx.fillRect(0,0,W,H);ctx.fillStyle='#fff';ctx.font='bold 40px system-ui';ctx.fillText('PAUSED',185,450);}}
 function loop(t){let dt=Math.min(.04,(t-last)/1000||0);last=t;if(running&&!paused&&!ended)update(dt*speed);draw();requestAnimationFrame(loop);}
-function togglePause(){if(!running||ended)return;paused=!paused;if(bgmMaster&&bgmContext)bgmMaster.gain.setTargetAtTime(bgmEnabled?(paused?bgmVolume/100*.12:bgmVolume/100*.72):0,bgmContext.currentTime,.18);hud();}
+function togglePause(){if(!running||ended)return;paused=!paused;if(bgmMaster&&bgmContext)bgmMaster.gain.setTargetAtTime(bgmEnabled&&!bgmIsVocalMode()?(paused?bgmVolume/100*.12:bgmVolume/100*.72):0,bgmContext.currentTime,.18);if(paused)bgmVocalTrack.pause();else bgmSyncVocal();hud();}
 document.querySelectorAll('[data-screen]').forEach(b=>b.onclick=()=>show(b.dataset.screen));$('goSettings').onclick=()=>{show('home');$('saveManagerCard').scrollIntoView({behavior:'smooth',block:'start'});};
 
 const recruitableCharacters=[];
