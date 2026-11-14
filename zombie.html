@@ -234,11 +234,6 @@
 
 <section id="story" class="screen">
 <div class="sectionTitle"><h2>第一話：末日開始的那一天</h2><small>MAIN STORY / TAIWAN · 2026</small></div>
-<div class="storyIntro">
-<article class="storyPanel"><h3>世界觀與故事規則</h3><p>2026年，明新科技大學與明新高中構成同一大型校園生活圈。主角是準大一新生，上午約09:10第一次到校辦理大學新生入學相關事務，喪屍事件在報到期間爆發。</p><p>故事以現代台灣文明社會突然遭遇喪屍爆發為背景；以一般行走喪屍為主，少數喪屍移動較快。第一話不揭露感染來源，不採用科幻、生化實驗或超自然設定。</p></article>
-<article class="storyPanel"><h3>主線任務進度</h3><p>依序完成 16 個主線任務，完成前一關即可解鎖下一關。已完成的關卡可以重玩；戰鬥勝利才會推進主線進度。</p><p>校園區域位置與建築資料請前往獨立的「校園地圖」頁面查看。自由移動、物資搜索及探索刷新目前尚未實作。</p></article>
-</div>
-<div class="sectionTitle"><h2>戰前整備</h2><small>SOLO FORMATION</small></div><div class="cards" id="combatRosterCards"></div>
 <div class="sectionTitle"><h2>第一話主線關卡</h2><small>16 MAIN MISSIONS</small></div><div class="storyMissions" id="storyMissionList"></div>
 <p class="storyNote">任務流程：選擇已解鎖關卡 → 查看故事與任務目標 → 開始任務 → 進入戰鬥。校園地圖為獨立頁面，不在此頁混合呈現。</p>
 </section>
@@ -523,7 +518,7 @@ const storyAreasData=[
 ['J','高中部教學區／校門警衛室','高中部教學大樓、校門、警衛室、校園圍牆','高中部是校園另一重要區域；第一話暫不深入，校門暫時無法離開']
 ];
 function canStartMission(i){return Number.isInteger(i)&&i>=0&&i<mainMissions.length&&(i<=profile.unlocked||profile.completed.includes(i));}
-function renderStory(){const ml=$('storyMissionList');if(!ml)return;syncProtagonist();$('combatRosterCards').innerHTML='<article class="card"><div class="mission"><div class="portrait">主</div><div><h3>'+roster[0].name+'</h3><small>唯一初始人物／單人作戰</small></div></div><p>戰前整備沿用既有主角資料與戰鬥設定。</p><button class="btn" data-screen="team">主角整備</button></article>';ml.innerHTML=mainMissions.map((m,i)=>{const done=profile.completed.includes(i),open=canStartMission(i),state=done?'已完成・可重玩':open?'可開始':'尚未解鎖',button=done?'重新挑戰':open?'開始任務':'尚未解鎖';return '<article class="storyMission"><b>第'+m.code+'關｜'+m.name+'</b><p>'+m.story+'</p><p>'+m.desc+'</p><small>地點：'+m.location+' · '+m.objective+'</small><div class="storyMissionActions"><span class="missionMeta">'+state+' · 戰鬥難度 '+m.enemy.toFixed(2)+'×</span><button class="btn primary" data-mission="'+i+'" '+(open?'':'disabled')+'>'+button+'</button></div></article>';}).join('');bindMissionButtons(ml);}
+function renderStory(){const ml=$('storyMissionList');if(!ml)return;ml.innerHTML=mainMissions.map((m,i)=>{const done=profile.completed.includes(i),open=canStartMission(i),state=done?'已完成・可重玩':open?'可開始':'尚未解鎖',button=done?'重新挑戰':open?'開始任務':'尚未解鎖';return '<article class="storyMission"><b>第'+m.code+'關｜'+m.name+'</b><p>'+m.story+'</p><p>'+m.desc+'</p><small>地點：'+m.location+' · '+m.objective+'</small><div class="storyMissionActions"><span class="missionMeta">'+state+' · 戰鬥難度 '+m.enemy.toFixed(2)+'×</span><button class="btn primary" data-mission="'+i+'" ' +(open?'':'disabled')+'>'+button+'</button></div></article>';}).join('');bindMissionButtons(ml);}
 function renderCampusMap(){const root=$('campusPlan'),detail=$('campusAreaDetail');if(!root||!detail)return;root.innerHTML=storyAreasData.map(a=>{const count=mainMissions.filter(m=>m.areaId===a[0]).length;return '<button type="button" class="campusZone" data-area="'+a[0]+'"><span>'+a[0]+'區｜關聯主線 '+count+' 關</span><b>'+a[1]+'</b><small>'+a[2]+'</small></button>';}).join('');const selectArea=(id)=>{const a=storyAreasData.find(x=>x[0]===id);if(!a)return;const linked=mainMissions.filter(m=>m.areaId===id);detail.innerHTML='<h3>'+a[0]+'｜'+a[1]+'</h3><p>'+a[2]+'</p><p>'+a[3]+'</p><p><b>關聯主線任務：</b>'+(linked.length?linked.map(m=>'第'+m.code+'關 '+m.name).join('、'):'目前沒有直接對應的第一話主線任務')+'</p>';root.querySelectorAll('[data-area]').forEach(b=>b.classList.toggle('selected',b.dataset.area===id));};root.querySelectorAll('[data-area]').forEach(b=>b.onclick=()=>selectArea(b.dataset.area));selectArea('A');}
 const ARCHIVE_KEY='projectZCharacterArchive';
 const archiveNames=['男性主角','林舒舒','女性角色 02','女性角色 03','女性角色 04','女性角色 05'];
