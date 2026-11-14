@@ -567,7 +567,7 @@ function renderArchive(){
   let label=isMain?'主角':unlocked?'已取得':'尚未取得';
   let desc=isMain?'玩家操控角色':(isLin?'偵查與物資搜索':isLiu?'防守支援':isHu?'高速突擊':(d.shortDescription||''));
   let visual=isMain?'<div class="archivePortraitWrap"><img class="archivePortrait" src="./人物圖鑑/主角.png" alt="主角全身人物立繪" loading="lazy"></div>':isLin?'<div class="archivePortraitWrap"><img class="archivePortrait" src="./人物圖鑑/01-林舒妤.png" alt="林舒舒正面全身人物立繪" loading="lazy"></div>':isLiu?'<div class="archivePortraitWrap"><img class="archivePortrait" src="./人物圖鑑/02-劉牧晴.png" alt="劉牧晴正面全身人物立繪" loading="lazy"></div>':isHu?'<div class="archivePortraitWrap"><img class="archivePortrait" src="./人物圖鑑/胡凌霄-正面.png" alt="胡凌霄正面全身人物立繪" loading="lazy"></div>':'<div class="archiveIcon">'+(unlocked?'♙':'🔒')+'</div>';
-  return '<article class="archiveSlot '+(isMain||isLin?'archiveMainSlot':'')+'">'+visual+'<div class="archiveSlotInfo"><h3>'+n+'</h3><span class="archiveTag">'+label+'</span><p>'+escArchive(desc)+'</p><p class="archiveMeta">'+saved+'</p><button class="btn" type="button" data-archive-select="'+i+'">查看角色資料</button></div></article>';
+  return '<article class="archiveSlot '+(isMain||isLin?'archiveMainSlot':'')+'">'+visual+'<div class="archiveSlotInfo"><h3>'+n+'</h3><span class="archiveTag">'+label+'</span><p>'+escArchive(desc)+'</p><button class="btn" type="button" data-archive-select="'+i+'">查看角色資料</button></div></article>';
  }).join('');
  root.querySelectorAll('[data-archive-select]').forEach(b=>b.onclick=()=>showArchiveProfile(+b.dataset.archiveSelect));
 }
