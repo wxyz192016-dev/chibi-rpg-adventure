@@ -84,7 +84,25 @@
 #continueGame:disabled{opacity:.38;cursor:not-allowed}
 @media(max-width:1050px){.app{grid-template-columns:205px minmax(0,1fr)}.homeHero{grid-template-columns:1fr}.homeHero .heroArt{grid-row:1;min-height:380px}}
 @media(max-width:760px){.app{display:block;padding:9px 9px 92px}.top{position:fixed;left:9px;right:9px;bottom:8px;top:auto;z-index:1000;height:auto;display:block;padding:8px;margin:0;border-radius:14px;background:#172536f5}.logo{display:none}.nav{display:flex;flex-direction:row;flex-wrap:nowrap;overflow-x:auto;gap:6px}.navGroup{display:flex;flex-direction:row;flex:0 0 auto;border:0;padding:0;gap:5px}.navGroupTitle{display:none}.nav .btn{width:auto;flex:0 0 auto;padding:10px;font-size:11px}.homeHero{grid-template-columns:1fr}.homeHero .heroArt{grid-row:1;min-height:330px}.homeHero .heroText{padding:22px}.homeInfoGrid{grid-template-columns:1fr}}
-#recruitment .cards{grid-template-columns:repeat(3,minmax(0,1fr))}#recruitment .card{min-width:0}#recruitment .log{max-height:260px;overflow:auto;white-space:pre-line;line-height:1.8}@media(max-width:760px){#recruitment .cards{grid-template-columns:1fr}}</style></head><body><main class="app">
+#recruitment .cards{grid-template-columns:repeat(3,minmax(0,1fr))}#recruitment .card{min-width:0}#recruitment .log{max-height:260px;overflow:auto;white-space:pre-line;line-height:1.8}@media(max-width:760px){#recruitment .cards{grid-template-columns:1fr}}
+/* CHARACTER ARCHIVE COMPACT LIST + IN-PAGE PROFILE */
+#archiveSlots.archiveGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:stretch}
+#archiveSlots .archiveSlot{display:grid;grid-template-columns:minmax(105px,34%) minmax(0,1fr);align-items:center;gap:12px;min-height:0;padding:12px}
+#archiveSlots .archivePortraitWrap{width:100%;max-width:170px;height:210px;margin:0 auto;border-radius:10px}
+#archiveSlots .archiveIcon{width:100%;max-width:170px;height:210px;margin:0 auto;font-size:38px}
+#archiveSlots .archivePortrait{width:100%;height:100%;object-fit:contain;object-position:center bottom}
+#archiveSlots .archiveSlotInfo{min-width:0}
+#archiveSlots .archiveSlot h3{margin:0 0 7px}
+#archiveSlots .archiveSlot p{margin:7px 0;font-size:11px}
+#archiveSlots.archiveDetailView{display:block}
+#archiveSlots .archiveDetailCard{display:grid;grid-template-columns:minmax(220px,40%) minmax(0,1fr);gap:22px;align-items:center;padding:18px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(145deg,#202e3d,#18232f)}
+#archiveSlots .archivePortraitDetail{width:100%;max-width:360px;height:min(56vh,520px);margin:0 auto}
+#archiveSlots .archiveDetailPlaceholder{min-height:300px;display:grid;place-items:center;border:1px solid var(--line);border-radius:12px;background:#172330;font-size:56px;color:var(--muted)}
+#archiveSlots .archiveDetailInfo h3{font-size:24px;margin:10px 0}
+#archiveSlots .archiveDetailInfo p{color:#c1cbd5;font-size:13px;line-height:1.8}
+@media(max-width:1050px){#archiveSlots.archiveGrid{grid-template-columns:repeat(2,minmax(0,1fr))}#archiveSlots .archiveSlot{grid-template-columns:1fr}#archiveSlots .archivePortraitWrap,#archiveSlots .archiveIcon{height:190px}}
+@media(max-width:760px){#archiveSlots.archiveGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#archiveSlots .archiveSlot{padding:9px}#archiveSlots .archivePortraitWrap,#archiveSlots .archiveIcon{height:160px}#archiveSlots .archiveDetailCard{grid-template-columns:1fr;gap:12px}#archiveSlots .archivePortraitDetail{height:48vh}}
+</style></head><body><main class="app">
 <header class="top"><a class="logo" href="#" data-screen="home" aria-label="返回遊戲主介面">PROJECT Z <small>末日倖存者：Z計畫</small></a><button class="railToggle btn" id="railToggle" type="button" aria-label="收合導覽">☰ 收合選單</button><nav class="nav" aria-label="遊戲主選單"><div class="navGroup"><div class="navGroupTitle">01｜冒險與據點</div><button class="btn" data-screen="home">冒險首頁</button><button class="btn" data-screen="story">主線章節／校園探索</button><button class="btn" data-screen="missions">戰鬥指揮中心</button><button class="btn" data-screen="baseManagement">據點發展</button></div><div class="navGroup"><div class="navGroupTitle">02｜物資與裝備</div><button class="btn" data-screen="warehouse">物資倉庫</button></div><div class="navGroup"><div class="navGroupTitle">03｜人物管理</div><button class="btn" data-screen="team">人物整備</button><button class="btn" data-screen="archive">人物圖鑑</button><button class="btn" data-screen="recruitment">角色招募</button></div><div class="navGroup"><div class="navGroupTitle">04｜系統設定</div><button class="btn" id="goSettings" type="button">設定與存檔</button></div></nav></header><div class="globalStatus"><span class="statusBrand">PROJECT Z <small>COMMAND INTERFACE</small></span><span class="globalPlayer">玩家：<b id="globalPlayerName">尚未設定</b></span><span class="globalContext" id="globalContext">主基地總覽</span></div>
 <section id="home" class="screen active">
 <div class="hero homeHero">
@@ -278,20 +296,25 @@ function saveArchive(){try{localStorage.setItem(ARCHIVE_KEY,JSON.stringify(archi
 function escArchive(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function renderArchive(){
  const root=$('archiveSlots');if(!root)return;
+ root.classList.remove('archiveDetailView');
  root.innerHTML=archiveNames.map((n,i)=>{let d=archiveData[i]||{},isMain=i===0,unlocked=isMain||!!d.storyUnlocked;
- let label=isMain?'主角資料':unlocked?'已解鎖':'尚未登場';
- let desc=isMain?'玩家自訂姓名：'+(profile.playerName||'尚未設定'):(unlocked?'已由劇情解鎖，可逐步補齊資料':'等待劇情相遇；資料暫不公開');
- let saved=isMain?'全身立繪已收錄':d.approved?'已有確認設定':d.draft?'已有設計草稿':'尚無設計草稿';
- let portrait=isMain?'<div class="archivePortraitWrap"><img class="archivePortrait" src="./人物圖鑑/主角.png" alt="主角全身人物立繪" loading="lazy"></div>':'<div class="archiveIcon">'+(unlocked?'♙':'🔒')+'</div>';
- return '<article class="archiveSlot '+(isMain?'archiveMainSlot':'')+'">'+portrait+'<h3>'+n+'</h3><span class="archiveTag">'+label+'</span><p>'+escArchive(desc)+'</p><p class="archiveMeta">'+saved+'</p><button class="btn" data-archive-select="'+i+'">'+(isMain?'查看主角資料':'設計／查看草稿')+'</button></article>'
+  let label=isMain?'主角資料':unlocked?'已解鎖':'尚未登場';
+  let desc=isMain?'玩家自訂姓名：'+(profile.playerName||'尚未設定'):(unlocked?'已由劇情解鎖':'等待劇情相遇；資料暫不公開');
+  let saved=d.approved?'已有確認設定':d.draft?'已有設計草稿':'尚無設計草稿';
+  let visual=isMain?'<div class="archivePortraitWrap"><img class="archivePortrait" src="./人物圖鑑/主角.png" alt="主角全身人物立繪" loading="lazy"></div>':'<div class="archiveIcon">'+(unlocked?'♙':'🔒')+'</div>';
+  return '<article class="archiveSlot '+(isMain?'archiveMainSlot':'')+'">'+visual+'<div class="archiveSlotInfo"><h3>'+n+'</h3><span class="archiveTag">'+label+'</span><p>'+escArchive(desc)+'</p><p class="archiveMeta">'+saved+'</p><button class="btn" type="button" data-archive-select="'+i+'">查看人物資料</button></div></article>';
  }).join('');
- root.querySelectorAll('[data-archive-select]').forEach(b=>b.onclick=()=>{const i=+b.dataset.archiveSelect;$('archiveTarget').value=i;renderArchiveTargetNote();if(i===0)renderProtagonistArchiveProfile();else $('generateArchiveIdeas').click();});
+ root.querySelectorAll('[data-archive-select]').forEach(b=>b.onclick=()=>showArchiveProfile(+b.dataset.archiveSelect));
 }
-function renderProtagonistArchiveProfile(){
- const target=$('archiveIdeas');if(!target)return;
- target.style.gridTemplateColumns='1fr';
- target.innerHTML='<article class="archiveChoice"><h3>男性主角｜已確認人物設定</h3><div class="archivePortraitWrap archivePortraitDetail"><img class="archivePortrait" src="./人物圖鑑/主角.png" alt="主角全身人物立繪"></div><p><b>外觀：</b>20～22 歲，黑色自然微亂短髮、深黑色眼睛、自然橢圓臉。</p><p><b>身形：</b>178 cm；正常偏精實體型，約 7～7.5 頭身。</p><p><b>服裝：</b>深色連帽外套、灰色帽衫與淺色內搭、深色長褲、手套、背包及深色運動鞋。</p><p><b>起始武器：</b>手槍。武器圖片獨立於人物立繪管理；切換武器不改變主角身體姿勢。</p><p><b>圖像規格：</b>單張完整全身人物圖，無文字；後續新增角色沿用相同標準。</p><p class="archiveMeta">此處顯示已上傳的專案人物素材；人物圖像與戰鬥數值分開管理。</p></article>';
- $('archiveDraftStatus').textContent='主角全身立繪已收錄於人物圖鑑。';
+function showArchiveProfile(i){
+ const root=$('archiveSlots');if(!root)return;
+ const d=archiveData[i]||{},isMain=i===0,unlocked=isMain||!!d.storyUnlocked;
+ const title=archiveNames[i]||'人物資料';
+ const visual=isMain?'<div class="archivePortraitWrap archivePortraitDetail"><img class="archivePortrait" src="./人物圖鑑/主角.png" alt="主角全身人物立繪"></div>':'<div class="archiveDetailPlaceholder">'+(unlocked?'♙':'🔒')+'</div>';
+ const detail=isMain?'<p>玩家姓名：'+escArchive(profile.playerName||'尚未設定')+'</p><p>全身立繪：已收錄</p>':'<p>狀態：'+(unlocked?'已解鎖':'尚未登場')+'</p><p>'+(unlocked?(d.draft?'已有設計草稿':'尚無已確認人物資料'):'此角色尚未登場，人物資料維持未公開。')+'</p>';
+ root.classList.add('archiveDetailView');
+ root.innerHTML='<article class="archiveDetailCard"><div class="archiveDetailVisual">'+visual+'</div><div class="archiveDetailInfo"><span class="archiveTag">'+(isMain?'主角資料':unlocked?'已解鎖':'尚未登場')+'</span><h3>'+title+'</h3>'+detail+'<button class="btn" type="button" id="archiveBackToList">← 返回人物列表</button></div></article>';
+ $('archiveBackToList').onclick=renderArchive;
 }
 function renderArchiveTargetNote(){let i=+$('archiveTarget').value;$('archiveTargetNote').textContent=i===0?'主角全身立繪已收錄；此頁以單張無文字全身圖作為正式展示。':'此欄位代表故事中的第 '+i+' 位女性角色。尚未登場不代表已解鎖；目前只建立可修改的設計草稿，不預設姓名或職業定位。';}
 function buildArchiveIdeas(i){
