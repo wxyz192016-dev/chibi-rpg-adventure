@@ -217,29 +217,25 @@
 .campusZone[data-area="A"]{grid-column:1/3;grid-row:1}.campusZone[data-area="B"]{grid-column:3;grid-row:1}.campusZone[data-area="J"]{grid-column:4;grid-row:1}.campusZone[data-area="C"]{grid-column:1;grid-row:2}.campusZone[data-area="D"]{grid-column:2/4;grid-row:2}.campusZone[data-area="I"]{grid-column:4;grid-row:2}.campusZone[data-area="E"]{grid-column:1;grid-row:3}.campusZone[data-area="F"]{grid-column:2;grid-row:3}.campusZone[data-area="H"]{grid-column:3;grid-row:3}.campusZone[data-area="G"]{grid-column:4;grid-row:3}
 .campusMapIntro{margin-bottom:12px}.campusAreaDetail{margin-top:12px;min-height:110px}
 @media(max-width:760px){.campusPlan{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto}.campusZone[data-area]{grid-column:auto;grid-row:auto;min-height:110px}}
+
+/* CINEMATIC CAMPUS HOME COVER */
+.homeCoverFrame{position:relative;width:100%;min-width:0;overflow:hidden;border:1px solid #536779;border-radius:20px;background:#111820;box-shadow:0 22px 70px #0008;isolation:isolate}
+.homeCoverImage{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:center center}
+.homeCoverActions{position:absolute;z-index:3;left:clamp(14px,3vw,38px);bottom:clamp(16px,3vw,36px);display:flex;gap:10px;flex-wrap:wrap}
+.homeCoverActions .btn{min-width:148px;padding:13px 18px;box-shadow:0 5px 22px #0008}
+.homeCoverSaveStatus{position:absolute;z-index:3;right:clamp(14px,2.5vw,30px);bottom:clamp(18px,3vw,38px);margin:0;color:#f4f0e9;font-size:11px;text-shadow:0 2px 8px #000;max-width:34%;text-align:right}
+@media(max-width:760px){.homeCoverFrame{border-radius:13px}.homeCoverImage{aspect-ratio:4/5;object-fit:cover;object-position:37% center}.homeCoverActions{left:12px;right:12px;bottom:14px;gap:7px}.homeCoverActions .btn{min-width:0;flex:1;padding:11px 8px;font-size:12px}.homeCoverSaveStatus{left:12px;right:12px;bottom:58px;max-width:none;text-align:left;font-size:10px}}
+@media(min-width:761px) and (max-width:1050px){.homeCoverImage{aspect-ratio:16/9}.homeCoverActions .btn{min-width:130px}}
 </style></head><body><main class="app">
 <header class="top"><a class="logo" href="#" data-screen="home" aria-label="返回遊戲主介面">PROJECT Z <small>末日倖存者：Z計畫</small></a><button class="railToggle btn" id="railToggle" type="button" aria-label="收合導覽">☰ 收合選單</button><nav class="nav" aria-label="遊戲主選單"><div class="navGroup"><div class="navGroupTitle">01｜冒險與據點</div><button class="btn" data-screen="home">冒險首頁</button><button class="btn" data-screen="story">主線任務</button><button class="btn" data-screen="campusMap">校園地圖</button><button class="btn" data-screen="baseManagement">據點發展</button></div><div class="navGroup"><div class="navGroupTitle">02｜物資與裝備</div><button class="btn" data-screen="warehouse">物資倉庫</button></div><div class="navGroup"><div class="navGroupTitle">03｜人物管理</div><button class="btn" data-screen="team">人物整備</button><button class="btn" data-screen="archive">人物圖鑑</button><button class="btn" data-screen="recruitment">角色招募</button></div><div class="navGroup"><div class="navGroupTitle">04｜系統設定</div><button class="btn" id="goSettings" type="button">設定與存檔</button></div></nav></header><div class="globalStatus"><span class="statusBrand">PROJECT Z <small>COMMAND INTERFACE</small></span><span class="globalPlayer">玩家：<b id="globalPlayerName">尚未設定</b></span><span class="globalGold" role="status" aria-live="polite" aria-label="目前遊戲金幣餘額"><span class="goldIcon" aria-hidden="true">◈</span><span id="globalGoldBalance">0</span><small>G</small></span><span class="globalContext" id="globalContext">主基地總覽</span></div>
 <section id="home" class="screen active">
-<div class="hero homeHero">
- <div class="heroText">
-  <div class="eyebrow">EMERGENCY RESPONSE · DAY 01 / TAIWAN</div>
-  <div class="heroKicker">SURVIVAL PROTOCOL INITIATED</div>
-  <h1>末日倖存者<br><span>Z計畫</span></h1>
-  <p class="heroLead">2026年，明新科技大學與明新高中所在的校園生活圈，於上午新生報到期間突然爆發喪屍事件。準大一新生的主角第一次到校，卻被困在失序的校園裡，必須與其他倖存者合作，尋找物資與安全的避難處。</p>
-  <div class="heroActions"><button class="btn primary" id="startNewGame" type="button">▶ 開始新遊戲</button><button class="btn secondaryAction" id="continueGame" type="button">繼續遊戲</button></div>
-  <p class="heroFootnote" id="homeSaveStatus">尚未建立主線存檔。</p>
-  
+<div class="homeCoverFrame" aria-label="末日校園電影封面">
+ <img class="homeCoverImage" src="./末日校園：Z計畫倖存者.png" alt="末日倖存者：Z計畫電影風格封面，主角置身於明新科技大學喪屍末日校園">
+ <div class="homeCoverActions">
+  <button class="btn primary" id="startNewGame" type="button">▶ 開始新遊戲</button>
+  <button class="btn secondaryAction" id="continueGame" type="button">繼續遊戲</button>
  </div>
- <div class="heroArt campusArt" role="img" aria-label="末日中的明新科技大學與明新高中混合校園，主角背影與遠方喪屍">
-  <div class="sceneLabel"><span>明新科技大學 × 明新高中</span><b>DAY 01 · 09:10</b></div>
-  <div class="campusBuilding buildingBack"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-  <div class="campusBuilding buildingFront"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-  <div class="campusGround"></div><div class="campusRoad"></div>
-  <i class="zombie sceneZombie zombieOne"></i><i class="zombie sceneZombie zombieTwo"></i>
-  <div class="survivor"><i class="survivorHead"></i><i class="survivorBody"></i><i class="survivorPack"></i><i class="survivorLeg legOne"></i><i class="survivorLeg legTwo"></i></div>
-  <div class="sceneVignette"></div>
-  <div class="sceneCaption"><b>NO SAFE ZONE</b><span>校園封鎖中 · 生存行動開始</span></div>
- </div>
+ <p class="homeCoverSaveStatus" id="homeSaveStatus">尚未建立主線存檔。</p>
 </div>
 
 <div class="homeInfoGrid"><article class="card situationCard"><div class="panelEyebrow">STORY MODE</div><h3>主線故事模式</h3><p>進入主線故事，依劇情逐步開放後續探索與關卡流程。</p></article><article class="card statusCard"><div class="panelEyebrow">PLAYER DATA</div><div class="statusLine"><span>主角姓名</span><b id="homePlayerName">尚未設定</b></div><div class="statusLine"><span>主線進度</span><b id="homeStoryProgress">尚未建立</b></div></article></div><div class="homeSectionHead saveHeading" id="saveManagerCard"><div><div class="eyebrow">SAVE POINT / BACKUP</div><h2>存檔管理中心</h2></div><small>SAVE 2.0</small></div>
