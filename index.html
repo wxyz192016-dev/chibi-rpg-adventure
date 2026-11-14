@@ -149,6 +149,28 @@
  #bgmDock .bgmTransport #bgmToggle{min-width:78px}
 }
 
+
+/* CHARACTER ARCHIVE PORTRAIT FRAME NORMALIZATION — formal */
+#archiveSlots .archivePortraitWrap{
+  width:100%;max-width:none;height:230px;margin:0;border:1px solid #53677b;border-radius:12px;
+  background:linear-gradient(135deg,#202d3b 0%,#303e4d 48%,#1a2735 100%);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;padding:14px 18px 18px;
+}
+#archiveSlots .archivePortrait{display:block;width:100%;height:100%;max-width:100%;object-fit:contain;object-position:center center}
+#archiveSlots .archiveSlot{grid-template-columns:minmax(0,38%) minmax(0,1fr);gap:14px}
+#archiveSlots .archiveDetailCard{grid-template-columns:minmax(260px,40%) minmax(0,1fr);gap:22px}
+#archiveSlots .archivePortraitDetail{width:100%;max-width:none;height:min(58vh,540px);margin:0;padding:20px 24px 24px;border-radius:14px}
+#archiveSlots .archivePortraitDetail .archivePortrait{object-fit:contain;object-position:center center}
+@media(max-width:1050px){
+ #archiveSlots .archiveSlot{grid-template-columns:1fr}
+ #archiveSlots .archivePortraitWrap{height:210px}
+ #archiveSlots .archivePortraitDetail{height:min(54vh,480px)}
+}
+@media(max-width:760px){
+ #archiveSlots .archivePortraitWrap{height:190px;padding:12px 14px 16px}
+ #archiveSlots .archiveDetailCard{grid-template-columns:1fr;gap:14px}
+ #archiveSlots .archivePortraitDetail{height:46vh;min-height:300px;padding:16px 18px 20px}
+}
 </style></head><body><main class="app">
 <header class="top"><a class="logo" href="#" data-screen="home" aria-label="返回遊戲主介面">PROJECT Z <small>末日倖存者：Z計畫</small></a><button class="railToggle btn" id="railToggle" type="button" aria-label="收合導覽">☰ 收合選單</button><nav class="nav" aria-label="遊戲主選單"><div class="navGroup"><div class="navGroupTitle">01｜冒險與據點</div><button class="btn" data-screen="home">冒險首頁</button><button class="btn" data-screen="story">主線任務／校園地圖</button><button class="btn" data-screen="baseManagement">據點發展</button></div><div class="navGroup"><div class="navGroupTitle">02｜物資與裝備</div><button class="btn" data-screen="warehouse">物資倉庫</button></div><div class="navGroup"><div class="navGroupTitle">03｜人物管理</div><button class="btn" data-screen="team">人物整備</button><button class="btn" data-screen="archive">人物圖鑑</button><button class="btn" data-screen="recruitment">角色招募</button></div><div class="navGroup"><div class="navGroupTitle">04｜系統設定</div><button class="btn" id="goSettings" type="button">設定與存檔</button></div></nav></header><div class="globalStatus"><span class="statusBrand">PROJECT Z <small>COMMAND INTERFACE</small></span><span class="globalPlayer">玩家：<b id="globalPlayerName">尚未設定</b></span><span class="globalGold" role="status" aria-live="polite" aria-label="目前遊戲金幣餘額"><span class="goldIcon" aria-hidden="true">◈</span><span id="globalGoldBalance">0</span><small>G</small></span><span class="globalContext" id="globalContext">主基地總覽</span></div>
 <section id="home" class="screen active">
