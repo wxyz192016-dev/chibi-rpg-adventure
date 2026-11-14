@@ -93,6 +93,8 @@
   <div class="heroKicker">SURVIVAL PROTOCOL INITIATED</div>
   <h1>末日倖存者<br><span>Z計畫</span></h1>
   <p class="heroLead">2026年，私立明川綜合高中爆發不明感染事件。校園通訊逐漸中斷，主角必須獨自尋找物資、安全據點，以及離開危機的方法。</p>
+  <div class="heroActions"><button class="btn primary" id="startNewGame" type="button">▶ 開始新遊戲</button><button class="btn secondaryAction" id="continueGame" type="button">繼續遊戲</button></div>
+  <p class="heroFootnote" id="homeSaveStatus">尚未建立主線存檔。</p>
   
  </div>
  <div class="heroArt campusArt" role="img" aria-label="末日中的明川高中校園，男性主角背影與遠方感染者">
@@ -325,6 +327,6 @@ function updateGlobalStatus(){const n=document.getElementById('globalPlayerName'
 const originalShow=show;
 show=function(id){originalShow(id);updateGlobalStatus();};
 
-renderHome();renderTeam();renderMissions();renderArchive();updateRoster();$('archiveTarget').onchange=renderArchiveTargetNote;$('generateArchiveIdeas').onclick=renderArchiveIdeas;$('savePlayerName').onclick=savePlayerName;$('playerNameInput').addEventListener('keydown',e=>{if(e.key==='Enter')savePlayerName();});$('manualCheckpoint').onclick=createManualCheckpoint;$('downloadSave').onclick=downloadSavePackage;$('importSave').onclick=()=>$('importSaveFile').click();$('importSaveFile').addEventListener('change',e=>{let file=e.target.files&&e.target.files[0];if(file)importSaveFile(file);e.target.value='';});updateGlobalStatus();updateMainMenu();offerResume();document.addEventListener('visibilitychange',()=>{if(document.hidden&&running&&!paused)saveCheckpoint();});window.addEventListener('pagehide',()=>{if(running&&!paused){let c=makeCheckpoint();try{localStorage.setItem('projectZEmergencyCheckpoint',JSON.stringify(c));}catch{}}});requestAnimationFrame(loop);
+renderHome();renderTeam();renderMissions();renderArchive();updateRoster();$('archiveTarget').onchange=renderArchiveTargetNote;$('generateArchiveIdeas').onclick=renderArchiveIdeas;$('manualCheckpoint').onclick=createManualCheckpoint;$('downloadSave').onclick=downloadSavePackage;$('importSave').onclick=()=>$('importSaveFile').click();$('importSaveFile').addEventListener('change',e=>{let file=e.target.files&&e.target.files[0];if(file)importSaveFile(file);e.target.value='';});updateGlobalStatus();updateMainMenu();offerResume();document.addEventListener('visibilitychange',()=>{if(document.hidden&&running&&!paused)saveCheckpoint();});window.addEventListener('pagehide',()=>{if(running&&!paused){let c=makeCheckpoint();try{localStorage.setItem('projectZEmergencyCheckpoint',JSON.stringify(c));}catch{}}});requestAnimationFrame(loop);
 })();
 </script></body></html>
