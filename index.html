@@ -104,6 +104,49 @@
 @media(max-width:1050px){#archiveSlots.archiveGrid{grid-template-columns:repeat(2,minmax(0,1fr))}#archiveSlots .archiveSlot{grid-template-columns:1fr}#archiveSlots .archivePortraitWrap,#archiveSlots .archiveIcon{height:190px}}
 @media(max-width:760px){#archiveSlots.archiveGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#archiveSlots .archiveSlot{padding:9px}#archiveSlots .archivePortraitWrap,#archiveSlots .archiveIcon{height:160px}#archiveSlots .archiveDetailCard{grid-template-columns:1fr;gap:12px}#archiveSlots .archivePortraitDetail{height:48vh}}
 .bgmDock{position:fixed;right:20px;bottom:20px;z-index:1200;pointer-events:none}.bgmDockToggle{pointer-events:auto;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;padding:0;border:1px solid #d5b477;background:linear-gradient(145deg,#2b4053,#142231);color:#f3c66b;font-size:23px;box-shadow:0 10px 28px #0009;cursor:pointer}.bgmDockToggle:focus-visible,.bgmDockClose:focus-visible{outline:2px solid var(--gold);outline-offset:3px}.bgmDock.is-open .bgmDockToggle{display:none}.bgmControl{pointer-events:auto;position:absolute;right:0;bottom:72px;width:min(390px,calc(100vw - 28px));min-width:0;display:none;grid-template-columns:minmax(0,1fr) auto;gap:10px 14px;margin:0;padding:14px;border:1px solid #53677b;border-radius:15px;background:linear-gradient(145deg,#1b2b3bfa,#101b28fa);color:var(--text);font-size:12px;box-shadow:0 18px 48px #000b;backdrop-filter:blur(16px)}.bgmControl.is-open{display:grid}.bgmNow{display:flex;align-items:baseline;gap:10px;min-width:0;flex-wrap:wrap;padding-right:28px}.bgmEyebrow{color:#91a4b7;font-size:9px;letter-spacing:.16em;font-weight:800}.bgmNow strong{color:#f3d28f;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bgmNow small{color:#aab7c5;font-size:10px}.bgmDockClose{position:absolute;top:8px;right:8px;width:27px;height:27px;border:1px solid #53677b;border-radius:8px;background:#26384a;color:#fff;font-size:18px;line-height:1;cursor:pointer}.bgmTransport{display:flex;align-items:center;justify-content:flex-end;gap:6px}.bgmTransport button{min-width:34px;height:34px;padding:6px 9px;border:1px solid #74869a;background:#26384a;color:#fff;border-radius:8px;cursor:pointer;font-size:13px}.bgmTransport button:focus-visible,.bgmOptions select:focus-visible,.bgmTimeline input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}.bgmTransport #bgmToggle{min-width:86px;background:#354b5e;font-weight:800}.bgmTransport button[aria-pressed=true]{border-color:var(--gold);color:var(--gold)}.bgmTimeline{display:grid;grid-template-columns:38px minmax(0,1fr) 38px;align-items:center;gap:8px;color:#aab7c5;font-size:10px;font-variant-numeric:tabular-nums}.bgmTimeline input{width:100%;accent-color:#d5b477}.bgmOptions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}.bgmOptions label{color:#c9d4df;white-space:nowrap}.bgmOptions select{max-width:230px;min-width:145px;padding:6px 8px;border:1px solid #53677b;border-radius:7px;background:#1b2b3b;color:#fff}.bgmOptions input[type=range]{width:96px;accent-color:#d5b477}.bgmMode{color:#c9d4df;white-space:nowrap;border:1px solid #53677b;border-radius:7px;padding:4px 7px}@media(max-width:760px){.bgmDock{right:14px;bottom:calc(96px + env(safe-area-inset-bottom))}.bgmControl{bottom:68px;width:min(390px,calc(100vw - 28px));grid-template-columns:1fr;gap:9px;padding:13px}.bgmNow{justify-content:center}.bgmTransport{justify-content:center;flex-wrap:wrap}.bgmTimeline{grid-template-columns:36px minmax(0,1fr) 36px}.bgmOptions{justify-content:space-between}.bgmOptions select{flex:1;min-width:120px;max-width:none}}
+
+/* PROJECT Z floating music player layout correction */
+#bgmDock{position:fixed;right:22px;bottom:22px;z-index:1200;pointer-events:none}
+#bgmDock .bgmDockToggle{pointer-events:auto;width:54px;height:54px;min-height:54px;padding:0;border-radius:50%;display:grid;place-items:center;border:1px solid #d5b477;background:linear-gradient(145deg,#2b4053,#142231);color:#f3c66b;font-size:23px;line-height:1;box-shadow:0 10px 28px #0009;cursor:pointer}
+#bgmDock .bgmDockToggle:focus-visible,#bgmDock .bgmDockClose:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+#bgmDock.is-open .bgmDockToggle{display:none}
+#bgmDock #bgmControl{pointer-events:auto;position:absolute;right:0;bottom:68px;width:min(460px,calc(100vw - 28px));min-width:0;max-width:calc(100vw - 28px);display:none;grid-template-columns:minmax(0,1fr);grid-auto-flow:row;align-items:center;gap:14px;margin:0;padding:18px 18px 16px;border:1px solid #53677b;border-radius:17px;background:linear-gradient(145deg,#1b2b3bfa,#101b28fa);color:#f5f2eb;font-size:14px;line-height:1.4;box-shadow:0 18px 48px #000b;backdrop-filter:blur(16px);box-sizing:border-box}
+#bgmDock #bgmControl.is-open{display:grid}
+#bgmDock #bgmControl>*{grid-column:1/-1;width:100%;min-width:0;box-sizing:border-box}
+#bgmDock .bgmNow{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto;align-items:center;justify-content:stretch;gap:3px 12px;min-width:0;padding:0 42px 2px 0;flex-wrap:nowrap}
+#bgmDock .bgmEyebrow{grid-column:1/-1;color:#91a4b7;font-size:10px;letter-spacing:.16em;font-weight:800;line-height:1.3}
+#bgmDock .bgmNow strong{display:block;min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#f3d28f;font-size:17px;line-height:1.35}
+#bgmDock .bgmNow small{justify-self:end;color:#c9d4df;font-size:11px;white-space:nowrap}
+#bgmDock .bgmDockClose{position:absolute;top:0;right:0;width:32px;height:32px;min-width:32px;min-height:32px;padding:0;border:1px solid #53677b;border-radius:9px;background:#26384a;color:#fff;font-size:20px;line-height:1;display:grid;place-items:center;cursor:pointer}
+#bgmDock .bgmTransport{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:nowrap}
+#bgmDock .bgmTransport button{appearance:none;display:inline-flex;align-items:center;justify-content:center;flex:0 1 auto;min-width:42px;width:auto;height:42px;min-height:42px;margin:0;padding:0 11px;border:1px solid #74869a;border-radius:10px;background:#26384a;color:#fff;font-family:inherit;font-size:15px;font-weight:700;line-height:1.2;white-space:nowrap;cursor:pointer}
+#bgmDock .bgmTransport #bgmToggle{min-width:104px;padding:0 15px;background:#354b5e;font-weight:800}
+#bgmDock .bgmTransport button[aria-pressed=true]{border-color:var(--gold);color:var(--gold)}
+#bgmDock .bgmTransport button:focus-visible,#bgmDock .bgmOptions select:focus-visible,#bgmDock .bgmTimeline input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+#bgmDock .bgmTimeline{display:grid;grid-template-columns:42px minmax(0,1fr) 42px;align-items:center;gap:10px;width:100%;min-width:0;color:#b9c6d2;font-size:11px;font-variant-numeric:tabular-nums}
+#bgmDock .bgmTimeline span{white-space:nowrap}
+#bgmDock .bgmTimeline span:last-child{text-align:right}
+#bgmDock .bgmTimeline input{display:block;width:100%;min-width:0;margin:0;accent-color:#d5b477}
+#bgmDock .bgmOptions{display:grid;grid-template-columns:auto minmax(100px,1fr) auto minmax(80px,110px);align-items:center;gap:9px 10px;width:100%;min-width:0}
+#bgmDock .bgmOptions label{color:#c9d4df;font-size:12px;white-space:nowrap}
+#bgmDock .bgmOptions select{display:block;width:100%;min-width:0;max-width:none;margin:0;padding:9px 30px 9px 10px;border:1px solid #53677b;border-radius:9px;background:#1b2b3b;color:#fff;font:inherit;font-size:13px}
+#bgmDock .bgmOptions input[type=range]{display:block;width:100%;min-width:0;margin:0;accent-color:#d5b477}
+@media(max-width:560px){
+ #bgmDock{right:12px;bottom:calc(88px + env(safe-area-inset-bottom))}
+ #bgmDock #bgmControl{bottom:66px;width:min(440px,calc(100vw - 24px));max-width:calc(100vw - 24px);padding:15px 13px;gap:12px}
+ #bgmDock .bgmTransport{gap:6px}
+ #bgmDock .bgmTransport button{min-width:36px;height:40px;min-height:40px;padding:0 8px;font-size:13px}
+ #bgmDock .bgmTransport #bgmToggle{min-width:86px;padding:0 9px}
+ #bgmDock .bgmOptions{grid-template-columns:auto minmax(0,1fr);gap:8px 9px}
+ #bgmDock .bgmOptions label[for="bgmVolume"]{grid-column:1}
+ #bgmDock .bgmOptions input[type=range]{grid-column:2}
+}
+@media(max-width:360px){
+ #bgmDock .bgmTransport{gap:4px}
+ #bgmDock .bgmTransport button{min-width:32px;padding:0 6px}
+ #bgmDock .bgmTransport #bgmToggle{min-width:78px}
+}
+
 </style></head><body><main class="app">
 <header class="top"><a class="logo" href="#" data-screen="home" aria-label="返回遊戲主介面">PROJECT Z <small>末日倖存者：Z計畫</small></a><button class="railToggle btn" id="railToggle" type="button" aria-label="收合導覽">☰ 收合選單</button><nav class="nav" aria-label="遊戲主選單"><div class="navGroup"><div class="navGroupTitle">01｜冒險與據點</div><button class="btn" data-screen="home">冒險首頁</button><button class="btn" data-screen="story">主線章節／校園探索</button><button class="btn" data-screen="missions">戰鬥指揮中心</button><button class="btn" data-screen="baseManagement">據點發展</button></div><div class="navGroup"><div class="navGroupTitle">02｜物資與裝備</div><button class="btn" data-screen="warehouse">物資倉庫</button></div><div class="navGroup"><div class="navGroupTitle">03｜人物管理</div><button class="btn" data-screen="team">人物整備</button><button class="btn" data-screen="archive">人物圖鑑</button><button class="btn" data-screen="recruitment">角色招募</button></div><div class="navGroup"><div class="navGroupTitle">04｜系統設定</div><button class="btn" id="goSettings" type="button">設定與存檔</button></div></nav></header><div class="globalStatus"><span class="statusBrand">PROJECT Z <small>COMMAND INTERFACE</small></span><span class="globalPlayer">玩家：<b id="globalPlayerName">尚未設定</b></span><span class="globalContext" id="globalContext">主基地總覽</span></div>
 <section id="home" class="screen active">
