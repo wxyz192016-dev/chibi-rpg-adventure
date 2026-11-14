@@ -55,8 +55,37 @@
 @media(max-width:1050px){.app{grid-template-columns:205px minmax(0,1fr);gap:12px}.top{padding:14px 9px}.globalStatus{flex-wrap:wrap}}
 @media(max-width:760px){.app{display:block;width:100%;padding:9px 9px 92px}.top{position:fixed;left:9px;right:9px;bottom:8px;top:auto;z-index:1000;height:auto;max-height:42vh;display:block;padding:8px;margin:0;overflow:auto}.logo{display:none}.railToggle{display:none}.nav{display:flex;flex-direction:row;flex-wrap:nowrap;overflow-x:auto;gap:6px}.navGroup{flex:0 0 auto;display:flex;flex-direction:row;align-items:center;border:0;padding:0;gap:5px}.navGroupTitle{display:none}.nav .btn{flex:0 0 auto;text-align:center;padding:10px;font-size:11px}.nav .navPlanned{display:none}.globalStatus{min-height:52px;margin-bottom:12px;padding:10px}.screen{width:100%}.footer{margin-bottom:10px}}
 
+
+/* PROJECT Z MAIN MENU FINAL 2026-11 */
+.app{width:min(96vw,1800px);max-width:1800px;grid-template-columns:240px minmax(0,1fr);gap:18px}
+.top{grid-template-columns:1fr;align-items:stretch;gap:14px;min-width:0}
+.logo{font-size:22px;line-height:1.35}
+.nav{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:14px}
+.navGroup{display:flex;flex-direction:column;gap:6px;padding-bottom:10px;border-bottom:1px solid #ffffff18}
+.navGroupTitle{font-size:10px;letter-spacing:.14em;color:var(--gold);font-weight:900;padding:3px 8px}
+.nav .btn{text-align:left;width:100%;padding:12px 13px}
+.nav .btn.active{background:linear-gradient(100deg,#59472b,#29394a);border-color:var(--gold);color:#ffe0a0}
+.homeHero{grid-template-columns:minmax(0,48fr) minmax(0,52fr);min-height:580px}
+.homeHero .heroText{min-width:0}
+.homeHero .heroArt,.campusArt{min-height:580px}
+.homeHero .heroActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.homeHero .heroActions .btn{min-width:160px;padding:14px 18px}
+.homeHero .heroFootnote{font-size:11px;color:#9fb0bf;margin-top:12px}
+.homeHero h1{font-size:clamp(34px,4.2vw,58px)}
+.homeHero .heroLead{font-size:14px;line-height:1.9}
+.homeInfoGrid{grid-template-columns:1fr 1fr}
+#newGameDialog{position:fixed;inset:0;z-index:12000;background:#050b12d9;display:none;align-items:center;justify-content:center;padding:18px}
+#newGameDialog.open{display:flex}
+.newGameBox{width:min(520px,96vw);background:linear-gradient(145deg,#223548,#121e2b);border:1px solid #6b8094;border-radius:20px;padding:26px;box-shadow:0 24px 90px #000b}
+.newGameBox h2{margin:0 0 6px;color:#f5d28d}.newGameBox p{color:#c0ccd7;line-height:1.7;font-size:13px}
+.newGameBox label{display:block;color:#f0d59b;font-size:12px;margin:18px 0 7px}
+.newGameBox input{width:100%;padding:13px;border:1px solid #536b80;border-radius:10px;background:#101b27;color:white;font-size:16px}
+.newGameActions{display:flex;gap:9px;justify-content:flex-end;flex-wrap:wrap;margin-top:20px}
+#continueGame:disabled{opacity:.38;cursor:not-allowed}
+@media(max-width:1050px){.app{grid-template-columns:205px minmax(0,1fr)}.homeHero{grid-template-columns:1fr}.homeHero .heroArt{grid-row:1;min-height:380px}}
+@media(max-width:760px){.app{display:block;padding:9px 9px 92px}.top{position:fixed;left:9px;right:9px;bottom:8px;top:auto;z-index:1000;height:auto;display:block;padding:8px;margin:0;border-radius:14px;background:#172536f5}.logo{display:none}.nav{display:flex;flex-direction:row;flex-wrap:nowrap;overflow-x:auto;gap:6px}.navGroup{display:flex;flex-direction:row;flex:0 0 auto;border:0;padding:0;gap:5px}.navGroupTitle{display:none}.nav .btn{width:auto;flex:0 0 auto;padding:10px;font-size:11px}.homeHero{grid-template-columns:1fr}.homeHero .heroArt{grid-row:1;min-height:330px}.homeHero .heroText{padding:22px}.homeInfoGrid{grid-template-columns:1fr}}
 </style></head><body><main class="app">
-<header class="top"><a class="logo" href="#" data-screen="home" aria-label="返回主基地">末日倖存者 <small>PROJECT Z · ANIME TACTICAL</small></a><button class="railToggle btn" id="railToggle" type="button" aria-label="收合導覽">☰ 收合導覽</button><nav class="nav" aria-label="主導覽"><div class="navGroup"><div class="navGroupTitle">01｜基地管理</div><button class="btn" data-screen="home">主基地總覽</button><button class="btn" data-screen="warehouse">物資倉庫</button></div><div class="navGroup"><div class="navGroupTitle">02｜劇情與探索</div><button class="btn" data-screen="story">第一話故事</button><button class="btn navPlanned" type="button" title="校園自由探索尚未開發">校園地圖・規劃中</button><button class="btn navPlanned" type="button" title="區域探索尚未開發">區域探索・規劃中</button></div><div class="navGroup"><div class="navGroupTitle">03｜戰鬥系統</div><button class="btn" data-screen="missions">戰鬥中心</button><button class="btn navPlanned" type="button" title="戰鬥紀錄頁尚未建立">戰鬥紀錄・規劃中</button></div><div class="navGroup"><div class="navGroupTitle">04｜人物管理</div><button class="btn" data-screen="team">小隊整備</button><button class="btn" data-screen="archive">人物圖鑑</button></div><div class="navGroup"><div class="navGroupTitle">05｜系統設定</div><button class="btn" id="goSettings" type="button">設定與存檔</button></div></nav></header><div class="globalStatus"><span class="statusBrand">PROJECT Z <small>COMMAND INTERFACE</small></span><span class="globalPlayer">玩家：<b id="globalPlayerName">尚未設定</b></span><span class="globalContext" id="globalContext">主基地總覽</span></div>
+<header class="top"><a class="logo" href="#" data-screen="home" aria-label="返回遊戲主介面">PROJECT Z <small>末日倖存者：Z計畫</small></a><button class="railToggle btn" id="railToggle" type="button" aria-label="收合導覽">☰ 收合選單</button><nav class="nav" aria-label="遊戲主選單"><div class="navGroup"><div class="navGroupTitle">01｜故事模式</div><button class="btn" data-screen="story">主線故事模式</button></div><div class="navGroup"><div class="navGroupTitle">02｜基地管理</div><button class="btn" data-screen="home">基地總覽</button><button class="btn" data-screen="warehouse">物資倉庫</button></div><div class="navGroup"><div class="navGroupTitle">03｜人物管理</div><button class="btn" data-screen="team">人物整備</button><button class="btn" data-screen="archive">人物圖鑑</button></div><div class="navGroup"><div class="navGroupTitle">04｜系統設定</div><button class="btn" id="goSettings" type="button">設定與存檔</button></div></nav></header><div class="globalStatus"><span class="statusBrand">PROJECT Z <small>COMMAND INTERFACE</small></span><span class="globalPlayer">玩家：<b id="globalPlayerName">尚未設定</b></span><span class="globalContext" id="globalContext">主基地總覽</span></div>
 <section id="home" class="screen active">
 <div class="hero homeHero">
  <div class="heroText">
@@ -64,23 +93,7 @@
   <div class="heroKicker">SURVIVAL PROTOCOL INITIATED</div>
   <h1>末日倖存者<br><span>Z計畫</span></h1>
   <p class="heroLead">2026年，私立明川綜合高中爆發不明感染事件。校園通訊逐漸中斷，主角必須獨自尋找物資、安全據點，以及離開危機的方法。</p>
-  <div class="stats">
-   <div class="stat"><b id="homeLevel">LV.1</b>玩家等級</div>
-   <div class="stat"><b id="homeKills">0</b>累計擊倒</div>
-   <div class="stat"><b id="homeCoins">0</b>戰術物資</div>
-  </div>
-  <article class="card playerCard">
-   <div class="panelEyebrow">PLAYER PROFILE / 主角資料</div>
-   <p>男性主角 · 成年高中生（18歲以上）</p>
-   <label for="playerNameInput">玩家自訂姓名</label>
-   <div class="nameRow"><input id="playerNameInput" type="text" maxlength="20" autocomplete="off" placeholder="輸入主角姓名"><button class="btn" id="savePlayerName">儲存姓名</button></div>
-   <p id="playerNameStatus" class="notice" aria-live="polite">姓名會保存在本機存檔中。</p>
-  </article>
-  <div class="heroActions">
-   <button class="btn primary" id="goBattle">▶ 進入第一話故事</button>
-   
-  </div>
-  <p class="heroFootnote">劇情模式與戰鬥中心分開運作；主線故事由玩家選擇關卡後開始。</p>
+  
  </div>
  <div class="heroArt campusArt" role="img" aria-label="末日中的明川高中校園，男性主角背影與遠方感染者">
   <div class="sceneLabel"><span>明川綜合高中</span><b>DAY 01 · 08:42</b></div>
@@ -93,18 +106,8 @@
   <div class="sceneCaption"><b>NO SAFE ZONE</b><span>校園封鎖中 · 生存行動開始</span></div>
  </div>
 </div>
-<div class="homeSectionHead"><div><div class="eyebrow">COMMAND INTERFACE</div><h2>生存指揮中心</h2></div><small>FIELD STATUS / 01</small></div>
-<div class="homeTiles">
- <button class="homeTile" data-screen="story"><span class="tileIcon">⌖</span><b>第一話・校園求生</b><small>故事設定、校園區域與主線規劃</small><span class="tileLink">進入劇情模式 →</span></button>
- <button class="homeTile" data-screen="missions"><span class="tileIcon">⚔</span><b>戰鬥中心</b><small>戰術指揮、正式關卡挑戰與五人小隊</small><span class="tileLink">進入戰鬥中心 →</span></button>
- <button class="homeTile" data-screen="team"><span class="tileIcon">♙</span><b>小隊整備</b><small>五人小隊能力、武器與強化</small><span class="tileLink">查看隊伍 →</span></button>
- <button class="homeTile" data-screen="archive"><span class="tileIcon">▤</span><b>人物圖鑑</b><small>主角與故事角色資料、設計草稿</small><span class="tileLink">開啟人物圖鑑 →</span></button>
-</div>
-<div class="homeInfoGrid">
- <article class="card situationCard"><div class="panelEyebrow">SITUATION REPORT / 生存情報</div><h3>第一話：末日開始的那一天</h3><p>主角目前獨自在校園內求生。第一話規劃包含10個校園區域、16個主線關卡，以及三個階段性安全據點。</p><div class="infoTags"><span>校園封鎖</span><span>獨自求生</span><span>自由探索規劃中</span></div></article>
- <article class="card statusCard"><div class="panelEyebrow">SYSTEM STATUS / 系統狀態</div><div class="statusLine"><span>故事自由探索</span><b class="statusPending">尚未開發</b></div><div class="statusLine"><span>五人小隊戰鬥引擎</span><b class="statusReady">既有系統</b></div><div class="statusLine"><span>SAVE 2.0</span><b class="statusReady">運作中</b></div></article>
-</div>
-<div class="homeSectionHead saveHeading" id="saveManagerCard"><div><div class="eyebrow">SAVE POINT / BACKUP</div><h2>存檔管理中心</h2></div><small>SAVE 2.0</small></div>
+
+<div class="homeInfoGrid"><article class="card situationCard"><div class="panelEyebrow">STORY MODE</div><h3>主線故事模式</h3><p>進入主線故事，依劇情逐步開放後續探索與關卡流程。</p></article><article class="card statusCard"><div class="panelEyebrow">PLAYER DATA</div><div class="statusLine"><span>主角姓名</span><b id="homePlayerName">尚未設定</b></div><div class="statusLine"><span>主線進度</span><b id="homeStoryProgress">尚未建立</b></div></article></div><div class="homeSectionHead saveHeading" id="saveManagerCard"><div><div class="eyebrow">SAVE POINT / BACKUP</div><h2>存檔管理中心</h2></div><small>SAVE 2.0</small></div>
 <article class="card saveManager">
  <div class="panelEyebrow">MANUAL SAVE & BACKUP</div><h3>手動備份與存檔管理</h3>
  <p>永久進度使用本機存檔；可下載完整 JSON 備份，或匯入先前備份。戰鬥檢查點仍由既有 SAVE 2.0 管理。</p>
@@ -144,7 +147,7 @@
 </section>
 \n<section id="battle" class="screen"><div class="hud"><span>任務：<b id="missionName">平凡的早晨</b></span><span>波次：<b id="wave">1/5</b></span><span>防線：<b id="base">100%</b></span><span>擊倒：<b id="kills">0</b></span><span>時間：<b id="clock">0:00</b></span><button class="btn" id="manualCheckpoint">儲存戰鬥點</button><button class="btn" id="speed">速度 1×</button><button class="btn" id="pause">Ⅱ 暫停</button></div><div class="battleGrid"><div class="arena"><canvas id="field" width="960" height="600"></canvas><div class="overlay" id="battleOverlay"><div class="dialog"><h2 id="overlayTitle">準備出擊</h2><p id="overlayText">隊員已就位。點擊敵人指定集火，使用技能守住防線。</p><button class="btn primary" id="battleAction">開始戰鬥</button></div></div></div><aside class="side"><section class="panel roster"><h3>◆ 作戰小隊</h3><div id="members"></div></section><section class="panel"><h3>◆ 戰術技能</h3><div class="skills"><button class="btn skill" id="heal">急救包<small>恢復隊員 · Q</small></button><button class="btn skill" id="fire">燃燒彈<small>範圍傷害 · W</small></button><button class="btn skill" id="focus">全員集火<small>攻速提升 · E</small></button><button class="btn skill" id="reload">全隊換彈<small>快速補充 · R</small></button></div></section><section class="panel"><h3>◆ 戰況紀錄</h3><div class="log" id="log">等待隊長下令……</div></section></aside></div></section>
 <div class="footer">單機網頁版 · SAVE 2.0 本機自動存檔 · 無需登入 · 不使用外部遊戲引擎 <span id="saveStatus" aria-live="polite">存檔系統初始化中</span></div></main>
-<script>
+<div id="newGameDialog" role="dialog" aria-modal="true" aria-labelledby="newGameTitle"><div class="newGameBox"><div class="panelEyebrow">NEW GAME · PLAYER SETUP</div><h2 id="newGameTitle">建立新遊戲</h2><p>請輸入主角姓名。建立新主線資料不會自動刪除既有 SAVE 2.0 戰鬥存檔。</p><label for="newGamePlayerName">主角姓名（必填）</label><input id="newGamePlayerName" type="text" maxlength="20" autocomplete="off" placeholder="請輸入主角姓名"><p id="newGameWarning" aria-live="polite">故事章節：第一話｜遊戲模式：主線故事模式</p><div class="newGameActions"><button class="btn" id="cancelNewGame" type="button">取消</button><button class="btn primary" id="confirmNewGame" type="button">確認設定並開始</button></div></div></div><script>
 (()=>{'use strict';
 const $=id=>document.getElementById(id),screens=['home','team','warehouse','missions','archive','story','battle'];
 const SAVE_VERSION=2,PROFILE_KEY='zombieSurvivalSave',PROFILE_BACKUP='zombieSurvivalSave_backup',CHECKPOINT_DB='projectZSaveDB',CHECKPOINT_STORE='checkpoints';
@@ -304,16 +307,24 @@ function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#74766c';ctx.fillRect(0,0,
 ctx.fillStyle='#242e36';ctx.fillRect(0,540,W,60);ctx.fillStyle='#d2c09c';ctx.fillRect(0,536,W,4);ctx.fillStyle='#fff';ctx.font='bold 15px system-ui';ctx.fillText('廢 校 防 線',18,570);zombies.forEach(z=>{ctx.save();ctx.translate(z.x,z.y+Math.sin(time*7+z.x)*2);ctx.fillStyle=z.hit>0?'#fff':z.color;ctx.beginPath();ctx.ellipse(0,5,z.r*.7,z.r,0,0,7);ctx.fill();ctx.fillStyle='#d9d1bf';ctx.beginPath();ctx.arc(0,-z.r*.55,z.r*.55,0,7);ctx.fill();ctx.fillStyle='#a52d3b';ctx.fillRect(-7,-z.r*.62,4,4);ctx.fillRect(4,-z.r*.62,4,4);ctx.strokeStyle='#393532';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-8,8);ctx.lineTo(-z.r,22);ctx.moveTo(8,8);ctx.lineTo(z.r,22);ctx.stroke();ctx.fillStyle='#26313a';ctx.fillRect(-z.r,-z.r-14,z.r*2,5);ctx.fillStyle='#80d69a';ctx.fillRect(-z.r,-z.r-14,z.r*2*Math.max(0,z.hp/z.max),5);if(z===target){ctx.strokeStyle='#ffe28c';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,z.r+9,0,7);ctx.stroke();}if(z.type==='boss'){ctx.fillStyle='#fff';ctx.font='bold 12px system-ui';ctx.fillText('Z-01 暴君型',-38,-z.r-24);}if(z.type==='special'){ctx.fillStyle='#fff';ctx.font='bold 10px system-ui';ctx.fillText('特殊感染者',-30,-z.r-20);}ctx.restore();});bullets.forEach(b=>{ctx.strokeStyle=b.aoe?'#ffb34d':'#ffe6a0';ctx.lineWidth=b.aoe?5:3;ctx.beginPath();ctx.moveTo(b.x,b.y);ctx.lineTo(b.x-b.vx*.025,b.y-b.vy*.025);ctx.stroke();});let bossUnit=zombies.find(z=>z.type==='boss');if(bossUnit){ctx.fillStyle='#101a24cc';ctx.fillRect(300,14,360,13);ctx.fillStyle='#e66b79';ctx.fillRect(302,16,356*Math.max(0,bossUnit.hp/bossUnit.max),9);ctx.fillStyle='#fff';ctx.font='bold 10px system-ui';ctx.textAlign='center';ctx.fillText('Z-01 暴君型 · '+Math.ceil(bossUnit.hp)+' HP',480,11);}roster.forEach((s,i)=>{ctx.save();ctx.translate(s.x,SQUAD_Y);if(s.hp<=0){ctx.globalAlpha=.62;ctx.rotate(-.12);ctx.fillStyle='#26313a';ctx.fillRect(-18,7,36,13);ctx.fillStyle=s.color;ctx.beginPath();ctx.arc(0,2,10,0,7);ctx.fill();ctx.fillStyle='#ff7b82';ctx.font='bold 10px system-ui';ctx.fillText('倒地',-12,39);ctx.restore();return;}let pulse=(Math.sin(time*5+i)*.5+.5);ctx.fillStyle='#17232c';ctx.beginPath();ctx.ellipse(0,25,18,7,0,0,7);ctx.fill();ctx.fillStyle='#273745';ctx.fillRect(-12,5,9,22);ctx.fillRect(3,5,9,22);ctx.fillStyle=s.color;ctx.beginPath();ctx.roundRect(-13,-1,26,28,7);ctx.fill();ctx.fillStyle='#d8c4ad';ctx.beginPath();ctx.arc(0,-13,12,0,7);ctx.fill();ctx.fillStyle='#3a2f35';ctx.beginPath();ctx.arc(0,-17,12,Math.PI,Math.PI*2);ctx.fill();ctx.fillRect(-11,-17,4,8);ctx.fillRect(7,-17,4,8);ctx.fillStyle='#25313c';ctx.fillRect(-7,-13,4,2);ctx.fillRect(3,-13,4,2);ctx.strokeStyle='#27313b';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(8,8);ctx.lineTo(18,1);ctx.stroke();ctx.fillStyle='#202a34';ctx.fillRect(12,-1,24,5);ctx.fillStyle='#8c9aa4';ctx.fillRect(29,-2,8,3);ctx.fillStyle='#e9d5a4';ctx.fillRect(-16,-39,32,4);ctx.fillStyle='#79d69a';ctx.fillRect(-16,-39,32*Math.max(0,s.hp/s.max),4);ctx.fillStyle='#fff';ctx.font='bold 11px system-ui';ctx.textAlign='center';ctx.fillText(s.name,0,48);if(i===selected){ctx.strokeStyle='rgba(255,220,140,'+(.45+pulse*.5)+')';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,8,25,0,7);ctx.stroke();}ctx.restore();});particles.forEach(p=>{ctx.globalAlpha=Math.max(0,p.life/.5);ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,3,0,7);ctx.fill();ctx.globalAlpha=1;});numbers.forEach(n=>{ctx.fillStyle='#fff0a5';ctx.font='bold 17px system-ui';ctx.fillText(n.t,n.x,n.y);});if(paused){ctx.fillStyle='#07101bbd';ctx.fillRect(0,0,W,H);ctx.fillStyle='#fff';ctx.font='bold 40px system-ui';ctx.fillText('PAUSED',185,450);}}
 function loop(t){let dt=Math.min(.04,(t-last)/1000||0);last=t;if(running&&!paused&&!ended)update(dt*speed);draw();requestAnimationFrame(loop);}
 function togglePause(){if(!running||ended)return;paused=!paused;hud();}
-document.querySelectorAll('[data-screen]').forEach(b=>b.onclick=()=>show(b.dataset.screen));$('goBattle').onclick=()=>show('story');$('goSettings').onclick=()=>{show('home');$('saveManagerCard').scrollIntoView({behavior:'smooth',block:'start'});};$('heal').onclick=()=>skill('heal');$('fire').onclick=()=>skill('fire');$('focus').onclick=()=>skill('focus');$('reload').onclick=()=>roster.forEach((s,i)=>beginReload(i));$('pause').onclick=togglePause;$('speed').onclick=()=>{speed=speed===1?1.5:speed===1.5?2:1;$('speed').textContent='速度 '+speed+'×';};
+document.querySelectorAll('[data-screen]').forEach(b=>b.onclick=()=>show(b.dataset.screen));$('goBattle').onclick=()=>show('story');$('goSettings').onclick=()=>{show('home');$('saveManagerCard').scrollIntoView({behavior:'smooth',block:'start'});};
+function readStorySave(){try{return JSON.parse(localStorage.getItem('projectZStoryProgress')||'null');}catch{return null;}}
+function updateMainMenu(){const p=readStorySave();const c=$('continueGame');if(c)c.disabled=!(p&&p.playerName);if($('homePlayerName'))$('homePlayerName').textContent=profile.playerName||'尚未設定';if($('homeStoryProgress'))$('homeStoryProgress').textContent=p?'第一話進行中':'尚未建立';if($('homeSaveStatus'))$('homeSaveStatus').textContent=p?'已找到主線存檔：'+p.playerName:'尚未建立主線存檔。';}
+function openNewGame(){const d=$('newGameDialog');$('newGamePlayerName').value=profile.playerName||'';$('newGameWarning').textContent=readStorySave()?'已有主線存檔；建立新遊戲前會保留舊資料備份。故事章節：第一話。':'故事章節：第一話｜遊戲模式：主線故事模式';d.classList.add('open');setTimeout(()=>$('newGamePlayerName').focus(),30);}
+function closeNewGame(){ $('newGameDialog').classList.remove('open');}
+$('startNewGame').onclick=openNewGame;$('cancelNewGame').onclick=closeNewGame;
+$('confirmNewGame').onclick=()=>{const name=$('newGamePlayerName').value.trim().slice(0,20);if(!name){$('newGameWarning').textContent='請先輸入主角姓名。';$('newGamePlayerName').focus();return;}const old=readStorySave();if(old){try{localStorage.setItem('projectZStoryProgressBackup',JSON.stringify(old));}catch{$('newGameWarning').textContent='無法建立舊進度備份，請先檢查瀏覽器儲存空間。';return;}}profile.playerName=name;if(!save()){$('newGameWarning').textContent='玩家資料儲存失敗，請檢查瀏覽器儲存空間。';return;}const fresh={version:1,playerName:name,chapter:1,mission:0,createdAt:Date.now(),updatedAt:Date.now(),status:'started'};try{localStorage.setItem('projectZStoryProgress',JSON.stringify(fresh));}catch{$('newGameWarning').textContent='主線存檔建立失敗，請檢查瀏覽器儲存空間。';return;}closeNewGame();updateMainMenu();show('story');alert('主線資料已建立。第一話目前為故事設定頁；可玩式單人探索流程仍待後續開發。');};
+$('continueGame').onclick=()=>{const p=readStorySave();if(!p){updateMainMenu();return;}profile.playerName=p.playerName||profile.playerName;show('story');alert('已讀取主線存檔：'+(p.playerName||'玩家')+'。目前第一話遊戲流程尚在開發中。');};
+$('heal').onclick=()=>skill('heal');$('fire').onclick=()=>skill('fire');$('focus').onclick=()=>skill('focus');$('reload').onclick=()=>roster.forEach((s,i)=>beginReload(i));$('pause').onclick=togglePause;$('speed').onclick=()=>{speed=speed===1?1.5:speed===1.5?2:1;$('speed').textContent='速度 '+speed+'×';};
 canvas.addEventListener('pointerdown',e=>{if(!running||paused)return;let r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)/r.width*W,y=(e.clientY-r.top)/r.height*H,best=null,d=48;zombies.forEach(z=>{let n=Math.hypot(z.x-x,z.y-y);if(n<d){d=n;best=z;}});if(best){target=best;log('集火目標已指定！');}});
 document.addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();togglePause();}if(e.key.toLowerCase()==='q')skill('heal');if(e.key.toLowerCase()==='w')skill('fire');if(e.key.toLowerCase()==='e')skill('focus');if(e.key.toLowerCase()==='r')roster.forEach((s,i)=>beginReload(i));});
 
 const railToggle=document.getElementById('railToggle');
 if(railToggle)railToggle.addEventListener('click',()=>{document.querySelector('.app').classList.toggle('rail-collapsed');railToggle.setAttribute('aria-label',document.querySelector('.app').classList.contains('rail-collapsed')?'展開導覽':'收合導覽');});
-function updateGlobalStatus(){const n=document.getElementById('globalPlayerName');if(n)n.textContent=(profile&&profile.playerName)||'尚未設定';const active=document.querySelector('.screen.active');const labels={home:'主基地總覽',team:'小隊整備',warehouse:'物資倉庫',missions:'戰鬥中心',story:'第一話故事',archive:'人物圖鑑',battle:'戰鬥現場'};const c=document.getElementById('globalContext');if(c&&active)c.textContent=labels[active.id]||'遊戲介面';}
+function updateGlobalStatus(){const n=document.getElementById('globalPlayerName');if(n)n.textContent=(profile&&profile.playerName)||'尚未設定';const active=document.querySelector('.screen.active');const labels={home:'遊戲主介面',team:'人物整備',warehouse:'物資倉庫',missions:'舊版戰鬥測試',story:'主線故事模式',archive:'人物圖鑑',battle:'戰鬥現場'};const c=document.getElementById('globalContext');if(c&&active)c.textContent=labels[active.id]||'遊戲介面';}
 const originalShow=show;
 show=function(id){originalShow(id);updateGlobalStatus();};
 
-renderHome();renderTeam();renderMissions();renderArchive();updateRoster();$('archiveTarget').onchange=renderArchiveTargetNote;$('generateArchiveIdeas').onclick=renderArchiveIdeas;$('savePlayerName').onclick=savePlayerName;$('playerNameInput').addEventListener('keydown',e=>{if(e.key==='Enter')savePlayerName();});$('manualCheckpoint').onclick=createManualCheckpoint;$('downloadSave').onclick=downloadSavePackage;$('importSave').onclick=()=>$('importSaveFile').click();$('importSaveFile').addEventListener('change',e=>{let file=e.target.files&&e.target.files[0];if(file)importSaveFile(file);e.target.value='';});updateGlobalStatus();offerResume();document.addEventListener('visibilitychange',()=>{if(document.hidden&&running&&!paused)saveCheckpoint();});window.addEventListener('pagehide',()=>{if(running&&!paused){let c=makeCheckpoint();try{localStorage.setItem('projectZEmergencyCheckpoint',JSON.stringify(c));}catch{}}});requestAnimationFrame(loop);
+renderHome();renderTeam();renderMissions();renderArchive();updateRoster();$('archiveTarget').onchange=renderArchiveTargetNote;$('generateArchiveIdeas').onclick=renderArchiveIdeas;$('savePlayerName').onclick=savePlayerName;$('playerNameInput').addEventListener('keydown',e=>{if(e.key==='Enter')savePlayerName();});$('manualCheckpoint').onclick=createManualCheckpoint;$('downloadSave').onclick=downloadSavePackage;$('importSave').onclick=()=>$('importSaveFile').click();$('importSaveFile').addEventListener('change',e=>{let file=e.target.files&&e.target.files[0];if(file)importSaveFile(file);e.target.value='';});updateGlobalStatus();updateMainMenu();offerResume();document.addEventListener('visibilitychange',()=>{if(document.hidden&&running&&!paused)saveCheckpoint();});window.addEventListener('pagehide',()=>{if(running&&!paused){let c=makeCheckpoint();try{localStorage.setItem('projectZEmergencyCheckpoint',JSON.stringify(c));}catch{}}});requestAnimationFrame(loop);
 })();
 </script></body></html>
