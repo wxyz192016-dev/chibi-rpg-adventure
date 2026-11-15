@@ -820,7 +820,7 @@ document.addEventListener('keydown',e=>{const el=e.target,tag=el&&el.tagName?el.
 const railToggle=document.getElementById('railToggle');
 if(railToggle)railToggle.addEventListener('click',()=>{document.querySelector('.app').classList.toggle('rail-collapsed');railToggle.setAttribute('aria-label',document.querySelector('.app').classList.contains('rail-collapsed')?'展開導覽':'收合導覽');});
 function renderGlobalGold(){const el=document.getElementById('globalGoldBalance');if(el)el.textContent=Math.max(0,Number(profile&&profile.coins)||0).toLocaleString('en-US');}
-function updateGlobalStatus(){renderGlobalGold();const n=document.getElementById('globalPlayerName');if(n)n.textContent=(profile&&profile.playerName)||'尚未設定';const active=document.querySelector('.screen.active');const labels={home:'冒險首頁',baseManagement:'據點發展',team:'人物整備',warehouse:'物資倉庫',story:'主線任務',campusMap:'校園地圖',archive:'人物圖鑑',zombieArchive:'喪屍圖鑑',recruitment:'角色招募',shop:'商店',battle:'戰鬥現場'};const c=document.getElementById('globalContext');if(c&&active)c.textContent=labels[active.id]||'遊戲介面';}
+function updateGlobalStatus(){renderGlobalGold();const n=document.getElementById('globalPlayerName');if(n)n.textContent=(profile&&profile.playerName)||'尚未設定';const active=document.querySelector('.screen.active');const labels={home:'冒險首頁',baseManagement:'據點發展',team:'隊伍編成',warehouse:'物資倉庫',story:'主線任務',campusMap:'校園地圖',archive:'人物圖鑑',zombieArchive:'喪屍圖鑑',recruitment:'角色招募',shop:'商店',battle:'戰鬥現場'};const c=document.getElementById('globalContext');if(c&&active)c.textContent=labels[active.id]||'遊戲介面';}
 const originalShow=show;
 show=function(id){originalShow(id);updateGlobalStatus();};
 
