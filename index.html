@@ -665,12 +665,6 @@ function renderUnifiedCharacterSkillPanel(i){
 let archiveProfileActiveIndex=null;
 function archiveSkillPanelFor(i){return renderUnifiedCharacterSkillPanel(i);}
 
- const panels=['renderPiercingSkillPanel','renderLinShuyuSkillPanel','renderLiuMuqingSkillPanel','renderHuLingxiaoSkillPanel','renderTuYuerouSkillPanel','renderDragonYinqiuSkillPanel'];
- const headings=['主角專屬技能','林舒舒專屬技能','劉牧晴專屬技能','胡凌霄專屬技能','涂月柔專屬技能','龍吟秋專屬技能'];
- const renderers=[renderPiercingSkillPanel,renderLinShuyuSkillPanel,renderLiuMuqingSkillPanel,renderHuLingxiaoSkillPanel,renderTuYuerouSkillPanel,renderDragonYinqiuSkillPanel];
- const fn=renderers[i];
- return typeof fn==='function'?fn():'<p class="notice">目前沒有可顯示的技能資料。</p>';
-}
 function bindArchiveSkillUpgrade(i){
  const handlers=[buyPiercingSkill,buyLinShuyuSkill,buyLiuMuqingSkill,buyHuLingxiaoSkill,buyTuYuerouSkill,buyDragonYinqiuSkill];
  const button=$('buyUnifiedSkillUpgrade');if(button)button.onclick=handlers[i];
