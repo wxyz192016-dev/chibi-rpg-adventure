@@ -657,7 +657,10 @@ function renderUnifiedCharacterSkillPanel(i){
  ];
  const c=configs[i];if(!c)return '<section class="archiveSkillPanel"><p>目前沒有可顯示的專屬技能。</p></section>';
  const level=Math.max(0,Math.min(5,Number(c.level)||0)),tierHtml=c.tiers.map((t,n)=>'<article class="unifiedSkillTier '+(level>=n+1?'unlocked':'locked')+'"><div class="unifiedSkillTierHead"><b>Lv.'+(n+1)+'｜'+t[0]+'</b><span>'+(level>=n+1?'已解鎖':'未解鎖')+'</span></div><p>'+t[1]+'</p></article>').join('');
- const current=level?c.tiers.slice(0,level).map(t=>'<li>'+t[1]+'</li>').join(''):'<li>尚未解鎖專屬技能。</li>';
+ let currentItems=c.tiers.slice(0,level);
+ if(i===1&&level>=2)currentItems=currentItems.map((t,n)=>n===0?['',t[1].replace('隊伍傷害+15%','標記目標隊伍傷害+20%')]:t);
+ if(i===2&&level>0)currentItems=[c.tiers[level-1]];
+ const current=level?currentItems.map(t=>'<li>'+t[1]+'</li>').join(''):'<li>尚未解鎖專屬技能。</li>';
  let action=level>=5?'<p class="unifiedSkillNotice">技能已達最高階。</p>':!c.owned?'<p class="unifiedSkillNotice">角色尚未取得，取得後才能升級專屬技能。</p>':!c.eligible?'<p class="unifiedSkillNotice">角色需達Lv.10才能解鎖第一階技能。</p>':'<div class="unifiedSkillUpgrade"><span>下一階：Lv.'+(level+1)+' '+c.tiers[level][0]+'<small>升級費用 '+c.costs[level].toLocaleString('en-US')+' G</small></span><button class="btn primary" type="button" id="buyUnifiedSkillUpgrade" '+(profile.coins<c.costs[level]?'disabled':'')+'>升級技能</button></div>';
  return '<section class="archiveSkillPanel unifiedSkillPanel"><header class="unifiedSkillSummary"><div><h4>'+c.name+'</h4><p>角色 Lv.'+c.roleLevel+'　·　技能 Lv.'+level+'/5</p></div></header><h5>五階技能效果</h5><div class="unifiedSkillTiers">'+tierHtml+'</div><section class="unifiedSkillCurrent"><h5>目前實際生效效果</h5><ul>'+current+'</ul></section><p class="unifiedSkillRule">'+c.rule+'</p>'+action+'</section>';
 }
