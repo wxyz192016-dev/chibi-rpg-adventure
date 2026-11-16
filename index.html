@@ -381,8 +381,8 @@ const bgmVocalTracks={
  breach:{label:'Take the Breach',url:'./%E9%9F%B3%E6%A8%82/Take%20the%20Breach.mp3'}
 };
 const bgmTrackOrder=['japanese','breach','lastclass','dawn'];
-let bgmSelectedTrack=localStorage.getItem('projectZBgmSelectedTrack')||'japanese';
-if(!bgmVocalTracks[bgmSelectedTrack])bgmSelectedTrack='japanese';
+let bgmSelectedTrack='japanese';
+localStorage.setItem('projectZBgmSelectedTrack',bgmSelectedTrack);
 let bgmVolume=Number(localStorage.getItem('projectZBgmVolume')||42);
 if(!Number.isFinite(bgmVolume))bgmVolume=42;
 bgmVolume=Math.max(0,Math.min(100,bgmVolume));
@@ -559,26 +559,39 @@ bgmVocalTrack.addEventListener('error',()=>{
 });
 bgmUpdatePlayer();
 function bgmAutoStartOnEntry(){
- const preference=localStorage.getItem('projectZBgmEnabled');
- if(preference==='0'){bgmEnabled=false;bgmUpdatePlayer();return;}
- bgmEnabled=true;bgmVocalFailed=false;localStorage.setItem('projectZBgmEnabled','1');
+ bgmSelectedTrack='japanese';
+ bgmVocalTrack.pause();
+ bgmVocalTrack.src=bgmVocalTracks.japanese.url;
+ bgmVocalTrack.load();
+ bgmVocalTrack.loop=bgmRepeatMode==='one';
+ try{bgmVocalTrack.currentTime=0;}catch(e){}
+ localStorage.setItem('projectZBgmSelectedTrack','japanese');
+ bgmEnabled=true;bgmVocalFailed=false;
  bgmVocalTrack.volume=bgmVolume/100*.72;
+ bgmUpdatePlayer();
  const attempt=bgmVocalTrack.play();
  if(attempt&&attempt.catch)attempt.catch(err=>{
   bgmEnabled=false;
   bgmUpdatePlayer();
   if(err&&err.name==='NotAllowedError'){
    bgmSetButton('▶ 點擊開始音樂');
-   const resume=event=>{if(event&&event.target&&event.target.closest&&event.target.closest('#bgmDock'))return;document.removeEventListener('pointerdown',resume);document.removeEventListener('keydown',resume);setBgmEnabled(true);};
-   document.addEventListener('pointerdown',resume,{once:true});
-   document.addEventListener('keydown',resume,{once:true});
+   const resume=event=>{
+    const target=event&&event.target;
+    if(target&&target.closest&&target.closest('#bgmToggle'))return;
+    if(bgmEnabled||!bgmVocalTrack.paused)return;
+    setBgmEnabled(true);
+   };
+   document.addEventListener('pointerdown',resume,true);
+   document.addEventListener('keydown',resume,true);
+   bgmVocalTrack.addEventListener('playing',()=>{
+    document.removeEventListener('pointerdown',resume,true);
+    document.removeEventListener('keydown',resume,true);
+   },{once:true});
   }else{
    bgmVocalFailed=true;bgmSetButton('音檔播放失敗');console.warn('自動播放失敗：',err);
   }
  });
- bgmUpdatePlayer();
 }
-bgmAutoStartOnEntry();
 function show(id){screens.forEach(screenId=>{const screen=$(screenId);if(screen)screen.classList.toggle('active',screenId===id);});if(!screens.includes(id)||!$(id)){console.warn('找不到指定頁面：'+id);return;}document.querySelectorAll('[data-screen]').forEach(b=>b.classList.toggle('active',b.dataset.screen===id));if(id==='home')setBgmMode('home');else if(id==='story'||id==='campusMap')setBgmMode('explore');else if(id==='battle'&&bgmMode!=='boss')setBgmMode('battle');if(id==='team')renderTeam();if(id==='recruitment')renderRecruitment();if(id==='shop')renderShop();if(id==='home'||id==='warehouse')renderHome();if(id==='home')updateMainMenu();if(id==='archive'){profile=cleanProfile(profile);save();renderArchive();renderArchiveTargetNote();}if(id==='zombieArchive'){renderZombieArchive();}if(id==='story')renderStory();if(id==='campusMap')renderCampusMap();}
 function renderHome(){renderGlobalGold();if($('homeLevel'))$('homeLevel').textContent='LV.'+profile.level;if($('homeKills'))$('homeKills').textContent=profile.totalKills;if($('homeCoins'))$('homeCoins').textContent=profile.coins;if($('warehouseCoins'))$('warehouseCoins').textContent=profile.coins;if($('recruitGold'))$('recruitGold').textContent=profile.coins;if($('recruitTickets'))$('recruitTickets').textContent=profile.recruitTickets;if($('warehouseWeaponLv'))$('warehouseWeaponLv').textContent=profile.weaponLv;if($('playerNameInput'))$('playerNameInput').value=profile.playerName||'';if($('playerNameStatus'))$('playerNameStatus').textContent=profile.playerName?'目前主角姓名：'+profile.playerName+'（已儲存）':'尚未設定姓名。開始遊戲前可先輸入主角姓名。';}
 function savePlayerName(){let value=$('playerNameInput').value.trim();if(!value){$('playerNameStatus').textContent='請先輸入主角姓名。';$('playerNameInput').focus();return;}profile.playerName=value.slice(0,20);if(save()){$('playerNameStatus').textContent='主角姓名已儲存：'+profile.playerName;}else{$('playerNameStatus').textContent='儲存失敗，請檢查瀏覽器本機儲存空間。';}}
