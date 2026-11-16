@@ -942,6 +942,7 @@ show=function(id){originalShow(id);updateGlobalStatus();};
 renderHome();renderTeam();renderStory();renderCampusMap();renderArchive();renderRecruitment();renderShop();updateRoster();
 /* ISOLATED ENGINE TEST HARNESS: all combat calculations below remain the original game functions. */
 window.__zTestMode=true;
+save=()=>true;
 clearCheckpoint=async()=>true;
 saveCheckpoint=async()=>true;
 profile.storyCharacters=['lin-shuyu'];
@@ -965,7 +966,7 @@ function installEngineTestPanel(){
  const panel=document.createElement('section');
  panel.className='panel';
  panel.style.cssText='grid-column:1/-1;margin-top:12px;border:1px solid #b98c4c;background:linear-gradient(145deg,#28394a,#172431)';
- panel.innerHTML='<h3>正式戰鬥引擎｜測試控制台</h3><p class="notice">本頁使用正式版 fireShot()、update()、碰撞判定、技能函式與喪屍物件。測試存檔功能已停用，不會讀寫正式版存檔。</p><div style="display:flex;gap:9px;flex-wrap:wrap;align-items:end"><label>測試角色<select id="ztShooter" class="btn"><option value="0">主角｜穿透彈</option><option value="1">林舒舒</option><option value="2">劉牧晴</option><option value="3">胡凌霄</option><option value="4">涂月柔</option><option value="5">龍吟秋</option></select></label><label>喪屍種類<select id="ztType" class="btn"><option value="normal">普通喪屍</option><option value="runner">快速喪屍</option><option value="armored">裝甲喪屍</option><option value="special">特殊感染者</option><option value="boss">Z-01 暴君型</option></select></label><label>數量<select id="ztCount" class="btn"><option value="1">1 隻</option><option value="2">2 隻</option><option value="3">3 隻</option><option value="4">4 隻</option><option value="5" selected>5 隻</option><option value="6">6 隻</option></select></label><button class="btn primary" id="ztSpawn">生成直線喪屍</button><button class="btn" id="ztReset">重置測試場</button><button class="btn primary" id="ztShoot">發射正式引擎子彈</button></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn" id="ztLinMark">林舒舒｜弱點標記</button><button class="btn" id="ztLinPrecision">林舒舒｜精準點射</button><button class="btn" id="ztLinUlt">林舒舒｜全域狙察</button><button class="btn" id="ztLiu">劉牧晴｜極寒冰凍彈</button><button class="btn" id="ztHuPierce">胡凌霄｜虎牙穿透</button><button class="btn" id="ztHuRapid">胡凌霄｜疾風連射</button><button class="btn" id="ztHuHunt">胡凌霄｜獵影追擊</button><button class="btn" id="ztHuUlt">胡凌霄｜虎嘯彈幕</button><button class="btn" id="ztTuMark">涂月柔｜月影標記</button><button class="btn" id="ztTuRapid">涂月柔｜兔躍速射</button><button class="btn" id="ztTuPierce">涂月柔｜破甲兔彈</button><button class="btn" id="ztTuHunt">涂月柔｜月影追獵</button><button class="btn" id="ztDragon">龍吟秋｜龍吟衝擊彈</button><button class="btn" id="ztUltimate">主角｜極限貫穿射擊</button></div><div class="stats" style="margin-top:12px"><div class="stat">存活喪屍：<b id="ztAlive">0</b></div><div class="stat">場上子彈：<b id="ztBullets">0</b></div><div class="stat">本次命中紀錄：<b id="ztHits">等待測試</b></div><div class="stat">目前射手：<b id="ztCurrent">主角</b></div></div><p class="notice" id="ztNote">先生成直線喪屍，再選擇射手並發射。所有子彈都由正式 update() 進行碰撞與命中計算。</p>';
+ panel.innerHTML='<h3>正式戰鬥引擎｜單人技能測試控制台</h3><p class="notice">每次選擇一位角色作為目前測試射手；技能與命中仍使用正式戰鬥引擎。此測試頁的存檔寫入已停用，不會覆蓋正式遊戲進度。</p><div style="display:flex;gap:9px;flex-wrap:wrap;align-items:end"><label>單次測試角色<select id="ztShooter" class="btn"><option value="0">主角｜穿透彈</option><option value="1">林舒舒</option><option value="2">劉牧晴</option><option value="3">胡凌霄</option><option value="4">涂月柔</option><option value="5">龍吟秋</option></select></label><label>測試彈匣數量<input id="ztAmmo" class="btn" type="number" min="0" max="999" value="30" style="width:90px"></label><button class="btn" id="ztReload">補滿目前角色彈藥</button><label>喪屍種類<select id="ztType" class="btn"><option value="normal">普通喪屍</option><option value="runner">快速喪屍</option><option value="armored">裝甲喪屍</option><option value="special">特殊感染者</option><option value="boss">Z-01 暴君型</option></select></label><label>數量<select id="ztCount" class="btn"><option value="1">1 隻</option><option value="2">2 隻</option><option value="3">3 隻</option><option value="4">4 隻</option><option value="5" selected>5 隻</option><option value="6">6 隻</option></select></label><button class="btn primary" id="ztSpawn">生成直線喪屍</button><button class="btn" id="ztReset">重置測試場</button><button class="btn primary" id="ztShoot">發射正式引擎子彈</button></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn" id="ztLinMark">林舒舒｜弱點標記</button><button class="btn" id="ztLinPrecision">林舒舒｜精準點射</button><button class="btn" id="ztLinUlt">林舒舒｜全域狙察</button><button class="btn" id="ztLiu">劉牧晴｜極寒冰凍彈</button><button class="btn" id="ztHuPierce">胡凌霄｜虎牙穿透</button><button class="btn" id="ztHuRapid">胡凌霄｜疾風連射</button><button class="btn" id="ztHuHunt">胡凌霄｜獵影追擊</button><button class="btn" id="ztHuUlt">胡凌霄｜虎嘯彈幕</button><button class="btn" id="ztTuMark">涂月柔｜月影標記</button><button class="btn" id="ztTuRapid">涂月柔｜兔躍速射</button><button class="btn" id="ztTuPierce">涂月柔｜破甲兔彈</button><button class="btn" id="ztTuHunt">涂月柔｜月影追獵</button><button class="btn" id="ztDragon">龍吟秋｜龍吟衝擊彈</button><button class="btn" id="ztUltimate">主角｜極限貫穿射擊</button></div><div class="stats" style="margin-top:12px"><div class="stat">存活喪屍：<b id="ztAlive">0</b></div><div class="stat">場上子彈：<b id="ztBullets">0</b></div><div class="stat">本次命中紀錄：<b id="ztHits">等待測試</b></div><div class="stat">目前射手：<b id="ztCurrent">主角</b></div></div><p class="notice" id="ztNote">先生成直線喪屍，再選擇射手並發射。所有子彈都由正式 update() 進行碰撞與命中計算。</p>';
  host.appendChild(panel);
  const $t=id=>document.getElementById(id);
  function resetLine(){
@@ -986,15 +987,16 @@ function installEngineTestPanel(){
   $t('ztHits').textContent=bullets.length?bullets.map(b=>'已命中 '+(b.hitCount||0)+'/'+(b.maxHits||1)).join('；'):'子彈已完成／尚未發射';
  }
  function shoot(){
-  const i=Number($t('ztShooter').value),s=roster[i],z=zombies[zombies.length-1];
+  const i=Number($t('ztShooter').value),s=roster[i],z=target&&target.hp>0?target:zombies[zombies.length-1];
   if(!s||!z){log('請先生成喪屍並選擇有效射手。');return;}
-  target=z;s.cool=99;fireShot(s,z,i);
-  log(s.name+' 使用正式 fireShot() 發射；穿透上限與傷害依正式程式計算。');
-  refresh();
+  if((ammo[i]||0)<=0){log(s.name+' 彈匣為空，請按「補滿目前角色彈藥」後再測試。');refresh();return;}
+  target=z;s.cool=99;fireShot(s,z,i);ammo[i]=Math.max(0,(ammo[i]||0)-1);
+  log(s.name+' 使用正式 fireShot() 發射；剩餘彈藥 '+ammo[i]+' 發。穿透上限與傷害依正式程式計算。');
+  refresh();updateRoster();
  }
  function ready(){running=true;paused=false;ended=false;Object.keys(skillCD).forEach(k=>skillCD[k]=0);huRage=100;huFocus=0;profile.inventory.huToothAmmo=999;profile.inventory.tuMoonAmmo=999;}
  $t('ztSpawn').onclick=resetLine;$t('ztReset').onclick=()=>{resetLine();bullets=[];log('測試場已重置。');};
- $t('ztShoot').onclick=shoot;$t('ztShooter').onchange=refresh;
+ $t('ztShoot').onclick=shoot;$t('ztShooter').onchange=()=>{refresh();updateRoster();};$t('ztReload').onclick=()=>{const i=Number($t('ztShooter').value),s=roster[i];if(!s)return;const amount=Math.max(0,Math.min(999,Math.floor(Number($t('ztAmmo').value)||0)));ammo[i]=amount;reloads[i]=0;log(s.name+' 測試彈藥已設定為 '+amount+' 發。');refresh();updateRoster();};
  $t('ztLinMark').onclick=()=>{ready();useLinWeakpoint();refresh();};
  $t('ztLinPrecision').onclick=()=>{ready();useLinPrecision();refresh();};
  $t('ztLinUlt').onclick=()=>{ready();useLinUltimate();refresh();};
@@ -1014,6 +1016,6 @@ function installEngineTestPanel(){
  update=function(dt){oldUpdate(dt);refresh();};
  }
 
-installEngineTestPanel();startMission(false);$('battleAction').textContent='進入測試戰鬥';$('battleAction').onclick=async()=>{try{await preloadZombieSprites();running=true;paused=false;ended=false;$('battleOverlay').hidden=true;log('正式戰鬥引擎測試開始。');}catch(e){log('喪屍圖片載入失敗：'+e.message);}}; $('missionName').textContent='正式戰鬥引擎測試場';$('manualCheckpoint').onclick=createManualCheckpoint;$('downloadSave').onclick=downloadSavePackage;$('importSave').onclick=()=>$('importSaveFile').click();$('importSaveFile').addEventListener('change',e=>{let file=e.target.files&&e.target.files[0];if(file)importSaveFile(file);e.target.value='';});updateGlobalStatus();updateMainMenu();offerResume();document.addEventListener('visibilitychange',()=>{if(document.hidden&&running&&!paused)saveCheckpoint();});window.addEventListener('pagehide',()=>{if(running&&!paused){let c=makeCheckpoint();try{localStorage.setItem('projectZEmergencyCheckpoint',JSON.stringify(c));}catch{}}});requestAnimationFrame(loop);
+startMission(false);installEngineTestPanel();$('battleAction').textContent='進入測試戰鬥';$('battleAction').onclick=async()=>{try{await preloadZombieSprites();running=true;paused=false;ended=false;$('battleOverlay').hidden=true;log('正式戰鬥引擎測試開始。');}catch(e){log('喪屍圖片載入失敗：'+e.message);}}; $('missionName').textContent='正式戰鬥引擎測試場';$('manualCheckpoint').onclick=createManualCheckpoint;$('downloadSave').onclick=downloadSavePackage;$('importSave').onclick=()=>$('importSaveFile').click();$('importSaveFile').addEventListener('change',e=>{let file=e.target.files&&e.target.files[0];if(file)importSaveFile(file);e.target.value='';});updateGlobalStatus();updateMainMenu();offerResume();document.addEventListener('visibilitychange',()=>{if(document.hidden&&running&&!paused)saveCheckpoint();});window.addEventListener('pagehide',()=>{if(!window.__zTestMode&&running&&!paused){let c=makeCheckpoint();try{localStorage.setItem('projectZEmergencyCheckpoint',JSON.stringify(c));}catch{}}});requestAnimationFrame(loop);
 })();
 </script></body></html>
