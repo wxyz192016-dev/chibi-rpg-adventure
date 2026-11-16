@@ -249,40 +249,51 @@
 .unifiedSkillNotice{margin:0;padding:10px 12px;border-radius:9px;background:rgba(255,255,255,.04);color:#c5d0dc;font-size:13px}
 @media(max-width:640px){.unifiedSkillUpgrade{align-items:stretch;flex-direction:column}.unifiedSkillUpgrade .btn{width:100%}}
 
-/* DISCUSSED SKILL UI COMPACT OPTIMIZATION */
-.archiveSkillPanel{padding:13px 14px}
-.skillDialogBody{padding:14px clamp(12px,1.8vw,18px)}
+/* DISCUSSED SKILL UI COMPACT OPTIMIZATION — FIXED SELECTORS */
+.archiveSkillPanel{margin:0;padding:12px 14px}
+.archiveSkillPanel h4{margin:0 0 5px;font-size:16px;line-height:1.35}
+.archiveSkillPanel p{margin:4px 0;line-height:1.42}
+.archiveSkillPanel small{line-height:1.4}
+.skillProgress{gap:5px;margin:8px 0}
+.skillTier{padding:7px 5px;border-radius:8px;font-size:10px;line-height:1.3}
+.skillTier strong{font-size:12px;margin-bottom:2px}
+.skillTier small{font-size:10px;line-height:1.25}
+.skillUpgradeAction{gap:8px;margin-top:7px}
+.skillUpgradeAction .btn{min-width:130px;padding:8px 12px}
+.skillDialogBody{padding:12px clamp(10px,1.5vw,16px)}
 .skillDialogWindow{max-height:min(92vh,920px)}
-.unifiedSkillPanel{gap:8px}
-.unifiedSkillSummary h4{margin:0 0 3px}
-.unifiedSkillSummary p{font-size:12px;line-height:1.45}
-.unifiedSkillPanel h5{margin:2px 0 0;font-size:13px}
-.unifiedSkillTiers{gap:6px}
-.unifiedSkillTier{padding:7px 10px;border-radius:9px}
-.unifiedSkillTierHead{font-size:12px;line-height:1.35}
+.unifiedSkillPanel{gap:7px}
+.unifiedSkillSummary h4{margin:0 0 2px}
+.unifiedSkillSummary p{font-size:12px;line-height:1.35}
+.unifiedSkillPanel h5{margin:1px 0 0;font-size:12px;line-height:1.35}
+.unifiedSkillTiers{gap:5px}
+.unifiedSkillTier{padding:6px 9px;border-radius:8px}
+.unifiedSkillTierHead{font-size:12px;line-height:1.3}
 .unifiedSkillTierHead span{font-size:10px}
-.unifiedSkillTier p{margin:3px 0 0;font-size:12px;line-height:1.4}
-.unifiedSkillCurrent{padding:8px 10px;border-radius:9px}
-.unifiedSkillCurrent h5{margin:0 0 4px}
-.unifiedSkillCurrent ul{padding-left:17px;font-size:12px;line-height:1.45}
-.unifiedSkillRule{font-size:11px;line-height:1.45}
-.unifiedSkillUpgrade{gap:10px;padding-top:8px}
+.unifiedSkillTier p{margin:2px 0 0;font-size:12px;line-height:1.35}
+.unifiedSkillCurrent{padding:7px 9px;border-radius:8px}
+.unifiedSkillCurrent h5{margin:0 0 3px}
+.unifiedSkillCurrent ul{padding-left:16px;font-size:12px;line-height:1.4}
+.unifiedSkillRule{margin:0;font-size:10px;line-height:1.4}
+.unifiedSkillUpgrade{gap:8px;padding-top:6px}
 .unifiedSkillUpgrade span{font-size:12px}
-.unifiedSkillUpgrade small{margin-top:2px;font-size:11px}
-.unifiedSkillNotice{padding:8px 10px;font-size:12px}
+.unifiedSkillUpgrade small{margin-top:1px;font-size:10px}
+.unifiedSkillNotice{padding:7px 9px;font-size:11px;line-height:1.4}
 .skillDialogBody{scrollbar-color:#71869a #182635;scrollbar-width:thin}
-.skillDialogBody::-webkit-scrollbar{width:9px}
-.skillDialogBody::-webkit-scrollbar-track{background:#182635;border-radius:9px}
-.skillDialogBody::-webkit-scrollbar-thumb{background:#71869a;border:2px solid #182635;border-radius:9px}
+.skillDialogBody::-webkit-scrollbar{width:8px}
+.skillDialogBody::-webkit-scrollbar-track{background:#182635;border-radius:8px}
+.skillDialogBody::-webkit-scrollbar-thumb{background:#71869a;border:2px solid #182635;border-radius:8px}
 @media(max-width:600px){
- .archiveSkillPanel{padding:11px}
- .skillDialogBody{padding:10px}
- .unifiedSkillPanel{gap:7px}
- .unifiedSkillTiers{gap:5px}
- .unifiedSkillTier{padding:7px 9px}
- .unifiedSkillUpgrade{gap:7px}
+ .archiveSkillPanel{padding:10px}
+ .skillDialogBody{padding:9px}
+ .skillProgress{gap:5px;margin:7px 0}
+ .skillTier{padding:7px 4px}
+ .unifiedSkillPanel{gap:6px}
+ .unifiedSkillTiers{gap:4px}
+ .unifiedSkillTier{padding:6px 8px}
+ .unifiedSkillUpgrade{gap:6px}
+ .skillUpgradeAction .btn{min-width:112px}
 }
-
 </style></head><body><main class="app">
 <header class="top"><a class="logo" href="#" data-screen="home" aria-label="返回遊戲主介面">PROJECT Z <small>末日倖存者：Z計畫</small></a><button class="railToggle btn" id="railToggle" type="button" aria-label="收合導覽">☰ 收合選單</button><nav class="nav" aria-label="遊戲主選單"><div class="navGroup"><div class="navGroupTitle">01｜冒險與據點</div><button class="btn" data-screen="home">冒險首頁</button><button class="btn" data-screen="story">主線任務</button><button class="btn" data-screen="campusMap">校園地圖</button><button class="btn" data-screen="baseManagement">據點發展</button></div><div class="navGroup"><div class="navGroupTitle">02｜物資與裝備</div><button class="btn" data-screen="warehouse">物資倉庫</button></div><div class="navGroup"><div class="navGroupTitle">03｜人物管理</div><button class="btn" data-screen="team">隊伍編成</button><button class="btn" data-screen="archive">人物圖鑑</button><button class="btn" data-screen="recruitment">角色招募</button><button class="btn" data-screen="shop">商店</button></div><div class="navGroup"><div class="navGroupTitle">04｜感染體情報</div><button class="btn" data-screen="zombieArchive">喪屍圖鑑</button></div><div class="navGroup"><div class="navGroupTitle">05｜系統設定</div><button class="btn" id="goSettings" type="button">設定與存檔</button></div></nav></header><div class="globalStatus"><span class="statusBrand">PROJECT Z <small>COMMAND INTERFACE</small></span><span class="globalPlayer">玩家：<b id="globalPlayerName">尚未設定</b></span><span class="globalGold" role="status" aria-live="polite" aria-label="目前遊戲金幣餘額"><span class="goldIcon" aria-hidden="true">◈</span><span id="globalGoldBalance">0</span><small>G</small></span><button class="btn" id="testGoldGrant" type="button" title="測試版專用：補滿測試金幣">測試金幣補給</button><span class="globalContext" id="globalContext">主基地總覽</span></div>
 <section id="home" class="screen active">
