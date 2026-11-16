@@ -971,7 +971,7 @@ function installEngineTestPanel(){
  const $t=id=>document.getElementById(id);
  let testSoloId='main';
  const syncFullCombatRoster=syncCombatRoster;
- syncCombatRoster=function(){syncFullCombatRoster();const chosen=roster.find(s=>(s.id||'main')===testSoloId)||roster[0];roster.splice(0,roster.length,chosen);chosen.x=480;};
+ syncCombatRoster=function(){const savedTeam=profile.teamSelection;profile.teamSelection=getAvailableCompanionIds();syncFullCombatRoster();profile.teamSelection=savedTeam;const chosen=roster.find(s=>(s.id||'main')===testSoloId)||roster[0];roster.splice(0,roster.length,chosen);chosen.x=480;};
  syncCombatRoster();ammo=[roster[0].mag];reloads=[0];updateRoster();
  function resetLine(){
   zombies=[];bullets=[];particles=[];numbers=[];target=null;kills=0;waveSpawned=0;waveRemaining=0;waveQueue=[];waveBreak=0;
