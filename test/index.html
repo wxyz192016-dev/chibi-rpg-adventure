@@ -787,29 +787,33 @@ particles.forEach(p=>{p.x+=(p.vx||0)*dt;p.y+=(p.vy||0)*dt;p.life-=dt;});particle
 function drawBarricade(){
  const damage=base>75?0:base>50?1:base>25?2:3;
  const img=barricadeSprites[damage];
- const x=W*.025, y=426, w=W*.95, h=184;
+ const x=W*.025, y=486, w=W*.95, h=128;
  ctx.save();
- // Ground contact shadow keeps the wall anchored to the battlefield.
- ctx.fillStyle='rgba(10,16,20,.34)';
- ctx.beginPath();ctx.ellipse(W/2,610,W*.46,13,0,0,Math.PI*2);ctx.fill();
+ // Keep the barricade low so heads, torsos and aiming poses remain visible.
+ ctx.fillStyle='rgba(10,16,20,.38)';
+ ctx.beginPath();ctx.ellipse(W/2,610,W*.46,11,0,0,Math.PI*2);ctx.fill();
  if(img&&img.complete&&img.naturalWidth>0){
-   // Wide continuous frontline: preserve one uninterrupted silhouette across the squad.
-   ctx.drawImage(img,x,y,w,h);
+   // Crop transparent top/bottom margins from the source artwork; keep its steel/sandbag face.
+   const sw=img.naturalWidth, sh=img.naturalHeight;
+   const sy=Math.round(sh*.30), cropH=Math.round(sh*.48);
+   ctx.drawImage(img,0,sy,sw,cropH,x,y,w,h);
  }else{
-   ctx.fillStyle='#263540';ctx.fillRect(x,y+35,w,h-35);
-   ctx.fillStyle='#586b78';ctx.fillRect(x,y+30,w,8);
+   ctx.fillStyle='#263540';ctx.fillRect(x,y+22,w,h-22);
+   ctx.fillStyle='#586b78';ctx.fillRect(x,y+17,w,8);
    for(let px=x+18;px<x+w;px+=118){
-     ctx.fillStyle='#344653';ctx.fillRect(px,y+12,9,h-12);
-     ctx.fillStyle='#91a2ad';ctx.fillRect(px+2,y+12,3,h-12);
+     ctx.fillStyle='#344653';ctx.fillRect(px,y+8,9,h-8);
+     ctx.fillStyle='#91a2ad';ctx.fillRect(px+2,y+8,3,h-8);
    }
    for(let px=x+8;px<x+w;px+=94){
-     ctx.fillStyle='#655744';ctx.fillRect(px,y+70,76,48);
-     ctx.fillStyle='#b69b72';ctx.fillRect(px+4,y+58,68,24);
+     ctx.fillStyle='#655744';ctx.fillRect(px,y+40,76,34);
+     ctx.fillStyle='#b69b72';ctx.fillRect(px+4,y+30,68,18);
    }
-   ctx.fillStyle='#d2c09c';ctx.fillRect(x,y+h-5,w,5);
  }
- // A subtle dark contact edge visually seats the barricade on the ground.
- ctx.fillStyle='rgba(18,25,29,.24)';ctx.fillRect(x,y+h-5,w,5);
+ // Opaque lower skirt prevents transparent gaps in the PNG from showing character legs through the wall.
+ ctx.fillStyle='rgba(39,49,54,.94)';
+ ctx.fillRect(x,y+h-12,w,12);
+ ctx.fillStyle='rgba(18,25,29,.35)';
+ ctx.fillRect(x,y+h-12,w,4);
  ctx.restore();
 }
 function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#74766c';ctx.fillRect(0,0,W,H);ctx.fillStyle='#626962';ctx.fillRect(0,0,24,H);ctx.fillRect(W-24,0,24,H);for(let y=0;y<H;y+=150){ctx.fillStyle='#88877a';ctx.fillRect(25,y,W-50,2);ctx.fillStyle='#555f5d';ctx.fillRect(25,y+72,W-50,2);}for(let i=0;i<18;i++){ctx.fillStyle=i%2?'#9b9b89':'#59655e';ctx.beginPath();ctx.arc((i*91+38)%W,(i*139+60)%H,3+i%4,0,7);ctx.fill();}
