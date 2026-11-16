@@ -384,8 +384,13 @@ const bgmVocalTracks={
  hands:{label:'天亮之前，別放開手',url:'./%E9%9F%B3%E6%A8%82/%E5%A4%A9%E4%BA%AE%E4%B9%8B%E5%89%8D%EF%BC%8C%E5%88%A5%E6%94%BE%E9%96%8B%E6%89%8B.mp3'}
 };
 const bgmTrackOrder=['japanese','breach','lastclass','lastletter','dawn','hands'];
-let bgmSelectedTrack='japanese';
-localStorage.setItem('projectZBgmSelectedTrack',bgmSelectedTrack);
+const bgmSavedTrack=localStorage.getItem('projectZBgmSelectedTrack');
+const bgmDefaultMigrated=localStorage.getItem('projectZBgmHandsDefaultMigrated')==='1';
+let bgmSelectedTrack=bgmVocalTracks[bgmSavedTrack]?(bgmDefaultMigrated?bgmSavedTrack:(bgmSavedTrack==='japanese'?'hands':bgmSavedTrack)):'hands';
+if(!bgmDefaultMigrated){
+ localStorage.setItem('projectZBgmHandsDefaultMigrated','1');
+ localStorage.setItem('projectZBgmSelectedTrack',bgmSelectedTrack);
+}
 let bgmVolume=Number(localStorage.getItem('projectZBgmVolume')||42);
 if(!Number.isFinite(bgmVolume))bgmVolume=42;
 bgmVolume=Math.max(0,Math.min(100,bgmVolume));
@@ -577,13 +582,12 @@ bgmVocalTrack.addEventListener('error',()=>{
 });
 bgmUpdatePlayer();
 function bgmAutoStartOnEntry(){
- bgmSelectedTrack='japanese';
  bgmVocalTrack.pause();
- bgmVocalTrack.src=bgmVocalTracks.japanese.url;
+ bgmVocalTrack.src=bgmVocalTracks[bgmSelectedTrack].url;
  bgmVocalTrack.load();
  bgmVocalTrack.loop=bgmRepeatMode==='one';
  try{bgmVocalTrack.currentTime=0;}catch(e){}
- localStorage.setItem('projectZBgmSelectedTrack','japanese');
+ localStorage.setItem('projectZBgmSelectedTrack',bgmSelectedTrack);
  bgmEnabled=true;bgmVocalFailed=false;
  bgmVocalTrack.volume=bgmVolume/100*.72;
  bgmUpdatePlayer();
