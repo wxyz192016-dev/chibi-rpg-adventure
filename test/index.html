@@ -322,6 +322,8 @@ const SAVE_VERSION=2,PROFILE_KEY='zombieSurvivalSave_test',PROFILE_BACKUP='zombi
 let profile=load();
 const roster=[{name:profile.playerName||'主角',role:'玩家主角／單人作戰',hp:120,damage:15,rate:.55,range:520,mag:18,color:'#e9c18e',x:480}];
 let huRapidActive=0,huHuntActive=0,huPierceActive=0,huUltimateActive=0,huFocus=0,huRage=0,huPierceShots=0;
+const barricadeSpriteFiles=['完整防護欄.png','受損防護欄.png','瀕臨崩潰防護欄.png','防護欄倒塌突破.png'];
+const barricadeSprites=barricadeSpriteFiles.map(file=>{const img=new Image();img.src='../防護欄素材/沙包素材/'+encodeURIComponent(file);return img;});
 const protagonistSprite=new Image();protagonistSprite.src='../角色資料夾/00-仰視角.png?v=1167722';
 const linShuyuSprite=new Image();linShuyuSprite.src='../角色資料夾/01-仰視角.png';
 const liuMuqingSprite=new Image();liuMuqingSprite.src='../角色資料夾/02-仰視角.png';
@@ -783,22 +785,20 @@ for(let i=bullets.length-1;i>=0;i--){let b=bullets[i];b.x+=b.vx*dt;b.y+=b.vy*dt;
 for(let i=zombies.length-1;i>=0;i--){let z=zombies[i];z.hit=Math.max(0,z.hit-dt);if(z.type==='boss'){let ratio=z.hp/z.max;if(ratio<=.3&&z.phase<3){z.phase=3;z.spd=24;z.dmg*=1.45;z.attack=.35;log('Z-01進入第三階段：狂暴衝擊！');}else if(ratio<=.7&&z.phase<2){z.phase=2;z.spd=19;z.dmg*=1.25;z.attack=.5;log('Z-01進入第二階段：衝撞模式！');}}if(z.y>=0)registerZombieEncounter(z);if(z.hp<=0){kills++;if(z.lastHitByHu)huRage=Math.min(100,huRage+10);waveRemaining=Math.max(0,waveRemaining-1);for(let n=0;n<7;n++)particles.push({x:z.x,y:z.y,vx:(Math.random()-.5)*120,vy:(Math.random()-.5)*130,life:.35,color:z.color});zombies.splice(i,1);continue;}if(z.frozenUntil>time)continue;const slowFactor=z.slowUntil>time?(z.slowFactor||.75):1;const barrierTargetY=BARRICADE_Y-22;let dx=480-z.x,dy=barrierTargetY-z.y,d=Math.hypot(dx,dy);if(d>z.r+16){z.x+=dx/d*z.spd*slowFactor*dt;z.y+=dy/d*z.spd*slowFactor*dt;}else{z.attack-=dt;if(z.attack<=0){const impact=({normal:2,runner:1,armored:4,special:3,boss:8}[z.type]??2);base=Math.max(0,base-impact);roster[0].hp=base*1.2;baseHitFlash=.24;z.attack=1;z.hit=.08;}}}
 particles.forEach(p=>{p.x+=(p.vx||0)*dt;p.y+=(p.vy||0)*dt;p.life-=dt;});particles=particles.filter(p=>p.life>0);numbers.forEach(n=>{n.y-=30*dt;n.life-=dt;});numbers=numbers.filter(n=>n.life>0);if(base<=0){finish(false);return;}if(zombies.length===0&&waveSpawned>0&&waveRemaining===0){waveSpawned=0;if(wave>=wavePlan().length){finish(true);return;}wave++;waveBreak=3;log('第 '+(wave-1)+' 波清除，準備下一波');}rosterTick-=dt;if(rosterTick<=0){updateRoster();rosterTick=.2;}hud();}
 function drawBarricade(){
- const variants=[['classroom','教學大樓臨時防線'],['classroom','教學大樓臨時防線'],['classroom','教學大樓臨時防線'],['classroom','教學大樓臨時防線'],['classroom','教學大樓臨時防線'],['admin','行政大樓加固防線'],['library','圖書館書架防線'],['gym','活動中心器材防線'],['gym','體育館大型防線'],['cafeteria','學生餐廳桌椅防線'],['clinic','保健室醫療設備防線'],['dorm','學生宿舍家具防線'],['underground','地下設施鋼門防線'],['underground','地下設施鋼門防線'],['courtyard','中央操場大型防線'],['dorm','學生宿舍最後防線']];
- const kind=(variants[mission]||variants[0])[0],damage=base>75?0:base>50?1:base>25?2:3;
- const colors={classroom:['#78644b','#b69a70','#586b78'],admin:['#8c765b','#b6a17b','#536d7d'],library:['#5a4938','#a18b69','#526a78'],gym:['#806d52','#b09b72','#607785'],cafeteria:['#8d795d','#b69a70','#5b7180'],clinic:['#8b806d','#c1b59b','#718c98'],dorm:['#786c5c','#a9997c','#607786'],underground:['#56616a','#7c8990','#8fa0aa'],courtyard:['#8b7657','#b39a70','#4d6576']};
- const c=colors[kind],y=BARRICADE_Y;ctx.save();ctx.fillStyle='#263540';ctx.fillRect(0,y+24,W,8);ctx.fillStyle=c[2];ctx.fillRect(0,y+20,W,5);
- for(let x=18;x<W;x+=118){ctx.fillStyle='#344653';ctx.fillRect(x,y-3,8,39);ctx.fillStyle='#91a2ad';ctx.fillRect(x+2,y-3,3,39);ctx.fillStyle='#26333e';ctx.fillRect(x-4,y+2,16,5);}
- for(let x=8,i=0;x<W;x+=94,i++){if(damage>=2&&(i+mission)%4===1)continue;
-  if(kind==='classroom'){ctx.fillStyle='#655744';ctx.fillRect(x,y+7,76,23);ctx.fillStyle='#b69b72';ctx.fillRect(x+4,y+2,68,12);ctx.fillStyle='#8b7658';ctx.fillRect(x+12,y-4,52,10);}
-  else if(kind==='library'){ctx.fillStyle='#5a4938';ctx.fillRect(x,y-5,72,35);ctx.fillStyle='#a18b69';ctx.fillRect(x+5,y+2,62,9);ctx.fillStyle='#6e604d';ctx.fillRect(x+5,y+13,62,12);}
-  else if(kind==='underground'){ctx.fillStyle='#59656d';ctx.fillRect(x,y-5,76,36);ctx.fillStyle='#9aa7ad';ctx.fillRect(x+5,y,66,4);ctx.fillStyle='#394750';ctx.fillRect(x+5,y+9,66,18);}
-  else{ctx.fillStyle=c[0];ctx.fillRect(x,y+5,76,25);ctx.fillStyle=c[1];ctx.fillRect(x+4,y,68,13);ctx.fillStyle=c[0];ctx.fillRect(x+10,y-5,56,9);}
-  ctx.strokeStyle='#d4c09a88';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x+8,y+11);ctx.lineTo(x+68,y+11);ctx.moveTo(x+12,y+22);ctx.lineTo(x+63,y+22);ctx.stroke();
+ const damage=base>75?0:base>50?1:base>25?2:3;
+ const img=barricadeSprites[damage];
+ const y=BARRICADE_Y;
+ ctx.save();
+ const h=190,w=h*(img&&img.naturalWidth>0?img.naturalWidth/img.naturalHeight:4.4);
+ if(img&&img.complete&&img.naturalWidth>0){
+   ctx.drawImage(img,(W-w)/2,y-h+45,w,h);
+ }else{
+   const fallbackY=y;ctx.fillStyle='#263540';ctx.fillRect(0,fallbackY+24,W,8);ctx.fillStyle='#586b78';ctx.fillRect(0,fallbackY+20,W,5);
+   for(let x=18;x<W;x+=118){ctx.fillStyle='#344653';ctx.fillRect(x,fallbackY-3,8,39);ctx.fillStyle='#91a2ad';ctx.fillRect(x+2,fallbackY-3,3,39);}
+   for(let x=8;x<W;x+=94){ctx.fillStyle='#655744';ctx.fillRect(x,fallbackY+7,76,23);ctx.fillStyle='#b69b72';ctx.fillRect(x+4,fallbackY+2,68,12);}
+   ctx.fillStyle='#d2c09c';ctx.fillRect(0,fallbackY+36,W,4);
  }
- if(damage>=1){ctx.strokeStyle='#3a2d27';ctx.lineWidth=3;for(let x=90;x<W;x+=210){ctx.beginPath();ctx.moveTo(x,y+2);ctx.lineTo(x+9,y+13);ctx.lineTo(x+3,y+24);ctx.stroke();}}
- if(damage>=2){ctx.strokeStyle='#1a2229';ctx.lineWidth=5;for(let x=160;x<W;x+=260){ctx.beginPath();ctx.moveTo(x,y-4);ctx.lineTo(x+12,y+31);ctx.stroke();}}
- if(damage>=3){ctx.fillStyle='#111a22';ctx.fillRect(430,y+2,94,31);ctx.strokeStyle='#6e7473';ctx.lineWidth=3;ctx.strokeRect(430,y+2,94,31);}
- ctx.fillStyle='#d2c09c';ctx.fillRect(0,y+36,W,4);ctx.restore();
+ ctx.restore();
 }
 function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#74766c';ctx.fillRect(0,0,W,H);ctx.fillStyle='#626962';ctx.fillRect(0,0,24,H);ctx.fillRect(W-24,0,24,H);for(let y=0;y<H;y+=150){ctx.fillStyle='#88877a';ctx.fillRect(25,y,W-50,2);ctx.fillStyle='#555f5d';ctx.fillRect(25,y+72,W-50,2);}for(let i=0;i<18;i++){ctx.fillStyle=i%2?'#9b9b89':'#59655e';ctx.beginPath();ctx.arc((i*91+38)%W,(i*139+60)%H,3+i%4,0,7);ctx.fill();}
 
