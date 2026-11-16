@@ -277,6 +277,26 @@
  .unifiedSkillUpgrade{gap:6px}
 }
 
+
+/* SKILL STATUS COLUMN LAYOUT — TEST BUILD */
+.unifiedSkillPanel{gap:9px}
+.unifiedSkillSummary{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.unifiedSkillProgress{margin:1px 0 2px}
+.unifiedSkillTiers{gap:7px}
+.unifiedSkillTier{display:grid;grid-template-columns:minmax(0,1fr) 116px;align-items:center;column-gap:14px;padding:9px 12px}
+.unifiedSkillTierMain{min-width:0}
+.unifiedSkillTierHead{display:block;min-width:0}
+.unifiedSkillTierHead b{display:block;overflow-wrap:anywhere}
+.unifiedSkillTier p{margin:4px 0 0;line-height:1.45}
+.unifiedSkillStatus{display:flex;align-items:center;justify-content:center;justify-self:stretch;min-height:30px;padding:5px 8px;border:1px solid rgba(150,165,180,.28);border-radius:999px;background:rgba(120,135,150,.10);color:#aebbc8;font-size:11px;font-weight:600;white-space:nowrap;text-align:center}
+.unifiedSkillTier.unlocked .unifiedSkillStatus{border-color:rgba(94,190,145,.38);background:rgba(54,130,92,.14);color:#8bd5aa}
+.unifiedSkillTier.current .unifiedSkillStatus{border-color:rgba(231,189,112,.42);background:rgba(231,189,112,.12);color:#f1c66f}
+@media(max-width:600px){
+ .unifiedSkillTier{grid-template-columns:minmax(0,1fr) 102px;column-gap:8px;padding:8px 9px}
+ .unifiedSkillStatus{font-size:10px;padding:4px 6px}
+ .unifiedSkillTier p{font-size:12px}
+}
+
 </style><script>
 /* TEST-ONLY localStorage namespace; keeps test progress separate from formal saves. */
 (()=>{const nativeStorage=window.localStorage,prefix='projectZTest:';const store={
@@ -751,10 +771,10 @@ function renderUnifiedCharacterSkillPanel(i){
  ];
  const c=configs[i];if(!c)return '<section class="archiveSkillPanel"><p>目前沒有可顯示的專屬技能。</p></section>';
  const level=Math.max(0,Math.min(5,Number(c.level)||0));
- const tierHtml=c.tiers.map((t,n)=>'<article class="unifiedSkillTier '+(level>=n+1?'unlocked':'locked')+(level===n+1?' current':'')+'"><div class="unifiedSkillTierHead"><b><span class="unifiedSkillLevel">Lv.'+(n+1)+'</span>｜'+t[0]+'</b><span>'+(level>=n+1?'已解鎖':'尚未解鎖')+'</span></div><p>'+t[1].replace(/\.$/,'。')+'</p></article>').join('');
+ const tierHtml=c.tiers.map((t,n)=>'<article class="unifiedSkillTier '+(level>=n+1?'unlocked':'locked')+(level===n+1?' current':'')+'"><div class="unifiedSkillTierMain"><div class="unifiedSkillTierHead"><b><span class="unifiedSkillLevel">Lv.'+(n+1)+'</span>｜'+t[0]+'</b></div><p>'+t[1].replace(/\.$/,'。')+'</p></div><span class="unifiedSkillStatus">'+(level>=n+1?'✓ 已套用':'尚未解鎖')+'</span></article>').join('');
  const requiredLevel=requiredCharacterLevelForSkill(level+1);
  let action=level>=5?'<p class="unifiedSkillNotice">已達最高技能階級 Lv.5。</p>':!c.owned?'<p class="unifiedSkillNotice">角色尚未取得；取得後即可培養專屬技能。</p>':c.roleLevel<requiredLevel?'<p class="unifiedSkillNotice">目前角色 Lv.'+c.roleLevel+'；技能升至 Lv.'+(level+1)+' 需要角色達到 Lv.'+requiredLevel+'。</p>':'<div class="unifiedSkillUpgrade"><span>下一階：Lv.'+(level+1)+' '+c.tiers[level][0]+'<small>角色需求 Lv.'+requiredLevel+'　·　升級費用 '+c.costs[level].toLocaleString('en-US')+' G</small></span><button class="btn primary" type="button" id="buyUnifiedSkillUpgrade" '+(profile.coins<c.costs[level]?'disabled':'')+'>升級技能</button></div>';
- return '<section class="archiveSkillPanel unifiedSkillPanel"><header class="unifiedSkillSummary"><div><h4>'+c.name+'</h4><p>角色 Lv.'+c.roleLevel+'　·　技能 Lv.'+level+'/5</p></div><strong class="unifiedSkillBadge">'+(level===5?'MAX':'階級 '+level+'/5')+'</strong></header><div class="unifiedSkillProgress" role="progressbar" aria-valuemin="0" aria-valuemax="5" aria-valuenow="'+level+'"><span style="width:'+(level*20)+'%"></span></div><h5>技能階級與實際效果</h5><div class="unifiedSkillTiers">'+tierHtml+'</div>'+action+'</section>';
+ return '<section class="archiveSkillPanel unifiedSkillPanel"><header class="unifiedSkillSummary"><div><h4>'+c.name+'</h4><p>角色 Lv.'+c.roleLevel+'　·　技能 Lv.'+level+'/5</p></div><strong class="unifiedSkillBadge">'+(level===5?'MAX':'階級 '+level+'/5')+'</strong></header><div class="unifiedSkillProgress" role="progressbar" aria-valuemin="0" aria-valuemax="5" aria-valuenow="'+level+'"><span style="width:'+(level*20)+'%"></span></div><div class="unifiedSkillTiers">'+tierHtml+'</div>'+action+'</section>';
 }
 let archiveProfileActiveIndex=null;
 function archiveSkillPanelFor(i){return renderUnifiedCharacterSkillPanel(i);}
