@@ -267,36 +267,36 @@
 }
 
 
-/* Combat HUD integration test: battlefield-first layout; combat logic and IDs retained. */
-.battleGrid{display:flex!important;flex-direction:column;gap:10px}
-.battleArena{position:relative;width:100%;aspect-ratio:16/9;min-height:420px;height:auto;overflow:hidden}
+/* Combat HUD integration test: fixed left control column; right-side unobstructed battlefield. */
+.battleGrid{display:grid!important;grid-template-columns:minmax(230px,28%) minmax(0,1fr);gap:12px;align-items:stretch}
+.battleArena{grid-column:2;grid-row:1;position:relative;width:100%;aspect-ratio:16/9;min-height:420px;height:auto;overflow:hidden}
 .battleArena>canvas{width:100%;height:100%;display:block}
 .battleArena>.overlay{z-index:20}
-.battleHud{position:relative;display:grid!important;grid-template-columns:minmax(220px,.78fr) minmax(0,1.5fr);gap:10px;align-items:stretch;margin:0}
-.battleHud .panel{position:relative;inset:auto;width:auto;max-width:none;min-width:0;margin:0;background:rgba(20,32,45,.96);border:1px solid #61758a;border-radius:13px;padding:10px 12px;box-shadow:0 5px 16px #0003}
-.battleHud .battleRoster{grid-column:1;grid-row:1}
-.battleHud .battleRoster h3,.battleHud .battleSkillsPanel h3{margin:0 0 7px;font-size:13px}
-.battleHud .battleRoster .unit{margin:6px 0;gap:7px}
-.battleHud .battleRoster .portrait{width:34px;height:36px}
-.battleHud .battleRoster .unitInfo{font-size:11px}
-.battleHud .battleSkillsPanel{grid-column:2;grid-row:1}
-.battleHud .skills{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
-.battleHud .skill{min-height:54px;padding:8px 5px;font-size:12px;white-space:normal}
+.battleHud{grid-column:1;grid-row:1;display:flex!important;flex-direction:column;gap:10px;min-width:0;margin:0;align-self:stretch}
+.battleHud .panel{position:relative;inset:auto;width:100%;max-width:none;min-width:0;margin:0;background:rgba(20,32,45,.97);border:1px solid #61758a;border-radius:13px;padding:11px 12px;box-shadow:0 5px 16px #0003}
+.battleHud .battleRoster{order:1;flex:0 0 auto}
+.battleHud .battleRoster h3,.battleHud .battleSkillsPanel h3{margin:0 0 9px;font-size:13px}
+.battleHud #members{display:flex;flex-direction:column;gap:7px;max-height:calc(4 * 58px + 3 * 7px);overflow-y:auto;overscroll-behavior:contain}
+.battleHud .battleRoster .unit{display:flex;align-items:center;gap:8px;margin:0;min-height:58px;padding:6px 7px;border:1px solid rgba(130,153,174,.24);border-radius:9px;background:rgba(255,255,255,.035)}
+.battleHud .battleRoster .portrait{width:36px;height:38px;flex:0 0 36px}
+.battleHud .battleRoster .unitInfo{min-width:0;font-size:11px}
+.battleHud .battleRoster .unitInfo b,.battleHud .battleRoster .unitInfo small{display:block;overflow-wrap:anywhere}
+.battleHud .battleSkillsPanel{order:2;flex:0 0 auto}
+.battleHud .skills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.battleHud .skill{min-height:58px;padding:9px 6px;font-size:12px;white-space:normal}
 .battleHud .skill small{font-size:10px}
 .battleHud #log{display:none!important}
 @media(max-width:760px){
- .battleArena{aspect-ratio:4/3;min-height:360px}
- .battleHud{grid-template-columns:1fr;gap:8px}
- .battleHud .battleRoster,.battleHud .battleSkillsPanel{grid-column:1;grid-row:auto}
- .battleHud .battleRoster .unit{display:inline-flex;width:calc(50% - 5px);vertical-align:top}
- .battleHud .skills{grid-template-columns:repeat(4,minmax(0,1fr))}
- .battleHud .skill{font-size:11px;padding:8px 3px}
- .battleHud .skill small{font-size:9px}
+ .battleGrid{display:flex!important;flex-direction:column;gap:9px}
+ .battleArena{order:1;aspect-ratio:4/3;min-height:340px}
+ .battleHud{order:2;display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start;gap:8px}
+ .battleHud .battleRoster,.battleHud .battleSkillsPanel{grid-column:auto;grid-row:auto}
+ .battleHud #members{max-height:none}
+ .battleHud .skills{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:430px){
- .battleArena{min-height:300px}
- .battleHud .skills{grid-template-columns:repeat(2,minmax(0,1fr))}
- .battleHud .battleRoster .unit{width:100%}
+ .battleArena{min-height:290px}
+ .battleHud{grid-template-columns:1fr}
 }
 </style></head><body><main class="app">
 <header class="top"><a class="logo" href="#" data-screen="home" aria-label="返回遊戲主介面">PROJECT Z <small>末日倖存者：Z計畫</small></a><button class="railToggle btn" id="railToggle" type="button" aria-label="收合導覽">☰ 收合選單</button><nav class="nav" aria-label="遊戲主選單"><div class="navGroup"><div class="navGroupTitle">01｜冒險與據點</div><button class="btn" data-screen="home">冒險首頁</button><button class="btn" data-screen="story">主線任務</button><button class="btn" data-screen="campusMap">校園地圖</button><button class="btn" data-screen="baseManagement">據點發展</button></div><div class="navGroup"><div class="navGroupTitle">02｜物資與裝備</div><button class="btn" data-screen="warehouse">物資倉庫</button></div><div class="navGroup"><div class="navGroupTitle">03｜人物管理</div><button class="btn" data-screen="team">隊伍編成</button><button class="btn" data-screen="archive">人物圖鑑</button><button class="btn" data-screen="recruitment">角色招募</button><button class="btn" data-screen="shop">商店</button></div><div class="navGroup"><div class="navGroupTitle">04｜感染體情報</div><button class="btn" data-screen="zombieArchive">喪屍圖鑑</button></div><div class="navGroup"><div class="navGroupTitle">05｜系統設定</div><button class="btn" id="goSettings" type="button">設定與存檔</button></div></nav></header><div class="globalStatus"><span class="statusBrand">PROJECT Z <small>COMMAND INTERFACE</small></span><span class="globalPlayer">玩家：<b id="globalPlayerName">尚未設定</b></span><span class="globalGold" role="status" aria-live="polite" aria-label="目前遊戲金幣餘額"><span class="goldIcon" aria-hidden="true">◈</span><span id="globalGoldBalance">0</span><small>G</small></span><span class="globalContext" id="globalContext">主基地總覽</span></div>
