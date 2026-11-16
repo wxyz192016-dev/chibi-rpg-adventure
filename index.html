@@ -414,7 +414,23 @@ function bgmUpdatePlayer(){
   repeat.setAttribute('aria-pressed',String(bgmRepeatMode!=='off'));
   repeat.setAttribute('aria-label','循環模式：'+labels[bgmRepeatMode]);
   repeat.title='循環模式：'+labels[bgmRepeatMode];
-  repeat.textContent=bgmRepeatMode==='one'?'🔂':bgmRepeatMode==='off'?'↻':'🔁';
+  repeat.style.display='flex';
+  repeat.style.alignItems='center';
+  repeat.style.justifyContent='center';
+  repeat.style.gap='1px';
+  repeat.style.lineHeight='1';
+  if(bgmRepeatMode==='one'){
+   repeat.innerHTML='<span aria-hidden="true" style="font-size:32px;line-height:1">⟳</span><span aria-hidden="true" style="font-size:18px;font-weight:800;line-height:1">1</span>';
+   repeat.style.color='var(--gold)';
+  }else if(bgmRepeatMode==='off'){
+   repeat.textContent='⟳̸';
+   repeat.style.fontSize='26px';
+   repeat.style.color='#aab7c5';
+  }else{
+   repeat.textContent='🔁';
+   repeat.style.fontSize='25px';
+   repeat.style.color='var(--gold)';
+  }
  }
  bgmSetButton(bgmEnabled?'Ⅱ 暫停':'▶ 播放');
  const toggle=$('bgmToggle');if(toggle)toggle.setAttribute('aria-label',bgmEnabled?'暫停音樂':'播放音樂');
@@ -592,6 +608,8 @@ function bgmAutoStartOnEntry(){
   }
  });
 }
+bgmAutoStartOnEntry();
+
 function show(id){screens.forEach(screenId=>{const screen=$(screenId);if(screen)screen.classList.toggle('active',screenId===id);});if(!screens.includes(id)||!$(id)){console.warn('找不到指定頁面：'+id);return;}document.querySelectorAll('[data-screen]').forEach(b=>b.classList.toggle('active',b.dataset.screen===id));if(id==='home')setBgmMode('home');else if(id==='story'||id==='campusMap')setBgmMode('explore');else if(id==='battle'&&bgmMode!=='boss')setBgmMode('battle');if(id==='team')renderTeam();if(id==='recruitment')renderRecruitment();if(id==='shop')renderShop();if(id==='home'||id==='warehouse')renderHome();if(id==='home')updateMainMenu();if(id==='archive'){profile=cleanProfile(profile);save();renderArchive();renderArchiveTargetNote();}if(id==='zombieArchive'){renderZombieArchive();}if(id==='story')renderStory();if(id==='campusMap')renderCampusMap();}
 function renderHome(){renderGlobalGold();if($('homeLevel'))$('homeLevel').textContent='LV.'+profile.level;if($('homeKills'))$('homeKills').textContent=profile.totalKills;if($('homeCoins'))$('homeCoins').textContent=profile.coins;if($('warehouseCoins'))$('warehouseCoins').textContent=profile.coins;if($('recruitGold'))$('recruitGold').textContent=profile.coins;if($('recruitTickets'))$('recruitTickets').textContent=profile.recruitTickets;if($('warehouseWeaponLv'))$('warehouseWeaponLv').textContent=profile.weaponLv;if($('playerNameInput'))$('playerNameInput').value=profile.playerName||'';if($('playerNameStatus'))$('playerNameStatus').textContent=profile.playerName?'目前主角姓名：'+profile.playerName+'（已儲存）':'尚未設定姓名。開始遊戲前可先輸入主角姓名。';}
 function savePlayerName(){let value=$('playerNameInput').value.trim();if(!value){$('playerNameStatus').textContent='請先輸入主角姓名。';$('playerNameInput').focus();return;}profile.playerName=value.slice(0,20);if(save()){$('playerNameStatus').textContent='主角姓名已儲存：'+profile.playerName;}else{$('playerNameStatus').textContent='儲存失敗，請檢查瀏覽器本機儲存空間。';}}
