@@ -267,42 +267,45 @@
 }
 
 
-/* Combat HUD test v2: battlefield-first layout, compact collapsible roster, skills below arena. */
-.battleGrid{display:grid!important;grid-template-columns:minmax(0,1fr);gap:10px;align-items:start}
-.battleArena{grid-column:1;grid-row:1;position:relative;width:100%;aspect-ratio:16/9;min-height:0;height:auto;overflow:hidden}
+/* Combat HUD test v3: 120px left roster rail with five visible slots; battlefield stays unobstructed. */
+.battleGrid{display:grid!important;grid-template-columns:120px minmax(0,1fr);grid-template-rows:auto auto;column-gap:10px;row-gap:10px;align-items:start}
+.battleArena{grid-column:2;grid-row:1;position:relative;width:100%;aspect-ratio:16/9;min-height:0;height:auto;overflow:hidden}
 .battleArena>canvas{width:100%;height:100%;display:block}
 .battleArena>.overlay{z-index:20}
-.battleHud{grid-column:1;grid-row:2;display:flex!important;flex-direction:column;gap:9px;min-width:0;margin:0}
-.battleHud .panel{position:relative;inset:auto;width:100%;max-width:none;min-width:0;margin:0;background:rgba(20,32,45,.66);border:1px solid rgba(125,151,174,.48);border-radius:12px;padding:9px 11px;box-shadow:0 4px 14px #0002;backdrop-filter:blur(8px)}
-.battleHud .battleRoster{order:1;flex:0 0 auto}
-.battleHud .battleRoster h3{margin:0;font-size:13px}
-.battleHud .rosterToggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:2px 0;background:transparent;border:0;color:#f4d28c;font:inherit;font-weight:800;text-align:left;cursor:pointer}
-.battleHud .rosterToggle span:last-child{font-size:11px;color:#b9c6d2}
-.battleHud #members{display:flex;flex-direction:column;gap:7px;max-height:390px;overflow-y:auto;overscroll-behavior:contain;margin-top:9px}
+.battleHud{display:contents!important}
+.battleHud .panel{position:relative;inset:auto;min-width:0;margin:0;background:rgba(20,32,45,.68);border:1px solid rgba(125,151,174,.48);border-radius:12px;padding:8px;box-shadow:0 4px 14px #0002;backdrop-filter:blur(8px)}
+.battleHud .battleRoster{grid-column:1;grid-row:1;align-self:stretch;width:120px;box-sizing:border-box}
+.battleHud .battleRoster h3{margin:0;font-size:12px}
+.battleHud .rosterToggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:2px 0;background:transparent;border:0;color:#f4d28c;font:inherit;font-size:12px;font-weight:800;text-align:left;cursor:pointer}
+.battleHud .rosterToggle span:last-child{font-size:10px;color:#b9c6d2}
+.battleHud #members{display:flex;flex-direction:column;gap:6px;max-height:calc(100vh - 190px);overflow-y:auto;overscroll-behavior:contain;margin-top:8px}
 .battleHud #members[hidden]{display:none!important}
-.battleHud .battleRoster .unit{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;margin:0;min-height:0;padding:7px;border:1px solid rgba(130,153,174,.2);border-radius:9px;background:rgba(255,255,255,.035)}
-.battleHud .battleRoster .portrait{display:block;width:88px;height:88px;flex:0 0 88px;overflow:hidden;border:1px solid rgba(230,202,151,.75);border-radius:10px;background:#263747}
-.battleHud .battleRoster .portrait img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 22%}
-.battleHud .battleRoster .unitInfo{flex:none;min-width:0;font-size:12px;text-align:center}
-.battleHud .battleRoster .unitInfo small{display:block;color:#e0d4bc;font-size:11px;white-space:nowrap}
+.battleHud .battleRoster .unit{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;margin:0;min-height:0;padding:5px 2px;border:1px solid rgba(130,153,174,.2);border-radius:8px;background:rgba(255,255,255,.035)}
+.battleHud .battleRoster .portrait{display:block;width:76px;height:76px;flex:0 0 76px;overflow:hidden;border:1px solid rgba(230,202,151,.75);border-radius:9px;background:#263747}
+.battleHud .battleRoster .portrait img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 18%}
+.battleHud .battleRoster .unitInfo{flex:none;min-width:0;font-size:11px;text-align:center}
+.battleHud .battleRoster .unitInfo small{display:block;color:#e0d4bc;font-size:10px;white-space:nowrap}
 .battleHud .battleRoster .unitInfo b{display:none}
-.battleHud .battleSkillsPanel{order:2;flex:0 0 auto}
-.battleHud .battleSkillsPanel h3{margin:0 0 9px;font-size:13px}
+.battleHud .battleSkillsPanel{grid-column:2;grid-row:2;width:100%;box-sizing:border-box}
+.battleHud .battleSkillsPanel h3{margin:0 0 8px;font-size:13px}
 .battleHud .skills{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
 .battleHud .skill{min-height:58px;padding:9px 6px;font-size:12px;white-space:normal}
 .battleHud .skill small{font-size:10px}
 .battleHud #log{display:none!important}
 @media(max-width:760px){
- .battleArena{aspect-ratio:4/3;min-height:0}
- .battleHud{display:flex!important;flex-direction:column;gap:8px}
- .battleHud #members{max-height:320px}
+ .battleGrid{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto;row-gap:8px}
+ .battleArena{grid-column:1;grid-row:1;aspect-ratio:4/3;min-height:0}
+ .battleHud .battleRoster{grid-column:1;grid-row:2;width:100%}
+ .battleHud #members{max-height:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+ .battleHud .battleRoster .portrait{width:min(100%,76px);height:auto;aspect-ratio:1;flex-basis:auto}
+ .battleHud .battleSkillsPanel{grid-column:1;grid-row:3}
  .battleHud .skills{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:430px){
  .battleArena{aspect-ratio:4/3}
- .battleHud .battleRoster .portrait{width:76px;height:76px;flex-basis:76px}
-}
-</style></head><body><main class="app">
+ .battleHud #members{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .battleHud .battleRoster .portrait{width:68px}
+}</style></head><body><main class="app">
 <header class="top"><a class="logo" href="#" data-screen="home" aria-label="返回遊戲主介面">PROJECT Z <small>末日倖存者：Z計畫</small></a><button class="railToggle btn" id="railToggle" type="button" aria-label="收合導覽">☰ 收合選單</button><nav class="nav" aria-label="遊戲主選單"><div class="navGroup"><div class="navGroupTitle">01｜冒險與據點</div><button class="btn" data-screen="home">冒險首頁</button><button class="btn" data-screen="story">主線任務</button><button class="btn" data-screen="campusMap">校園地圖</button><button class="btn" data-screen="baseManagement">據點發展</button></div><div class="navGroup"><div class="navGroupTitle">02｜物資與裝備</div><button class="btn" data-screen="warehouse">物資倉庫</button></div><div class="navGroup"><div class="navGroupTitle">03｜人物管理</div><button class="btn" data-screen="team">隊伍編成</button><button class="btn" data-screen="archive">人物圖鑑</button><button class="btn" data-screen="recruitment">角色招募</button><button class="btn" data-screen="shop">商店</button></div><div class="navGroup"><div class="navGroupTitle">04｜感染體情報</div><button class="btn" data-screen="zombieArchive">喪屍圖鑑</button></div><div class="navGroup"><div class="navGroupTitle">05｜系統設定</div><button class="btn" id="goSettings" type="button">設定與存檔</button></div></nav></header><div class="globalStatus"><span class="statusBrand">PROJECT Z <small>COMMAND INTERFACE</small></span><span class="globalPlayer">玩家：<b id="globalPlayerName">尚未設定</b></span><span class="globalGold" role="status" aria-live="polite" aria-label="目前遊戲金幣餘額"><span class="goldIcon" aria-hidden="true">◈</span><span id="globalGoldBalance">0</span><small>G</small></span><span class="globalContext" id="globalContext">主基地總覽</span></div>
 <section id="home" class="screen active">
 <div class="homeCoverFrame" aria-label="末日校園電影封面">
