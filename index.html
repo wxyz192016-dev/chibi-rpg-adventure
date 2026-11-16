@@ -412,7 +412,10 @@ function bgmUpdatePlayer(){
  if(shuffle){shuffle.setAttribute('aria-pressed',String(bgmShuffle));shuffle.title=bgmShuffle?'隨機播放：開啟':'隨機播放：關閉';}
  if(repeat){
   const labels={all:'播放清單循環',one:'單曲循環',off:'不循環'};
-  repeat.setAttr  repeat.style.display='inline-flex';
+  repeat.setAttribute('aria-pressed',String(bgmRepeatMode!=='off'));
+  repeat.setAttribute('aria-label','循環模式：'+labels[bgmRepeatMode]);
+  repeat.title='循環模式：'+labels[bgmRepeatMode];
+  repeat.style.display='inline-flex';
   repeat.style.alignItems='center';
   repeat.style.justifyContent='center';
   repeat.style.gap='0';
@@ -426,12 +429,6 @@ function bgmUpdatePlayer(){
    repeat.style.color='#aab7c5';
   }else{
    repeat.innerHTML='<span aria-hidden="true" style="display:inline-block;font-size:24px;line-height:1">🔁</span>';
-   repeat.style.color='var(--gold)';
-  }style.fontSize='26px';
-   repeat.style.color='#aab7c5';
-  }else{
-   repeat.textContent='🔁';
-   repeat.style.fontSize='25px';
    repeat.style.color='var(--gold)';
   }
  }
