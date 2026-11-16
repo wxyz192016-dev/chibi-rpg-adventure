@@ -961,11 +961,11 @@ profile.coins=999999;
 profile.unlocked=0;
 mission=0;
 function installEngineTestPanel(){
- const host=document.querySelector('#battle .battleGrid');
+ const host=document.querySelector('#battle .side');
  if(!host)return;
  const panel=document.createElement('section');
  panel.className='panel';
- panel.style.cssText='grid-column:1/-1;margin-top:12px;border:1px solid #b98c4c;background:linear-gradient(145deg,#28394a,#172431)';
+ panel.style.cssText='margin:0 0 10px;border:1px solid #b98c4c;background:linear-gradient(145deg,#28394a,#172431);padding:10px;max-width:100%;box-sizing:border-box';
  panel.innerHTML='<h3>正式戰鬥引擎｜單人技能測試控制台</h3><p class="notice">每次選擇一位角色作為目前測試射手；技能與命中仍使用正式戰鬥引擎。此測試頁的存檔寫入已停用，不會覆蓋正式遊戲進度。</p><div style="display:flex;gap:9px;flex-wrap:wrap;align-items:end"><label>單次測試角色<select id="ztShooter" class="btn"><option value="main">主角｜穿透彈</option><option value="lin-shuyu">林舒舒</option><option value="liu-muqing">劉牧晴</option><option value="hu-lingxiao">胡凌霄</option><option value="tu-yuerou">涂月柔</option><option value="dragon-yinqiu">龍吟秋</option></select></label><label>測試彈匣數量<input id="ztAmmo" class="btn" type="number" min="0" max="999" value="30" style="width:90px"></label><button class="btn" id="ztReload">補滿目前角色彈藥</button><label>喪屍種類<select id="ztType" class="btn"><option value="normal">普通喪屍</option><option value="runner">快速喪屍</option><option value="armored">裝甲喪屍</option><option value="special">特殊感染者</option><option value="boss">Z-01 暴君型</option></select></label><label>數量<select id="ztCount" class="btn"><option value="1">1 隻</option><option value="2">2 隻</option><option value="3">3 隻</option><option value="4">4 隻</option><option value="5" selected>5 隻</option><option value="6">6 隻</option></select></label><button class="btn primary" id="ztSpawn">生成直線喪屍</button><button class="btn" id="ztReset">重置測試場</button><button class="btn primary" id="ztShoot">發射正式引擎子彈</button></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn" id="ztLinMark">林舒舒｜弱點標記</button><button class="btn" id="ztLinPrecision">林舒舒｜精準點射</button><button class="btn" id="ztLinUlt">林舒舒｜全域狙察</button><button class="btn" id="ztLiu">劉牧晴｜極寒冰凍彈</button><button class="btn" id="ztHuPierce">胡凌霄｜虎牙穿透</button><button class="btn" id="ztHuRapid">胡凌霄｜疾風連射</button><button class="btn" id="ztHuHunt">胡凌霄｜獵影追擊</button><button class="btn" id="ztHuUlt">胡凌霄｜虎嘯彈幕</button><button class="btn" id="ztTuMark">涂月柔｜月影標記</button><button class="btn" id="ztTuRapid">涂月柔｜兔躍速射</button><button class="btn" id="ztTuPierce">涂月柔｜破甲兔彈</button><button class="btn" id="ztTuHunt">涂月柔｜月影追獵</button><button class="btn" id="ztDragon">龍吟秋｜龍吟衝擊彈</button><button class="btn" id="ztUltimate">主角｜極限貫穿射擊</button></div><div class="stats" style="margin-top:12px"><div class="stat">存活喪屍：<b id="ztAlive">0</b></div><div class="stat">場上子彈：<b id="ztBullets">0</b></div><div class="stat">本次命中紀錄：<b id="ztHits">等待測試</b></div><div class="stat">目前射手：<b id="ztCurrent">主角</b></div></div><p class="notice" id="ztNote">先生成直線喪屍，再選擇射手並發射。所有子彈都由正式 update() 進行碰撞與命中計算。</p>';
  host.appendChild(panel);
  const $t=id=>document.getElementById(id);
@@ -978,11 +978,11 @@ function installEngineTestPanel(){
   const n=Number($t('ztCount').value)||5,type=$t('ztType').value;
   for(let i=0;i<n;i++){
    spawnZ(type);const z=zombies[zombies.length-1];
-   z.x=90+(i+1)*(780/(n+1));z.y=440;z.hp=type==='boss'?5000:type==='armored'?900:type==='special'?700:500;z.max=z.hp;z.spd=0;z.frozenUntil=0;z.slowUntil=0;z.attack=1e9;z.hit=0;
+   z.x=480;z.y=440-(i+1)*Math.min(82,300/(n+1));z.hp=type==='boss'?5000:type==='armored'?900:type==='special'?700:500;z.max=z.hp;z.spd=0;z.frozenUntil=0;z.slowUntil=0;z.attack=1e9;z.hit=0;
   }
   target=zombies[zombies.length-1]||null;running=true;paused=false;ended=false;
   $('battleOverlay').hidden=true;
-  log('測試場重置：'+n+' 隻'+$t('ztType').selectedOptions[0].text+'已固定排列；喪屍不移動，等待正式引擎射擊。');
+  log('測試場重置：'+n+' 隻'+$t('ztType').selectedOptions[0].text+'已沿主角射擊方向垂直排成直線；喪屍不移動，等待正式引擎射擊。');
   refresh();
  }
  function refresh(){
