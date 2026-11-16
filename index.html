@@ -163,6 +163,7 @@
 #bgmDock .bgmTransport{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:nowrap}
 #bgmDock .bgmTransport button{appearance:none;display:inline-flex;align-items:center;justify-content:center;flex:0 1 auto;min-width:42px;width:auto;height:42px;min-height:42px;margin:0;padding:0 11px;border:1px solid #74869a;border-radius:10px;background:#26384a;color:#fff;font-family:inherit;font-size:15px;font-weight:700;line-height:1.2;white-space:nowrap;cursor:pointer}
 #bgmDock .bgmTransport #bgmToggle{min-width:104px;padding:0 15px;background:#354b5e;font-weight:800}
+#bgmDock .bgmTransport #bgmRepeat{flex:0 0 42px;width:42px;min-width:42px;max-width:42px;height:42px;min-height:42px;padding:0;box-sizing:border-box;overflow:hidden}
 #bgmDock .bgmTransport button[aria-pressed=true]{border-color:var(--gold);color:var(--gold)}
 #bgmDock .bgmTransport button:focus-visible,#bgmDock .bgmOptions select:focus-visible,#bgmDock .bgmTimeline input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 #bgmDock .bgmTimeline{display:grid;grid-template-columns:42px minmax(0,1fr) 42px;align-items:center;gap:10px;width:100%;min-width:0;color:#b9c6d2;font-size:11px;font-variant-numeric:tabular-nums}
@@ -411,20 +412,22 @@ function bgmUpdatePlayer(){
  if(shuffle){shuffle.setAttribute('aria-pressed',String(bgmShuffle));shuffle.title=bgmShuffle?'隨機播放：開啟':'隨機播放：關閉';}
  if(repeat){
   const labels={all:'播放清單循環',one:'單曲循環',off:'不循環'};
-  repeat.setAttribute('aria-pressed',String(bgmRepeatMode!=='off'));
-  repeat.setAttribute('aria-label','循環模式：'+labels[bgmRepeatMode]);
-  repeat.title='循環模式：'+labels[bgmRepeatMode];
-  repeat.style.display='flex';
+  repeat.setAttr  repeat.style.display='inline-flex';
   repeat.style.alignItems='center';
   repeat.style.justifyContent='center';
-  repeat.style.gap='1px';
+  repeat.style.gap='0';
+  repeat.style.padding='0';
   repeat.style.lineHeight='1';
   if(bgmRepeatMode==='one'){
-   repeat.innerHTML='<span aria-hidden="true" style="font-size:32px;line-height:1">⟳</span><span aria-hidden="true" style="font-size:18px;font-weight:800;line-height:1">1</span>';
+   repeat.innerHTML='<span aria-hidden="true" style="display:inline-block;font-size:24px;line-height:1">⟳</span><span aria-hidden="true" style="display:inline-block;font-size:13px;font-weight:800;line-height:1">1</span>';
    repeat.style.color='var(--gold)';
   }else if(bgmRepeatMode==='off'){
-   repeat.textContent='⟳̸';
-   repeat.style.fontSize='26px';
+   repeat.innerHTML='<span aria-hidden="true" style="display:inline-block;font-size:24px;line-height:1;opacity:.65">⟳̸</span>';
+   repeat.style.color='#aab7c5';
+  }else{
+   repeat.innerHTML='<span aria-hidden="true" style="display:inline-block;font-size:24px;line-height:1">🔁</span>';
+   repeat.style.color='var(--gold)';
+  }style.fontSize='26px';
    repeat.style.color='#aab7c5';
   }else{
    repeat.textContent='🔁';
