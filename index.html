@@ -569,7 +569,7 @@ function bgmAutoStartOnEntry(){
   bgmUpdatePlayer();
   if(err&&err.name==='NotAllowedError'){
    bgmSetButton('▶ 點擊開始音樂');
-   const resume=()=>{document.removeEventListener('pointerdown',resume);document.removeEventListener('keydown',resume);setBgmEnabled(true);};
+   const resume=event=>{if(event&&event.target&&event.target.closest&&event.target.closest('#bgmDock'))return;document.removeEventListener('pointerdown',resume);document.removeEventListener('keydown',resume);setBgmEnabled(true);};
    document.addEventListener('pointerdown',resume,{once:true});
    document.addEventListener('keydown',resume,{once:true});
   }else{
