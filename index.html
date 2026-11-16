@@ -281,8 +281,9 @@
 .battleHud #members[hidden]{display:none!important}
 .battleHud .battleRoster .unit{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;margin:0;min-height:0;padding:5px 2px;border:1px solid rgba(130,153,174,.2);border-radius:8px;background:rgba(255,255,255,.035)}
 .battleHud .battleRoster .portrait{display:block;width:76px;height:76px;flex:0 0 76px;overflow:hidden;border:1px solid rgba(230,202,151,.75);border-radius:9px;background:#263747}
-.battleHud .battleRoster .portrait img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 0%;transform:scale(3.1);transform-origin:50% 0%}
-.battleHud #members .unit:nth-child(5) .portrait img{transform:scale(3.1) translateY(-12%)}
+.battleHud .battleRoster .portrait{width:76px;height:76px;flex:0 0 76px;overflow:hidden;box-sizing:border-box}
+.battleHud .battleRoster .portrait img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 18%;transform:scale(3.2);transform-origin:50% 18%}
+.battleHud #members .unit .portrait img{object-position:50% 18%;transform:scale(3.2);transform-origin:50% 18%}
 .battleHud .battleRoster .unitInfo{flex:none;min-width:0;font-size:11px;text-align:center}
 .battleHud .battleRoster .unitInfo small{display:block;color:#e0d4bc;font-size:10px;white-space:nowrap}
 .battleHud .battleRoster .unitInfo b{display:none}
