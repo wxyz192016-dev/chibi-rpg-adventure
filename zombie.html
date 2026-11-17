@@ -421,7 +421,7 @@ const specialZombieMaleSprite=new Image();specialZombieMaleSprite.src='./喪屍�
 const normalZombieMaleSprite=new Image();normalZombieMaleSprite.src='./喪屍資料夾/普通喪屍-男學生.png';
 const normalZombieFemaleSprite=new Image();normalZombieFemaleSprite.src='./喪屍資料夾/普通喪屍-女學生.png';
 const zombieSpriteAssets=[normalZombieMaleSprite,normalZombieFemaleSprite,runnerFemaleSprite,armoredGuardSprite,specialZombieMaleSprite,specialZombieFemaleSprite,bossTyrantSprite];
-function preloadZombieSprites(){return Promise.all(zombieSpriteAssets.map(img=>img.complete?(img.naturalWidth>0?Promise.resolve():Promise.reject(new Error('喪屍立繪載入失敗：'+img.src))):new Promise((resolve,reject)=>{img.addEventListener('load',resolve,{once:true});img.addEventListener('error',()=>reject(new Error('喪屍立繪載入失敗：'+img.src)),{once:true});})));}
+function preloadZombieSprites(){const pending=Promise.allSettled(zombieSpriteAssets.map(img=>img.complete?Promise.resolve():new Promise(resolve=>{img.addEventListener('load',resolve,{once:true});img.addEventListener('error',resolve,{once:true});})));const timeout=new Promise(resolve=>setTimeout(resolve,2500));return Promise.race([pending,timeout]).then(()=>true);}
 const mainMissions=[
 {id:'Z01',code:'01',name:'平凡的早晨',location:"明新科技大學・大學部教學大樓1F",areaId:'A',story:"主角第一次到明新科技大學辦理大一新生入學，上午校園仍如平常般忙碌，手機新聞卻開始傳出市區暴力攻擊事件。",objective:"完成新生報到並確認校園異常",desc:"大學部教學大樓1F｜新生報到現場出現混亂，主角被迫面對突發危機。",enemy:0.85,waves:[["normal",2],["normal",2],["normal",3],["normal",3],["normal",5]]},
 {id:'Z02',code:'02',name:'教室異變',location:"明新科技大學・大學部教學大樓2F",areaId:'A',story:"一名受傷者突然撲向身旁的人，混亂迅速蔓延。主角親眼看見倒地的人再次站起，開始攻擊活人。",objective:"從教室脫離並避開喪屍",desc:"大學部教學大樓2F｜教室內爆發喪屍襲擊，主角第一次正面求生。",enemy:0.92,waves:[["normal",3],["normal",3],["normal",3],["runner",2],["normal",3,"runner",2]]},
