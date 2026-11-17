@@ -320,8 +320,9 @@
  .navGroup{display:flex!important;flex:0 0 auto!important;flex-direction:row!important;align-items:center!important;gap:5px!important;padding:0!important;border:0!important}
  .navGroupTitle{display:none!important}
  .nav .btn{display:block!important;flex:0 0 auto!important;width:auto!important;min-height:42px!important;padding:10px!important;font-size:11px!important;text-align:center!important;white-space:nowrap!important;touch-action:manipulation}
- .globalStatus,.screen,.footer{display:block;grid-column:auto;grid-row:auto;width:100%;min-width:0}
- .screen{position:relative;z-index:1}
+ .globalStatus,.footer{display:block;grid-column:auto;grid-row:auto;width:100%;min-width:0}
+ .screen{display:none!important;position:relative;z-index:1;width:100%;min-width:0}
+ .screen.active{display:block!important}
  .storyMissions{grid-template-columns:minmax(0,1fr)!important}
  .storyMission{position:relative;z-index:1;min-width:0}
  .storyMissionActions{position:relative;z-index:2;display:flex!important;align-items:stretch!important;gap:9px!important}
