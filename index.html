@@ -475,11 +475,11 @@ function getSpriteAlphaBounds(sprite){
  if(spriteAlphaBounds.has(sprite))return spriteAlphaBounds.get(sprite);
  let bounds={x:0,y:0,width:sprite.naturalWidth,height:sprite.naturalHeight};
  try{
-  const scan=document.createElement('canvas');scan.width=sprite.naturalWidth;scan.height=sprite.naturalHeight;
-  const scanCtx=scan.getContext('2d',{willReadFrequently:true});scanCtx.drawImage(sprite,0,0);
+  const scan=document.createElement('canvas'),scanScale=Math.min(1,128/Math.max(sprite.naturalWidth,sprite.naturalHeight));scan.width=Math.max(1,Math.round(sprite.naturalWidth*scanScale));scan.height=Math.max(1,Math.round(sprite.naturalHeight*scanScale));
+  const scanCtx=scan.getContext('2d',{willReadFrequently:true});scanCtx.drawImage(sprite,0,0,scan.width,scan.height);
   const pixels=scanCtx.getImageData(0,0,scan.width,scan.height).data;let minX=scan.width,minY=scan.height,maxX=-1,maxY=-1;
   for(let y=0;y<scan.height;y++)for(let x=0;x<scan.width;x++)if(pixels[(y*scan.width+x)*4+3]>12){if(x<minX)minX=x;if(x>maxX)maxX=x;if(y<minY)minY=y;if(y>maxY)maxY=y;}
-  if(maxX>=minX&&maxY>=minY)bounds={x:minX,y:minY,width:maxX-minX+1,height:maxY-minY+1};
+  if(maxX>=minX&&maxY>=minY)bounds={x:Math.floor(minX/scanScale),y:Math.floor(minY/scanScale),width:Math.min(sprite.naturalWidth-Math.floor(minX/scanScale),Math.ceil((maxX-minX+1)/scanScale)),height:Math.min(sprite.naturalHeight-Math.floor(minY/scanScale),Math.ceil((maxY-minY+1)/scanScale))};
  }catch(error){console.warn('Sprite alpha-bound scan skipped; using full image bounds.',error);}
  spriteAlphaBounds.set(sprite,bounds);return bounds;
 }
