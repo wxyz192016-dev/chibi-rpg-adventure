@@ -352,6 +352,7 @@
 .tacticalSkill:disabled .tacticalSkillCore{background:linear-gradient(145deg,#303a43,#1c252d)}
 @media(max-width:760px){.battleTacticalSkills{top:9px;left:9px;gap:7px}.tacticalSkill{width:58px;height:58px;flex-basis:58px}.tacticalSkillIcon{font-size:26px}}
 
+.tacticalSkill{position:relative}
 .tacticalSkill[data-tip]::after{content:attr(data-tip);position:absolute;left:78px;top:50%;transform:translateY(-50%);width:220px;padding:9px 11px;border:1px solid #70869a;border-radius:9px;background:#101c28f2;color:#f4f7fa;font:12px/1.5 system-ui;text-align:left;white-space:normal;box-shadow:0 8px 24px #0009;opacity:0;visibility:hidden;pointer-events:none;z-index:30}
 .tacticalSkill:hover::after,.tacticalSkill:focus-visible::after,.tacticalSkill.tooltip-open::after{opacity:1;visibility:visible}
 @media(max-width:760px){.tacticalSkill[data-tip]::after{left:66px;width:min(190px,52vw);font-size:11px}}
