@@ -310,6 +310,31 @@
  .battleHud #members{grid-template-columns:repeat(3,minmax(0,1fr))}
  .battleHud .battleRoster .portrait{width:68px}
 }
+
+/* MOBILE MISSION TAP FIX · keep final desktop layout from overriding touch layout */
+@media(max-width:760px){
+ .app{display:block!important;width:100%!important;max-width:none!important;grid-template-columns:minmax(0,1fr)!important;gap:0!important;padding:9px 9px 100px!important}
+ .top{position:fixed!important;left:9px!important;right:9px!important;top:auto!important;bottom:8px!important;z-index:1000!important;display:block!important;width:auto!important;height:auto!important;max-height:30vh!important;min-height:0!important;overflow-x:auto!important;overflow-y:auto!important;padding:8px!important;margin:0!important}
+ .logo,.railToggle{display:none!important}
+ .nav{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;justify-content:flex-start!important;width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;gap:6px!important;overscroll-behavior-x:contain}
+ .navGroup{display:flex!important;flex:0 0 auto!important;flex-direction:row!important;align-items:center!important;gap:5px!important;padding:0!important;border:0!important}
+ .navGroupTitle{display:none!important}
+ .nav .btn{display:block!important;flex:0 0 auto!important;width:auto!important;min-height:42px!important;padding:10px!important;font-size:11px!important;text-align:center!important;white-space:nowrap!important;touch-action:manipulation}
+ .globalStatus,.screen,.footer{display:block;grid-column:auto;grid-row:auto;width:100%;min-width:0}
+ .screen{position:relative;z-index:1}
+ .storyMissions{grid-template-columns:minmax(0,1fr)!important}
+ .storyMission{position:relative;z-index:1;min-width:0}
+ .storyMissionActions{position:relative;z-index:2;display:flex!important;align-items:stretch!important;gap:9px!important}
+ .storyMissionActions .btn{position:relative;z-index:2;display:block!important;flex:1 1 100%!important;width:100%!important;min-width:0!important;min-height:46px!important;touch-action:manipulation!important;pointer-events:auto!important}
+ .missionDetailDialog{z-index:10020!important;padding:10px!important}
+ .missionDetailWindow{width:100%!important;max-height:88dvh!important;overflow:auto!important;overscroll-behavior:contain}
+}
+@media(max-width:430px){
+ .app{padding-left:7px!important;padding-right:7px!important}
+ .top{left:7px!important;right:7px!important}
+ .storyMissionActions{flex-direction:column!important}
+ .storyMissionActions .btn{flex:1 1 auto!important}
+}
 </style></head><body><main class="app">
 <header class="top"><a class="logo" href="#" data-screen="home" aria-label="返回遊戲主介面">PROJECT Z <small>末日倖存者：Z計畫</small></a><button class="railToggle btn" id="railToggle" type="button" aria-label="收合導覽">☰ 收合選單</button><nav class="nav" aria-label="遊戲主選單"><div class="navGroup"><div class="navGroupTitle">01｜冒險與據點</div><button class="btn" data-screen="home">冒險首頁</button><button class="btn" data-screen="story">主線任務</button><button class="btn" data-screen="campusMap">校園地圖</button><button class="btn" data-screen="baseManagement">據點發展</button></div><div class="navGroup"><div class="navGroupTitle">02｜物資與裝備</div><button class="btn" data-screen="warehouse">物資倉庫</button></div><div class="navGroup"><div class="navGroupTitle">03｜人物管理</div><button class="btn" data-screen="team">隊伍編成</button><button class="btn" data-screen="archive">人物圖鑑</button><button class="btn" data-screen="recruitment">角色招募</button><button class="btn" data-screen="shop">商店</button></div><div class="navGroup"><div class="navGroupTitle">04｜感染體情報</div><button class="btn" data-screen="zombieArchive">喪屍圖鑑</button></div><div class="navGroup"><div class="navGroupTitle">05｜系統設定</div><button class="btn" id="goSettings" type="button">設定與存檔</button></div></nav></header><div class="globalStatus"><span class="statusBrand">PROJECT Z <small>COMMAND INTERFACE</small></span><span class="globalPlayer">玩家：<b id="globalPlayerName">尚未設定</b></span><span class="globalGold" role="status" aria-live="polite" aria-label="目前遊戲金幣餘額"><span class="goldIcon" aria-hidden="true">◈</span><span id="globalGoldBalance">0</span><small>G</small></span><span class="globalContext" id="globalContext">主基地總覽</span></div>
 <section id="home" class="screen active">
