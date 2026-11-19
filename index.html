@@ -363,6 +363,36 @@
 @media(max-width:760px){.tacticalSkill[data-tip]::after{left:66px;width:min(190px,52vw);font-size:11px}}
 .tacticalTutorial{position:absolute;z-index:40;left:50%;top:50%;transform:translate(-50%,-50%);width:min(390px,calc(100% - 32px));padding:18px 20px;border:1px solid #8196aa;border-radius:14px;background:#101c28f5;color:#edf3f8;box-shadow:0 16px 48px #000b;font:13px/1.65 system-ui}
 .tacticalTutorial h3{margin:0 0 8px;color:#f3c66b;font-size:17px}.tacticalTutorial p{margin:6px 0}.tacticalTutorial button{margin-top:10px;width:100%;min-height:38px;border:0;border-radius:8px;background:#e4b45f;color:#172333;font-weight:800;cursor:pointer}
+
+/* STORY MISSION CAROUSEL + ENCOUNTER INTEL */
+.storyMissionSelector{display:block;max-width:100%}
+.storyMissionCarousel{display:grid;gap:12px}
+.storyMissionNav{display:grid;grid-template-columns:76px minmax(0,1fr) 76px;align-items:center;gap:12px}
+.storyArrow{height:88px;border:1px solid #60758a;border-radius:16px;background:linear-gradient(145deg,#34475a,#1b2938);color:#f3d18a;font-size:58px;line-height:1;cursor:pointer;box-shadow:inset 0 1px #ffffff20}
+.storyArrow:disabled{opacity:.28;cursor:not-allowed}
+.storyMissionCount{text-align:center;color:#f3c66b;font-size:clamp(25px,4vw,38px);font-weight:900;letter-spacing:1px}
+.storyMissionFocus{border:1px solid var(--line);border-radius:16px;padding:18px;background:linear-gradient(145deg,#202e3d,#172330);display:grid;gap:10px;min-width:0}
+.storyMissionFocus .storyMissionHead{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.storyMissionFocus .storyMissionTitle{font-size:clamp(18px,2.4vw,25px)}
+.storyMissionFocus .storyMissionSummary{font-size:14px;line-height:1.75;margin:0;color:#c3ced8}
+.storyMissionFocus .storyMissionMeta{font-size:12px;color:#9eacba}
+.storyMissionState.available{color:#a8d8f2;border-color:#4b829f}
+.storyZombieSection{border:1px solid var(--line);border-radius:14px;padding:14px;background:#111c28;min-width:0}
+.storyZombieHeading{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#f2d08b;font-size:16px}
+.storyZombieHeading span{font-size:12px;color:#f2c66c;white-space:nowrap}
+.storyZombieHint{margin:7px 0 12px;color:#aab8c6;font-size:12px;line-height:1.6}
+.storyZombieGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.storyZombieCard{min-width:0;border:1px solid #52677b;border-radius:12px;overflow:hidden;background:linear-gradient(145deg,#202e3d,#101923);padding:8px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.storyZombieArt{width:100%;height:170px;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:8px;background:radial-gradient(ellipse at center,#405064,#111923 72%)}
+.storyZombieArt img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 5px 8px #0009)}
+.storyZombieCard.undiscovered .storyZombieArt img{filter:brightness(0) drop-shadow(0 0 5px #7e8b9a);opacity:.95}
+.storyZombieName{font-size:12px;font-weight:800;text-align:center;color:#e5edf4;line-height:1.4;min-height:34px;display:flex;align-items:center}
+.storyZombieState{font-size:10px;border-radius:99px;padding:4px 9px;border:1px solid #53677b;color:#b4c1ce}
+.storyZombieState.known{color:#9de0b2;border-color:#47765b}
+.storyZombieEmpty{grid-column:1/-1;color:#aab8c6;font-size:12px}
+.storyMissionFocus .storyMissionActions{margin-top:2px}
+@media(max-width:760px){.storyMissionNav{grid-template-columns:56px minmax(0,1fr) 56px;gap:8px}.storyArrow{height:68px;font-size:46px;border-radius:13px}.storyMissionFocus{padding:12px}.storyMissionFocus .storyMissionSummary{font-size:13px}.storyZombieSection{padding:10px}.storyZombieGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.storyZombieArt{height:145px}.storyZombieHeading{font-size:14px}}
+@media(max-width:380px){.storyZombieGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.storyZombieArt{height:125px}}
 </style></head><body><main class="app">
 <header class="top"><a class="logo" href="#" data-screen="home" aria-label="返回遊戲主介面">PROJECT Z <small>末日倖存者：Z計畫</small></a><button class="railToggle btn" id="railToggle" type="button" aria-label="收合導覽">☰ 收合選單</button><nav class="nav" aria-label="遊戲主選單"><div class="navGroup"><div class="navGroupTitle">01｜冒險與據點</div><button class="btn" data-screen="home">冒險首頁</button><button class="btn" data-screen="story">故事模式</button><button class="btn" data-screen="campusMap">校園地圖</button><button class="btn" data-screen="baseManagement">據點發展</button></div><div class="navGroup"><div class="navGroupTitle">02｜物資與裝備</div><button class="btn" data-screen="warehouse">物資倉庫</button></div><div class="navGroup"><div class="navGroupTitle">03｜人物管理</div><button class="btn" data-screen="team">隊伍編成</button><button class="btn" data-screen="archive">人物圖鑑</button><button class="btn" data-screen="recruitment">角色招募</button><button class="btn" data-screen="shop">商店</button></div><div class="navGroup"><div class="navGroupTitle">04｜感染體情報</div><button class="btn" data-screen="zombieArchive">喪屍圖鑑</button></div><div class="navGroup"><div class="navGroupTitle">05｜獎勵與成就</div><button class="btn" data-screen="dailyLogin">每日登入</button><button class="btn" data-screen="achievements">成就中心</button></div><div class="navGroup"><div class="navGroupTitle">06｜系統設定</div><button class="btn" id="goSettings" type="button">設定與存檔</button></div></nav></header><div class="globalStatus"><span class="statusBrand">PROJECT Z <small>COMMAND INTERFACE</small></span><span class="globalPlayer">玩家：<b id="globalPlayerName">尚未設定</b></span><span class="globalGold" role="status" aria-live="polite" aria-label="目前遊戲金幣餘額"><span class="goldIcon" aria-hidden="true">◈</span><span id="globalGoldBalance">0</span><small>G</small></span><span class="globalContext" id="globalContext">主基地總覽</span></div>
 <section id="home" class="screen active">
@@ -392,7 +422,7 @@
 <section id="story" class="screen">
 <div class="sectionTitle"><h2>第一話｜末日開始的那一天</h2><small>劇情關卡 · 16 關</small></div>
 <div class="storyProgressBar"><div><b>劇情進度</b><span id="storyProgressText">已完成 0 / 16</span></div><div class="storyProgressTrack"><i id="storyProgressFill"></i></div></div>
-<div class="storyMissions" id="storyMissionList"></div>
+<div class="storyMissionSelector" id="storyMissionList" aria-live="polite"></div>
 </section>
 <section id="campusMap" class="screen">
 <div class="sectionTitle"><h2>明新混合校園地圖</h2><small>MINGHSIN UNIVERSITY × MINGHSIN HIGH SCHOOL · CONCEPT MAP</small></div>
@@ -775,7 +805,33 @@ function canStartMission(i){return Number.isInteger(i)&&i>=0&&i<mainMissions.len
 function closeMissionDetail(){const d=$('missionDetailDialog');if(d)d.hidden=true;document.body.classList.remove('missionDetailOpen');}
 function openMissionDetail(i){const m=mainMissions[i];if(!m)return;const d=$('missionDetailDialog'),open=canStartMission(i),done=profile.completed.includes(i);$('missionDetailTitle').textContent='第'+m.code+'關｜'+m.name;$('missionDetailBody').textContent=m.fullStory||m.story;$('missionDetailStart').textContent=done?'再次進入':'進入關卡';$('missionDetailStart').disabled=!open;$('missionDetailStart').type='button';$('missionDetailStart').onclick=e=>{if(e){e.preventDefault();e.stopPropagation();}closeMissionDetail();if(!canStartMission(i)){renderStory();return;}if(profile.completed.includes(i)){showMissionReplayChoice(i);return;}mission=i;startMission(true);};d.hidden=false;document.body.classList.add('missionDetailOpen');}
 $('missionDetailClose').onclick=closeMissionDetail;$('missionDetailBack').onclick=closeMissionDetail;$('missionDetailDialog').onclick=e=>{if(e.target===$('missionDetailDialog'))closeMissionDetail();};
-function renderStory(){const ml=$('storyMissionList');if(!ml)return;const doneCount=profile.completed.filter(n=>n>=0&&n<mainMissions.length).length,pt=$('storyProgressText'),pf=$('storyProgressFill');if(pt)pt.textContent='已完成 '+doneCount+' / '+mainMissions.length;if(pf)pf.style.width=(doneCount/mainMissions.length*100)+'%';ml.innerHTML=mainMissions.map((m,i)=>{const done=profile.completed.includes(i),open=canStartMission(i),state=done?'已完成':open?'可進入':'未解鎖',button=done?'再次進入':open?'進入關卡':'尚未解鎖';return '<article class="storyMission"><div class="storyMissionHead"><span class="storyMissionTitle">'+m.code+'｜'+m.name+'</span><span class="storyMissionState '+(done?'done':'')+'">'+state+'</span></div><p class="storyMissionSummary">'+m.story+'</p><div class="storyMissionMeta"><span>故事場景｜'+m.location.replace('明新科技大學・','').replace('明新科技大學','校園')+'</span></div><div class="storyMissionActions"><button class="btn" type="button" data-mission-details="'+i+'">故事詳情</button><button class="btn primary" type="button" data-mission="'+i+'" '+(open?'':'disabled')+'>'+button+'</button></div></article>';}).join('');bindMissionButtons(ml);ml.querySelectorAll('[data-mission-details]').forEach(b=>{b.type='button';b.onclick=e=>{if(e){e.preventDefault();e.stopPropagation();}openMissionDetail(Number(b.dataset.missionDetails));};});}
+let storySelectedMission=null;
+function renderStory(){
+ const ml=$('storyMissionList');if(!ml)return;
+ const doneCount=profile.completed.filter(n=>n>=0&&n<mainMissions.length).length,pt=$('storyProgressText'),pf=$('storyProgressFill');
+ if(pt)pt.textContent='已完成 '+doneCount+' / '+mainMissions.length;
+ if(pf)pf.style.width=(doneCount/mainMissions.length*100)+'%';
+ if(!Number.isInteger(storySelectedMission)||storySelectedMission<0||storySelectedMission>=mainMissions.length){
+  storySelectedMission=0;
+  for(let i=mainMissions.length-1;i>=0;i--)if(canStartMission(i)){storySelectedMission=i;break;}
+ }
+ const i=storySelectedMission,m=mainMissions[i],done=profile.completed.includes(i),open=canStartMission(i);
+ const state=done?'已完成':open?'可進入':'未解鎖',button=done?'再次進入':open?'進入關卡':'尚未解鎖';
+ const typeMap={normal:['normalMale','normalFemale'],runner:['runnerFemale'],armored:['armoredGuard'],special:['specialMale','specialFemale'],boss:['tyrantBoss']};
+ const presentTypes=new Set();
+ (m.waves||[]).forEach(w=>{for(let j=0;j<w.length;j+=2){const ids=typeMap[w[j]]||[];ids.forEach(id=>presentTypes.add(id));}});
+ const zombieCards=zombieArchiveEntries.filter(z=>presentTypes.has(z.id)).map(z=>{
+  const discovered=!!profile.zombieDiscoveries[z.id],visible=done&&discovered;
+  return '<article class="storyZombieCard '+(visible?'discovered':'undiscovered')+'"><div class="storyZombieArt"><img src="'+z.image+'" alt="'+(visible?z.name:'未知感染體')+'" loading="lazy"></div><div class="storyZombieName">'+(visible?z.name:'未知感染體')+'</div><span class="storyZombieState '+(visible?'known':'hidden')+'">'+(visible?'已遭遇':'尚未解密')+'</span></article>';
+ }).join('');
+ const prevDisabled=i===0,nextDisabled=i===mainMissions.length-1;
+ ml.innerHTML='<div class="storyMissionCarousel"><div class="storyMissionNav"><button type="button" class="storyArrow" data-story-prev '+(prevDisabled?'disabled':'')+' aria-label="上一關">‹</button><span class="storyMissionCount">'+m.code+' / '+String(mainMissions.length).padStart(2,'0')+'</span><button type="button" class="storyArrow" data-story-next '+(nextDisabled?'disabled':'')+' aria-label="下一關">›</button></div><div class="storyMissionFocus"><div class="storyMissionHead"><span class="storyMissionTitle">'+m.code+'｜'+m.name+'</span><span class="storyMissionState '+(done?'done':open?'available':'')+'">'+state+'</span></div><p class="storyMissionSummary">'+m.story+'</p><div class="storyMissionMeta"><span>故事場景｜'+m.location.replace('明新科技大學・','').replace('明新科技大學','校園')+'</span><span>'+(done?'已完成紀錄':open?'已解鎖':'尚未解鎖')+'</span></div></div><section class="storyZombieSection"><div class="storyZombieHeading"><b>☠ 本關出現喪屍情報</b><span>已解密 '+(done?zombieArchiveEntries.filter(z=>presentTypes.has(z.id)&&profile.zombieDiscoveries[z.id]).length:0)+' / '+presentTypes.size+'</span></div><p class="storyZombieHint">尚未完成本關，或尚未遭遇的喪屍，立繪會以黑影顯示。</p><div class="storyZombieGrid">'+(zombieCards||'<p class="storyZombieEmpty">本關尚未設定喪屍資料。</p>')+'</div></section><div class="storyMissionActions"><button class="btn" type="button" data-mission-details="'+i+'">故事詳情</button><button class="btn primary" type="button" data-mission="'+i+'" '+(open?'':'disabled')+'>'+button+'</button></div></div>';
+ const prev=ml.querySelector('[data-story-prev]'),next=ml.querySelector('[data-story-next]');
+ if(prev)prev.onclick=()=>{if(storySelectedMission>0){storySelectedMission--;renderStory();}};
+ if(next)next.onclick=()=>{if(storySelectedMission<mainMissions.length-1){storySelectedMission++;renderStory();}};
+ bindMissionButtons(ml);
+ ml.querySelectorAll('[data-mission-details]').forEach(b=>{b.type='button';b.onclick=e=>{if(e){e.preventDefault();e.stopPropagation();}openMissionDetail(Number(b.dataset.missionDetails));};});
+}
 function renderCampusMap(){const root=$('campusPlan'),detail=$('campusAreaDetail');if(!root||!detail)return;root.innerHTML=storyAreasData.map(a=>{const count=mainMissions.filter(m=>m.areaId===a[0]).length;return '<button type="button" class="campusZone" data-area="'+a[0]+'"><span>'+a[0]+'區｜關聯主線 '+count+' 關</span><b>'+a[1]+'</b><small>'+a[2]+'</small></button>';}).join('');const selectArea=(id)=>{const a=storyAreasData.find(x=>x[0]===id);if(!a)return;const linked=mainMissions.filter(m=>m.areaId===id);detail.innerHTML='<h3>'+a[0]+'｜'+a[1]+'</h3><p>'+a[2]+'</p><p>'+a[3]+'</p><p><b>相關劇情關卡：</b>'+(linked.length?linked.map(m=>'第'+m.code+'關 '+m.name).join('、'):'目前沒有直接對應的劇情關卡')+'</p>';root.querySelectorAll('[data-area]').forEach(b=>b.classList.toggle('selected',b.dataset.area===id));};root.querySelectorAll('[data-area]').forEach(b=>b.onclick=()=>selectArea(b.dataset.area));selectArea('A');}
 const ARCHIVE_KEY='projectZCharacterArchive';
 const archiveNames=['男性主角','林舒舒','劉牧晴','胡凌霄','涂月柔','龍吟秋'];
